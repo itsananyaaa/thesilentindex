@@ -1,0 +1,1060 @@
+{
+  "total_records": 12,
+  "ccd": 32.63,
+  "ccd_interval": [
+    19.08,
+    49.33
+  ],
+  "assessability": "10 of 10 dimensions assessable",
+  "assessable_dimensions_count": 10,
+  "dimension_coverage": {
+    "visual_documentation": 0.7273,
+    "historical_context": 0.5917,
+    "original_language": 0.375,
+    "geographic_provenance": 0.8167,
+    "materials_and_techniques": 0.8182,
+    "practitioner_perspective": 0.7583,
+    "oral_histories": 0.5,
+    "source_attribution": 0.775,
+    "community_validation": 0.5833,
+    "preservation_accessibility": 0.7917
+  },
+  "dimension_debt": {
+    "visual_documentation": 0.2727,
+    "historical_context": 0.4083,
+    "original_language": 0.625,
+    "geographic_provenance": 0.1833,
+    "materials_and_techniques": 0.1818,
+    "practitioner_perspective": 0.2417,
+    "oral_histories": 0.5,
+    "source_attribution": 0.225,
+    "community_validation": 0.4167,
+    "preservation_accessibility": 0.2083
+  },
+  "duplicate_clusters_count": 1,
+  "duplicate_cluster_ids": [
+    "DUP-CLUST-001"
+  ],
+  "record_evaluations": [
+    {
+      "record_id": "TINY-01",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Image URL present (+0.6); Technical image metadata present (+0.2); Image rights declared (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Chronological period/date present (+0.4); Detailed historical description >=200 chars (224 chars) (+0.3); Bibliographic source citation present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3); Geographic coordinates or geonames authority present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Linked audio/video oral testimony or performance recording (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Formally validated by indigenous community or advisory council (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-02",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "Monolingual English-only documentation (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No oral narratives or living testimony recorded (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No community validation or consultation recorded on this record (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-03",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 0.6,
+          "status": "Partial",
+          "reason": "Image URL present (+0.6)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.4,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "Monolingual English-only documentation (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Material documentation present (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 0.4,
+          "status": "Partial",
+          "reason": "Named artisan or practitioner (+0.4)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No oral narratives or living testimony recorded (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 0.8,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No community validation or consultation recorded on this record (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 0.6,
+          "status": "Partial",
+          "reason": "Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-04",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Image URL present (+0.6); Technical image metadata present (+0.2); Image rights declared (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Chronological period/date present (+0.4); Detailed historical description >=200 chars (203 chars) (+0.3); Bibliographic source citation present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3); Geographic coordinates or geonames authority present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Linked audio/video oral testimony or performance recording (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Formally validated by indigenous community or advisory council (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-05",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 0.0,
+          "status": "Not applicable",
+          "reason": "Dimension is not applicable to category 'oral_traditions'.",
+          "applicable": false,
+          "assessable": false
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4); Bibliographic source citation present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 0.0,
+          "status": "Not applicable",
+          "reason": "Dimension is not applicable to category 'oral_traditions'.",
+          "applicable": false,
+          "assessable": false
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Linked audio/video oral testimony or performance recording (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Formally validated by indigenous community or advisory council (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-06",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 0.6,
+          "status": "Partial",
+          "reason": "Image URL present (+0.6)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.4,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3); Geographic coordinates or geonames authority present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No oral narratives or living testimony recorded (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 0.8,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No community validation or consultation recorded on this record (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-07",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.4,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "Monolingual English-only documentation (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Material documentation present (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No positive criteria met in this dimension.",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No oral narratives or living testimony recorded (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 0.3,
+          "status": "Partial",
+          "reason": "Source holding institution documented (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No community validation or consultation recorded on this record (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 0.3,
+          "status": "Partial",
+          "reason": "Declared license and usage rights specified (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-08",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Image URL present (+0.6); Technical image metadata present (+0.2); Image rights declared (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4); Bibliographic source citation present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3); Geographic coordinates or geonames authority present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Linked audio/video oral testimony or performance recording (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Formally validated by indigenous community or advisory council (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-09",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Image URL present (+0.6); Technical image metadata present (+0.2); Image rights declared (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4); Bibliographic source citation present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3); Geographic coordinates or geonames authority present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 0.0,
+          "status": "Not applicable",
+          "reason": "Dimension is not applicable to category 'manuscripts_literature'.",
+          "applicable": false,
+          "assessable": false
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Formally validated by indigenous community or advisory council (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-10",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 0.8,
+          "status": "Documented",
+          "reason": "Image URL present (+0.6); Technical image metadata present (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.4,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No oral narratives or living testimony recorded (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 0.0,
+          "status": "Undocumented in collection",
+          "reason": "No community validation or consultation recorded on this record (0.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 0.6,
+          "status": "Partial",
+          "reason": "Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-11",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Image URL present (+0.6); Technical image metadata present (+0.2); Image rights declared (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4); Bibliographic source citation present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3); Geographic coordinates or geonames authority present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Linked audio/video oral testimony or performance recording (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Formally validated by indigenous community or advisory council (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    },
+    {
+      "record_id": "TINY-12",
+      "dimensions": {
+        "visual_documentation": {
+          "dimension": "visual_documentation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Image URL present (+0.6); Technical image metadata present (+0.2); Image rights declared (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "historical_context": {
+          "dimension": "historical_context",
+          "score": 0.7,
+          "status": "Partial",
+          "reason": "Chronological period/date present (+0.4); Bibliographic source citation present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "original_language": {
+          "dimension": "original_language",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Non-English language tag or Latin-transliterated Indic detected (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "geographic_provenance": {
+          "dimension": "geographic_provenance",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "State / province provenance present (+0.4); District, town or locality provenance present (+0.3); Geographic coordinates or geonames authority present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "materials_and_techniques": {
+          "dimension": "materials_and_techniques",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Material documentation present (+0.5); Craft / fabrication technique documented (+0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "practitioner_perspective": {
+          "dimension": "practitioner_perspective",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Named artisan or practitioner (+0.4); Practitioner community or lineage documented (+0.3); Practitioner-authored voice / statement recorded (+0.3)",
+          "applicable": true,
+          "assessable": true
+        },
+        "oral_histories": {
+          "dimension": "oral_histories",
+          "score": 0.5,
+          "status": "Partial",
+          "reason": "Oral history narrative notes documented (0.5)",
+          "applicable": true,
+          "assessable": true
+        },
+        "source_attribution": {
+          "dimension": "source_attribution",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Source holding institution documented (+0.3); Accession / inventory identifier present (+0.2); Institutional record citation / URL present (+0.3); Archival provenance history documented (+0.2)",
+          "applicable": true,
+          "assessable": true
+        },
+        "community_validation": {
+          "dimension": "community_validation",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Formally validated by indigenous community or advisory council (1.0)",
+          "applicable": true,
+          "assessable": true
+        },
+        "preservation_accessibility": {
+          "dimension": "preservation_accessibility",
+          "score": 1.0,
+          "status": "Documented",
+          "reason": "Physical / digital preservation condition recorded (+0.4); Declared license and usage rights specified (+0.3); Public access URL present (+0.3)",
+          "applicable": true,
+          "assessable": true
+        }
+      }
+    }
+  ]
+}

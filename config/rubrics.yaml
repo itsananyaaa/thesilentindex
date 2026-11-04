@@ -1,0 +1,111 @@
+version: "1.0.0"
+description: "Deterministic rubrics for 10 documentation dimensions in THE SILENCE INDEX"
+
+thresholds:
+  documented: 0.75
+  partial: 0.25
+
+dimensions:
+  visual_documentation:
+    id: "visual_documentation"
+    name: "Visual Documentation"
+    canonical_fields: ["image_url", "image_metadata", "image_rights"]
+    description: "High-resolution imagery, technical metadata (dimensions, resolution, format), and verified reuse rights."
+    scoring:
+      image_present: 0.6
+      image_metadata_present: 0.2
+      rights_declared_present: 0.2
+
+  historical_context:
+    id: "historical_context"
+    name: "Historical Context"
+    canonical_fields: ["period_date", "description", "citation_source"]
+    description: "Chronological context (period/dynasty/date), descriptive historiography, and bibliographic citations."
+    scoring:
+      period_or_date: 0.4
+      description_min_200_chars: 0.3
+      cited_source: 0.3
+
+  original_language:
+    id: "original_language"
+    name: "Original-Language Documentation"
+    canonical_fields: ["language", "title_transliterated", "script_content"]
+    description: "Indic script documentation (Devanagari, Bengali, Tamil, etc.) or transliteration rather than English-only monolingual cataloguing."
+    heuristic: true
+    scoring:
+      english_only: 0.0
+      language_tag_or_transliterated: 0.5
+      indic_unicode_script_present: 1.0
+
+  geographic_provenance:
+    id: "geographic_provenance"
+    name: "Geographic Provenance"
+    canonical_fields: ["state", "district_place", "coordinates"]
+    description: "Geographic origin spanning state/UT, district or cultural region, and spatial coordinates/geonames ID."
+    scoring:
+      state_present: 0.4
+      district_or_place_present: 0.3
+      coordinates_or_authority_id: 0.3
+
+  materials_and_techniques:
+    id: "materials_and_techniques"
+    name: "Materials & Techniques"
+    canonical_fields: ["materials", "technique"]
+    description: "Constituent materials (pigments, fabrics, alloys) and fabrication techniques (lost-wax, ikat, applique, repousse)."
+    scoring:
+      material_present: 0.5
+      technique_present: 0.5
+
+  practitioner_perspective:
+    id: "practitioner_perspective"
+    name: "Practitioner or Artisan Perspective"
+    canonical_fields: ["maker_name", "community_lineage", "practitioner_statement"]
+    description: "Naming the artisan, their guild, lineage or community, and capturing their first-person voice or tradition commentary."
+    requires_consent_flag: true
+    scoring:
+      maker_practitioner_name: 0.4
+      community_lineage_workshop: 0.3
+      practitioner_statement: 0.3
+
+  oral_histories:
+    id: "oral_histories"
+    name: "Oral Histories & Associated Narratives"
+    canonical_fields: ["narrative_oral", "narrative_media_url"]
+    description: "Folklore, song lyrics, ritual recitation, performer memory, or recorded audio/video testimony."
+    requires_consent_flag: true
+    scoring:
+      linked_media_or_full_narrative: 1.0
+      narrative_notes_only: 0.5
+
+  source_attribution:
+    id: "source_attribution"
+    name: "Source Attribution & Provenance"
+    canonical_fields: ["source_institution", "accession_id", "source_url", "provenance_history"]
+    description: "Custodial lineage, accession identification, institutional hosting, and acquisition chain of custody."
+    scoring:
+      source_institution: 0.3
+      accession_id: 0.2
+      citation_or_url: 0.3
+      provenance_statement: 0.2
+
+  community_validation:
+    id: "community_validation"
+    name: "Community Validation"
+    canonical_fields: ["validated_by", "consulted_with", "community_notes"]
+    description: "Living community review, custodial endorsement, or consultation protocols. STRICT: If no consultation column exists in the dataset, status is Not Assessable, never Undocumented."
+    strict_assessability_field: true
+    requires_consent_flag: true
+    scoring:
+      validated_statement: 1.0
+      consulted_note: 0.5
+
+  preservation_accessibility:
+    id: "preservation_accessibility"
+    name: "Preservation & Accessibility Information"
+    canonical_fields: ["condition_notes", "rights_license", "access_url"]
+    description: "Physical condition assessment, conservation history, digital access URLs, and declared license terms."
+    scoring:
+      condition_or_preservation_note: 0.4
+      rights_or_license: 0.3
+      access_url: 0.3
+

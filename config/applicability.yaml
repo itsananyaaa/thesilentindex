@@ -1,0 +1,130 @@
+version: "1.0.0"
+description: "Category-to-dimension applicability matrix. False indicates the dimension is naturally Not Applicable (N/A) for that cultural category."
+
+categories:
+  visual_arts:
+    name: "Visual Arts & Paintings"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  architecture:
+    name: "Architecture & Monuments"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true  # Master builder, sthapati, architect guild
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  textiles_crafts:
+    name: "Textiles, Weaving & Crafts"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  manuscripts_literature:
+    name: "Manuscripts & Epigraphy"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true  # Palm leaf, handmade rag paper, birch bark, ink
+      practitioner_perspective: true  # Scribe, commentator, copyist
+      oral_histories: false           # Pure textual traditions
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  music_instruments:
+    name: "Music & Musical Instruments"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true
+      oral_histories: true           # Gharana lineage, oral pedagogical lore
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  dance_performance:
+    name: "Dance, Theatre & Performance"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: false # Performance traditions use repertoires, not craft raw materials
+      practitioner_perspective: true
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  oral_traditions:
+    name: "Oral Traditions & Folklore"
+    applicable_dimensions:
+      visual_documentation: false     # Purely intangible / verbal
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: false
+      practitioner_perspective: true
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  ritual_heritage:
+    name: "Ritual & Living Sacred Heritage"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  sculpture_material:
+    name: "Sculpture & Metalwork"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+

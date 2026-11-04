@@ -1,0 +1,154 @@
+version: "1.0.0"
+description: "Canonical authority for India states, union territories, ISO codes, historical aliases, and normalization mappings."
+
+states:
+  - code: "IN-AN"
+    name: "Andaman and Nicobar Islands"
+    type: "UT"
+    aliases: ["Andamans", "Andaman & Nicobar", "Port Blair", "A & N Islands"]
+  - code: "IN-AP"
+    name: "Andhra Pradesh"
+    type: "State"
+    aliases: ["Andhra", "Seemandhra"]
+    notes: "Bifurcated in 2014; Telangana separated."
+  - code: "IN-AR"
+    name: "Arunachal Pradesh"
+    type: "State"
+    aliases: ["NEFA", "North-East Frontier Agency", "Arunachal"]
+  - code: "IN-AS"
+    name: "Assam"
+    type: "State"
+    aliases: ["Asom", "Ahom"]
+  - code: "IN-BR"
+    name: "Bihar"
+    type: "State"
+    aliases: ["Magadha", "Mithila", "Anga"]
+  - code: "IN-CH"
+    name: "Chandigarh"
+    type: "UT"
+    aliases: []
+  - code: "IN-CT"
+    name: "Chhattisgarh"
+    type: "State"
+    aliases: ["Chattisgarh", "Chhatisgarh"]
+  - code: "IN-DN"
+    name: "Dadra and Nagar Haveli and Daman and Diu"
+    type: "UT"
+    aliases: ["Daman and Diu", "Dadra & Nagar Haveli", "Daman", "Diu", "Goa, Daman and Diu"]
+  - code: "IN-DL"
+    name: "Delhi"
+    type: "UT"
+    aliases: ["National Capital Territory of Delhi", "NCT of Delhi", "New Delhi", "Shahjahanabad"]
+  - code: "IN-GA"
+    name: "Goa"
+    type: "State"
+    aliases: ["Gomantak"]
+  - code: "IN-GJ"
+    name: "Gujarat"
+    type: "State"
+    aliases: ["Gujrat", "Kathiawar", "Saurashtra"]
+  - code: "IN-HR"
+    name: "Haryana"
+    type: "State"
+    aliases: ["Hariana"]
+  - code: "IN-HP"
+    name: "Himachal Pradesh"
+    type: "State"
+    aliases: ["Himachal", "Kangra", "Chamba", "Kullu", "Mandi"]
+  - code: "IN-JK"
+    name: "Jammu and Kashmir"
+    type: "UT"
+    aliases: ["Jammu & Kashmir", "Kashmir", "J&K"]
+    notes: "Reorganised in 2019 into UT of Jammu and Kashmir and UT of Ladakh."
+  - code: "IN-JH"
+    name: "Jharkhand"
+    type: "State"
+    aliases: ["Chota Nagpur", "Santhal Parganas"]
+  - code: "IN-KA"
+    name: "Karnataka"
+    type: "State"
+    aliases: ["Mysore", "Mysuru", "Carnatic"]
+  - code: "IN-KL"
+    name: "Kerala"
+    type: "State"
+    aliases: ["Travancore", "Malabar", "Cochin", "Keralam"]
+  - code: "IN-LA"
+    name: "Ladakh"
+    type: "UT"
+    aliases: ["Leh", "Kargil", "Little Tibet"]
+  - code: "IN-LD"
+    name: "Lakshadweep"
+    type: "UT"
+    aliases: ["Laccadive, Minicoy, and Amindivi Islands", "Laccadives"]
+  - code: "IN-MP"
+    name: "Madhya Pradesh"
+    type: "State"
+    aliases: ["Central Provinces", "Malwa", "Bundelkhand", "Rewa"]
+  - code: "IN-MH"
+    name: "Maharashtra"
+    type: "State"
+    aliases: ["Bombay State", "Maratha", "Deccan"]
+  - code: "IN-MN"
+    name: "Manipur"
+    type: "State"
+    aliases: ["Kangleipak"]
+  - code: "IN-ML"
+    name: "Meghalaya"
+    type: "State"
+    aliases: ["Khasi Hills", "Garo Hills", "Jaintia Hills"]
+  - code: "IN-MZ"
+    name: "Mizoram"
+    type: "State"
+    aliases: ["Lushai Hills"]
+  - code: "IN-NL"
+    name: "Nagaland"
+    type: "State"
+    aliases: ["Naga Hills"]
+  - code: "IN-OR"
+    name: "Odisha"
+    type: "State"
+    aliases: ["Orissa", "Kalinga", "Utkala"]
+    notes: "Officially renamed from Orissa to Odisha in 2011."
+  - code: "IN-PB"
+    name: "Punjab"
+    type: "State"
+    aliases: ["East Punjab", "Panjab"]
+  - code: "IN-PY"
+    name: "Puducherry"
+    type: "UT"
+    aliases: ["Pondicherry", "Pondichery"]
+  - code: "IN-RJ"
+    name: "Rajasthan"
+    type: "State"
+    aliases: ["Rajputana", "Marwar", "Mewar", "Bikaner", "Jaipur", "Kishangarh", "Kota", "Bundi"]
+  - code: "IN-SK"
+    name: "Sikkim"
+    type: "State"
+    aliases: ["Denzong"]
+  - code: "IN-TN"
+    name: "Tamil Nadu"
+    type: "State"
+    aliases: ["Madras State", "Madras", "Tamilnadu", "Thanjavur", "Tanjore", "Chola"]
+  - code: "IN-TG"
+    name: "Telangana"
+    type: "State"
+    aliases: ["Telingana", "Hyderabad State"]
+    notes: "Formed in 2014 from northern Andhra Pradesh."
+  - code: "IN-TR"
+    name: "Tripura"
+    type: "State"
+    aliases: ["Tipperah"]
+  - code: "IN-UP"
+    name: "Uttar Pradesh"
+    type: "State"
+    aliases: ["United Provinces", "Awadh", "Oudh", "Braj", "Varanasi", "Banaras", "Kashi"]
+  - code: "IN-UT"
+    name: "Uttarakhand"
+    type: "State"
+    aliases: ["Uttaranchal", "Garhwal", "Kumaon"]
+    notes: "Renamed from Uttaranchal to Uttarakhand in 2007."
+  - code: "IN-WB"
+    name: "West Bengal"
+    type: "State"
+    aliases: ["Bengal", "Paschim Banga", "Kolkata", "Calcutta"]
+

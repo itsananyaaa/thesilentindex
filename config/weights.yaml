@@ -1,0 +1,41 @@
+version: "1.0.0"
+description: "Default weighting for Cultural Coverage Debt (CCD) and Preservation Priority Engine"
+
+ccd_weights:
+  visual_documentation: 1.0
+  historical_context: 1.0
+  original_language: 1.0
+  geographic_provenance: 1.0
+  materials_and_techniques: 1.0
+  practitioner_perspective: 1.0
+  oral_histories: 1.0
+  source_attribution: 1.0
+  community_validation: 1.0
+  preservation_accessibility: 1.0
+
+priority_weights:
+  gap_magnitude: 0.40       # G: slice debt on that dimension
+  evidence_confidence: 0.25 # E: function of slice size, assessability and classification confidence
+  breadth: 0.20             # B: share of the collection affected
+  feasibility: 0.15         # F: presence of leads (URLs, institutions) vs desk vs fieldwork
+
+priority_bands:
+  high:
+    min_score: 70.0
+    label: "High investigation priority"
+    color: "oxblood"
+  medium:
+    min_score: 45.0
+    label: "Medium investigation priority"
+    color: "gold"
+  lower:
+    min_score: 0.0
+    label: "Lower investigation priority"
+    color: "olive"
+
+bootstrap:
+  iterations: 1000
+  confidence_level: 0.90
+  random_seed: 42
+  minimum_slice_records: 5
+
