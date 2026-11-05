@@ -1,6 +1,7 @@
 """Heritage Entities API Router (F2).
 Profiles clustered traditions, monuments, crafts, and performing arts across fused sources.
 """
+import re
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from backend.app.db import get_db
@@ -32,16 +33,10 @@ def list_heritage_entities(
             continue
         link_count = db.query(EntityLink).filter(EntityLink.entity_id == e.id).count()
 
-        # Retrieve representative image from linked records
-        first_img = db.query(Record.image_url).join(
-            EntityLink, Record.id == EntityLink.record_id
-        ).filter(
-            EntityLink.entity_id == e.id,
-            Record.image_url.isnot(None),
-            Record.image_url != ""
-        ).first()
-
-        img_url = first_img[0] if first_img else None
+        # Deterministic local museum SVG illustration
+        slug = re.sub(r'[^a-z0-9]+', '_', e.label.lower()).strip('_')
+        cat_slug = re.sub(r'[^a-z0-9]+', '_', (e.category_id or "visual_arts").lower()).strip('_')
+        img_url = f"/images/heritage/{slug}.svg"
 
         results.append({
             "id": e.id,
@@ -51,7 +46,8 @@ def list_heritage_entities(
             "primary_state_codes": e.primary_state_codes,
             "created_from": e.created_from,
             "linked_records_count": link_count,
-            "image_url": img_url
+            "image_url": img_url,
+            "fallback_image_url": f"/images/heritage/{cat_slug}.svg"
         })
 
     return {"total": len(results), "entities": results}
@@ -88,6 +84,10 @@ def get_heritage_entity_profile(entity_id: str, db: Session = Depends(get_db)):
             })
 
         profile["recognition_badges"] = badges
+        slug = re.sub(r'[^a-z0-9]+', '_', profile["label"].lower()).strip('_')
+        cat_slug = re.sub(r'[^a-z0-9]+', '_', (profile.get("category_id") or "visual_arts").lower()).strip('_')
+        profile["image_url"] = f"/images/heritage/{slug}.svg"
+        profile["fallback_image_url"] = f"/images/heritage/{cat_slug}.svg"
         return profile
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))

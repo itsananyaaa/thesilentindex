@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#42281D"/>
+      <stop offset="100%" stop-color="#613D2F"/>
+    </linearGradient>
+    <pattern id="jali" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 0,15 L 15,0 L 30,15 L 15,30 Z" fill="none" stroke="#D19C65" stroke-width="0.75" opacity="0.15"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="640" height="480" fill="url(#bgGrad)"/>
+  <rect width="640" height="480" fill="url(#jali)"/>
+
+  <!-- Museum Frame Borders -->
+  <rect x="16" y="16" width="608" height="448" fill="none" stroke="#D19C65" stroke-width="2" opacity="0.8"/>
+  <rect x="22" y="22" width="596" height="436" fill="none" stroke="#D19C65" stroke-width="0.75" opacity="0.4"/>
+
+  <!-- Corner Brackets -->
+  <path d="M 16,40 L 40,40 L 40,16" fill="none" stroke="#D19C65" stroke-width="3"/>
+  <path d="M 624,40 L 600,40 L 600,16" fill="none" stroke="#D19C65" stroke-width="3"/>
+  <path d="M 16,440 L 40,440 L 40,464" fill="none" stroke="#D19C65" stroke-width="3"/>
+  <path d="M 624,440 L 600,440 L 600,464" fill="none" stroke="#D19C65" stroke-width="3"/>
+
+  <!-- Header Banner -->
+  <rect x="140" y="38" width="360" height="26" fill="#42281D" stroke="#D19C65" stroke-width="1" rx="2"/>
+  <text x="320" y="55" font-family="'Cinzel', Georgia, serif" font-size="10" font-weight="bold" fill="#D19C65" text-anchor="middle" letter-spacing="2">
+    GI REGISTERED • MH & KA
+  </text>
+
+  <!-- Central Symbol -->
+  
+        <!-- Sole & Braided Strap -->
+        <path d="M 320,190 C 360,190 375,240 365,300 C 355,350 350,380 320,380 C 290,380 285,350 275,300 C 265,240 280,190 320,190 Z" fill="#D19C65" opacity="0.75" stroke="#F6EEDB" stroke-width="3"/>
+        <circle cx="320" cy="235" r="16" fill="#F6EEDB"/>
+        
+
+  <!-- Lower Title Plaque -->
+  <rect x="40" y="385" width="560" height="65" fill="#42281D" opacity="0.9" stroke="#D19C65" stroke-width="1.5" rx="3"/>
+  <text x="320" y="415" font-family="'Cinzel', Georgia, serif" font-size="20" font-weight="bold" fill="#F6EEDB" text-anchor="middle" letter-spacing="1.5">
+    KOLHAPURI CHAPPAL
+  </text>
+  <text x="320" y="438" font-family="system-ui, sans-serif" font-size="11" fill="#D19C65" text-anchor="middle" opacity="0.9">
+    Vegetable Tanned Braided Leathercraft
+  </text>
+</svg>

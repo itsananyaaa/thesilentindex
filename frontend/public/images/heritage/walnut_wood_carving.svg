@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B2219"/>
+      <stop offset="100%" stop-color="#543324"/>
+    </linearGradient>
+    <pattern id="jali" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 0,15 L 15,0 L 30,15 L 15,30 Z" fill="none" stroke="#D4A373" stroke-width="0.75" opacity="0.15"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="640" height="480" fill="url(#bgGrad)"/>
+  <rect width="640" height="480" fill="url(#jali)"/>
+
+  <!-- Museum Frame Borders -->
+  <rect x="16" y="16" width="608" height="448" fill="none" stroke="#D4A373" stroke-width="2" opacity="0.8"/>
+  <rect x="22" y="22" width="596" height="436" fill="none" stroke="#D4A373" stroke-width="0.75" opacity="0.4"/>
+
+  <!-- Corner Brackets -->
+  <path d="M 16,40 L 40,40 L 40,16" fill="none" stroke="#D4A373" stroke-width="3"/>
+  <path d="M 624,40 L 600,40 L 600,16" fill="none" stroke="#D4A373" stroke-width="3"/>
+  <path d="M 16,440 L 40,440 L 40,464" fill="none" stroke="#D4A373" stroke-width="3"/>
+  <path d="M 624,440 L 600,440 L 600,464" fill="none" stroke="#D4A373" stroke-width="3"/>
+
+  <!-- Header Banner -->
+  <rect x="140" y="38" width="360" height="26" fill="#3B2219" stroke="#D4A373" stroke-width="1" rx="2"/>
+  <text x="320" y="55" font-family="'Cinzel', Georgia, serif" font-size="10" font-weight="bold" fill="#D4A373" text-anchor="middle" letter-spacing="2">
+    GI REGISTERED • JAMMU & KASHMIR
+  </text>
+
+  <!-- Central Symbol -->
+  
+        <!-- Carved Chinar Leaf -->
+        <path d="M 320,190 C 335,230 380,240 370,270 C 360,290 385,320 365,340 C 345,330 330,360 320,380 C 310,360 295,330 275,340 C 255,320 280,290 270,270 C 260,240 305,230 320,190 Z" fill="#D4A373" stroke="#F6EEDB" stroke-width="3" opacity="0.85"/>
+        <line x1="320" y1="200" x2="320" y2="380" stroke="#3B2219" stroke-width="3"/>
+        
+
+  <!-- Lower Title Plaque -->
+  <rect x="40" y="385" width="560" height="65" fill="#3B2219" opacity="0.9" stroke="#D4A373" stroke-width="1.5" rx="3"/>
+  <text x="320" y="415" font-family="'Cinzel', Georgia, serif" font-size="20" font-weight="bold" fill="#F6EEDB" text-anchor="middle" letter-spacing="1.5">
+    WALNUT WOOD CARVING
+  </text>
+  <text x="320" y="438" font-family="system-ui, sans-serif" font-size="11" fill="#D4A373" text-anchor="middle" opacity="0.9">
+    Relief Chinar Foliage on Juglans Regia
+  </text>
+</svg>

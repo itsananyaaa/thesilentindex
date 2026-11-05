@@ -67,3 +67,36 @@ body {
   background-size: 8px 8px;
 }
 
+/* Custom Museum Scrollbar for Nav Tabs and Sliding Horizontal Bars */
+.nav-scrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+.nav-scrollbar::-webkit-scrollbar-track {
+  background: #1A090B; /* Deep dark oxblood */
+  border-radius: 9999px;
+  border: 1px solid rgba(200, 162, 74, 0.35); /* Soft golden border */
+  margin: 0 10px;
+}
+
+.nav-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #6B2F27 0%, #C8A24A 50%, #6B2F27 100%); /* Red/Henna with Gold center */
+  border-radius: 9999px;
+  border: 1px solid #E6C260; /* Golden border */
+  box-shadow: 0 0 8px rgba(200, 162, 74, 0.5);
+}
+
+.nav-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #9E2A2B 0%, #F6EEDB 50%, #9E2A2B 100%);
+  border-color: #F6EEDB;
+  box-shadow: 0 0 10px rgba(246, 238, 219, 0.65);
+}
+
+/* Firefox scrollbar support */
+.nav-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #C8A24A #1A090B;
+}
+
+

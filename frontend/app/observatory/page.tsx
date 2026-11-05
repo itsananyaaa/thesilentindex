@@ -10,12 +10,15 @@ import {
   Layers, Filter, Search, Download, AlertTriangle, ExternalLink,
   ChevronRight, RefreshCw, BarChart3, MapPin
 } from "lucide-react";
+import { useTranslation } from "@/lib/i18n";
 
 function ObservatoryContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { lang, t } = useTranslation();
 
-  const [activeColId, setActiveColId] = useState<string>("sample-real-001");
+  const [activeColId, setActiveColId] = useState<string>("fused-v2");
+  const [collections, setCollections] = useState<any[]>([]);
   const [summary, setSummary] = useState<any>(null);
   const [audit, setAudit] = useState<any>(null);
   const [matrixData, setMatrixData] = useState<any>(null);
@@ -35,6 +38,13 @@ function ObservatoryContent() {
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
 
   useEffect(() => {
+    fetch("/api/collections")
+      .then((r) => r.json())
+      .then((d) => {
+        if (Array.isArray(d)) setCollections(d);
+      })
+      .catch((e) => console.error(e));
+
     const stored = localStorage.getItem("silence_index_active_collection");
     if (stored) setActiveColId(stored);
 
@@ -45,6 +55,12 @@ function ObservatoryContent() {
     window.addEventListener("collection_changed", handleColChange);
     return () => window.removeEventListener("collection_changed", handleColChange);
   }, []);
+
+  const handleSwitchCollection = (newColId: string) => {
+    setActiveColId(newColId);
+    localStorage.setItem("silence_index_active_collection", newColId);
+    window.dispatchEvent(new Event("collection_changed"));
+  };
 
   // Fetch summary and latest audit for active collection
   useEffect(() => {
@@ -115,60 +131,92 @@ function ObservatoryContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 overflow-x-hidden">
-      {/* Sample Banner Badge */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-cream-200/80 border border-gold-400 rounded-sm">
+      {/* Sample Banner Badge with Relocated Holding Selector on the left */}
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 bg-cream-200/80 border border-gold-400 rounded-sm gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-serif font-bold text-sm tracking-wide text-oxblood-900">
-              AUDITED COLLECTION: {summary?.name || activeColId}
+            <span className="font-serif font-bold text-sm tracking-wide text-oxblood-900 uppercase">
+              {t("observatory.audited_collection", "AUDITED COLLECTION")}: {summary?.name || activeColId}
             </span>
             <span className="px-2 py-0.5 rounded-xs text-[10px] font-mono font-bold uppercase bg-oxblood-900 text-cream-100">
-              {summary?.kind === "sample_real" ? "Verified Open Access" : summary?.kind === "sample_synthetic" ? "Synthetic Test" : "Uploaded"}
+              {summary?.kind === "sample_real" ? "Verified Open Access" : summary?.kind === "sample_synthetic" ? "Synthetic Test" : "Fused Multi-Source"}
             </span>
           </div>
-          <p className="text-xs text-oxblood-800/80 mt-1">
+          <p className="text-xs text-oxblood-800/80 mt-1 max-w-2xl leading-relaxed">
             {summary?.kind === "sample_real"
               ? "This audits the metadata of these open-access holdings. It says nothing about the heritage of any region itself."
-              : "Deliberately seeded synthetic test holding with known diagnostic flaws for stress testing."}
+              : summary?.kind === "sample_synthetic"
+              ? "Deliberately seeded synthetic test holding with known diagnostic flaws for stress testing."
+              : "Fused benchmark holding covering all 36 States and Union Territories of India across multiple heritage registries."}
           </p>
         </div>
-        <Link
-          href="/auditor"
-          className="mt-3 sm:mt-0 px-3 py-1.5 bg-olive-700 hover:bg-olive-600 text-cream-100 font-serif text-xs rounded-xs font-semibold whitespace-nowrap"
-        >
-          Audit Another Dataset
-        </Link>
+
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 bg-cream-100 border border-gold-500/80 rounded-xs px-2.5 py-1.5 shadow-2xs">
+            <label htmlFor="observatory-holding-select" className="text-xs font-serif font-bold text-oxblood-900 whitespace-nowrap">
+              {t("observatory.active_holding", "Active Holding:")}
+            </label>
+            <select
+              id="observatory-holding-select"
+              value={activeColId}
+              onChange={(e) => handleSwitchCollection(e.target.value)}
+              className="bg-transparent text-oxblood-900 text-xs font-sans font-medium focus:outline-hidden cursor-pointer"
+            >
+              {collections.map((c) => {
+                const label = c.id === "fused-v2"
+                  ? "Fused Subcontinental v2"
+                  : c.id === "sample-real-001"
+                  ? "Sample A: Indian Art in Open Access"
+                  : c.id === "sample-synth-002"
+                  ? "Sample B: Synthetic Regional Museum"
+                  : c.name;
+                return (
+                  <option key={c.id} value={c.id} className="bg-cream-100 text-oxblood-900">
+                    {label} ({c.total_records} items)
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          <Link
+            href="/auditor"
+            className="px-3 py-1.5 bg-olive-700 hover:bg-olive-600 text-cream-100 font-serif text-xs rounded-xs font-semibold whitespace-nowrap shadow-2xs"
+          >
+            {t("observatory.audit_another", "Audit Another Dataset")}
+          </Link>
+        </div>
       </div>
 
       {/* KPI Band */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         <div className="bg-cream-200/70 border border-parchment-300 p-4 rounded-xs shadow-xs">
-          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">Records Analysed</span>
+          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">{t("observatory.records_analysed", "Records Analysed")}</span>
           <span className="font-serif text-2xl font-bold text-oxblood-900">{summary?.total_records || 0}</span>
-          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">Catalog holdings</span>
+          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">{t("observatory.catalog_holdings", "Catalog holdings")}</span>
         </div>
         <div className="bg-cream-200/70 border border-parchment-300 p-4 rounded-xs shadow-xs">
-          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">Art Traditions</span>
+          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">{t("observatory.art_traditions", "Art Traditions")}</span>
           <span className="font-serif text-2xl font-bold text-oxblood-900">{summary?.art_forms_count || 0}</span>
-          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">Distinct art forms</span>
+          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">{t("observatory.distinct_art_forms", "Distinct art forms")}</span>
         </div>
         <div className="bg-cream-200/70 border border-parchment-300 p-4 rounded-xs shadow-xs">
-          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">States & UTs Documented</span>
+          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">{t("observatory.states_documented", "States & UTs Documented")}</span>
           <span className="font-serif text-2xl font-bold text-oxblood-900">{summary?.states_count || 0}</span>
-          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">of 36 (28 States & 8 UTs)</span>
+          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">{t("observatory.of_36_states", "of 36 (28 States & 8 UTs)")}</span>
         </div>
         <div className="bg-cream-200/70 border border-parchment-300 p-4 rounded-xs shadow-xs">
-          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">Languages Detected</span>
+          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">{t("observatory.languages_detected", "Languages Detected")}</span>
           <span className="font-serif text-2xl font-bold text-oxblood-900">{summary?.languages_count || 0}</span>
-          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">Indic & transliterated</span>
+          <span className="text-[10px] text-oxblood-800/60 block mt-0.5">{t("observatory.indic_transliterated", "Indic & transliterated")}</span>
         </div>
         <div className="bg-cream-200/70 border border-parchment-300 p-4 rounded-xs shadow-xs">
-          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">Provenance Rate</span>
+          <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block">{t("observatory.provenance_rate", "Provenance Rate")}</span>
           <span className="font-serif text-2xl font-bold text-emerald-900">{summary?.provenance_rate || 0}%</span>
           <span className="text-[10px] text-oxblood-800/60 block mt-0.5">With institutional source</span>
         </div>
         <div className="bg-oxblood-900 text-cream-100 border border-gold-400 p-4 rounded-xs shadow-xs">
-          <span className="text-[10px] font-sans uppercase tracking-wider text-gold-300 block">Coverage Debt</span>
+          <span className="text-[10px] font-sans uppercase tracking-wider text-gold-300 block">{t("observatory.avg_debt", "Coverage Debt")}</span>
           <span className="font-serif text-2xl font-bold text-gold-400">
             {audit?.ccd !== undefined ? audit.ccd.toFixed(1) : "—"}
           </span>
@@ -280,7 +328,7 @@ function ObservatoryContent() {
             <Search size={14} className="absolute left-3 top-2.5 text-oxblood-800/50" />
             <input
               type="text"
-              placeholder="Search title, artisan, craft..."
+              placeholder={t("observatory.search_placeholder", "Search title, artisan, craft...")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleApplyFilter("q", searchQuery)}
@@ -292,26 +340,30 @@ function ObservatoryContent() {
         {/* Filter Controls */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label className="text-[11px] font-sans text-oxblood-800 uppercase tracking-wider block mb-1">State Provenance</label>
+            <label className="text-[11px] font-sans text-oxblood-800 uppercase tracking-wider block mb-1">
+              {t("observatory.table_col_region", "State Provenance")}
+            </label>
             <select
               value={selectedState}
               onChange={(e) => handleApplyFilter("state", e.target.value)}
               className="w-full bg-cream-100 border border-parchment-400 rounded-xs p-1.5 text-xs font-sans text-oxblood-900 cursor-pointer"
             >
-              <option value="">All States & UTs</option>
+              <option value="">{t("observatory.all_states", "All States & UTs")}</option>
               {statesList.map((st) => (
                 <option key={st} value={st}>{st}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="text-[11px] font-sans text-oxblood-800 uppercase tracking-wider block mb-1">Cultural Category</label>
+            <label className="text-[11px] font-sans text-oxblood-800 uppercase tracking-wider block mb-1">
+              {t("observatory.table_col_category", "Cultural Category")}
+            </label>
             <select
               value={selectedCategory}
               onChange={(e) => handleApplyFilter("category", e.target.value)}
               className="w-full bg-cream-100 border border-parchment-400 rounded-xs p-1.5 text-xs font-sans text-oxblood-900 cursor-pointer"
             >
-              <option value="">All 9 Categories</option>
+              <option value="">{t("observatory.all_categories", "All Cultural Categories")}</option>
               {categoriesList.map((c) => (
                 <option key={c} value={c}>{c.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}</option>
               ))}
@@ -327,7 +379,7 @@ function ObservatoryContent() {
               }}
               className="w-full py-1.5 bg-cream-100 hover:bg-cream-200 border border-parchment-400 text-xs font-sans text-oxblood-900 rounded-xs transition-colors"
             >
-              Reset Filters
+              {t("observatory.reset_filters", "Reset Filters")}
             </button>
           </div>
         </div>
@@ -337,12 +389,12 @@ function ObservatoryContent() {
           <table className="w-full text-left text-xs text-oxblood-900" aria-label="Catalog Records Table">
             <thead className="bg-oxblood-900 text-cream-100 font-serif text-[11px] uppercase tracking-wider">
               <tr>
-                <th scope="col" className="p-3">Record Title</th>
-                <th scope="col" className="p-3">Art Tradition</th>
-                <th scope="col" className="p-3">State / Provenance</th>
-                <th scope="col" className="p-3">Holding Source</th>
-                <th scope="col" className="p-3">Declared Rights</th>
-                <th scope="col" className="p-3 text-right">Action</th>
+                <th scope="col" className="p-3">{t("observatory.table_col_record", "Record Title")}</th>
+                <th scope="col" className="p-3">{t("observatory.table_col_category", "Art Tradition")}</th>
+                <th scope="col" className="p-3">{t("observatory.table_col_region", "State / Provenance")}</th>
+                <th scope="col" className="p-3">{t("observatory.catalog_holdings", "Holding Source")}</th>
+                <th scope="col" className="p-3">{t("observatory.table_col_rights", "Declared Rights")}</th>
+                <th scope="col" className="p-3 text-right">{t("observatory.table_col_actions", "Action")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-parchment-300 font-sans">

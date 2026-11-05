@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CornerFiligree } from "./ornament/CornerFiligree";
@@ -11,53 +11,9 @@ import {
 } from "lucide-react";
 import { LANGUAGE_OPTIONS, useTranslation, LanguageCode } from "@/lib/i18n";
 
-interface CollectionItem {
-  id: string;
-  name: string;
-  kind: string;
-  total_records: number;
-}
-
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { lang, t, setLang } = useTranslation();
-  const [collections, setCollections] = useState<CollectionItem[]>([]);
-  const [selectedColId, setSelectedColId] = useState<string>("fused-v2");
-
-  useEffect(() => {
-    // Load collections from API
-    fetch("/api/collections")
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setCollections(data);
-        }
-      })
-      .catch((e) => console.error("Error loading collections in Navbar:", e));
-
-    // Read stored collection; default to fused-v2 if not set
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) {
-      setSelectedColId(stored);
-    } else {
-      setSelectedColId("fused-v2");
-      localStorage.setItem("silence_index_active_collection", "fused-v2");
-    }
-
-    const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setSelectedColId(updated);
-    };
-    window.addEventListener("collection_changed", handleColChange);
-    return () => window.removeEventListener("collection_changed", handleColChange);
-  }, []);
-
-  const handleSelectCollection = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const val = e.target.value;
-    setSelectedColId(val);
-    localStorage.setItem("silence_index_active_collection", val);
-    window.dispatchEvent(new Event("collection_changed"));
-  };
 
   const handleSelectLang = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value as LanguageCode;
@@ -105,8 +61,8 @@ export const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Global Controls: Tour + Lang + Collection Switcher */}
-        <div className="flex items-center gap-2 z-10 flex-wrap">
+        {/* Global Controls: Tour + Lang */}
+        <div className="flex items-center gap-2.5 z-10">
           {/* Guided Tour Trigger */}
           <button
             onClick={handleOpenTour}
@@ -120,14 +76,14 @@ export const Navbar: React.FC = () => {
           </button>
 
           {/* Multilingual Selector */}
-          <div className="flex items-center gap-1 bg-oxblood-800 border border-gold-400/50 rounded-xs px-2 py-0.5">
-            <Globe size={12} className="text-gold-400 shrink-0" />
+          <div className="flex items-center gap-1.5 bg-oxblood-800 border border-gold-400/50 rounded-xs px-2.5 py-1">
+            <Globe size={13} className="text-gold-400 shrink-0" />
             <select
               id="language-switcher"
               value={lang}
               onChange={handleSelectLang}
               aria-label="Interface Language"
-              className="bg-transparent text-cream-100 text-[11px] font-sans focus:outline-hidden cursor-pointer"
+              className="bg-transparent text-cream-100 text-xs font-sans focus:outline-hidden cursor-pointer"
             >
               {LANGUAGE_OPTIONS.map((lo) => (
                 <option key={lo.code} value={lo.code} className="bg-oxblood-900 text-cream-100">
@@ -136,37 +92,11 @@ export const Navbar: React.FC = () => {
               ))}
             </select>
           </div>
-
-          {/* Persistent Collection Switcher */}
-          <div className="flex items-center gap-1.5">
-            <label htmlFor="collection-switcher" className="text-[11px] font-sans font-medium text-gold-300 uppercase tracking-wider hidden lg:inline">
-              {lang === "ml" ? "ശേഖരം:" : lang === "hi" ? "संग्रह:" : lang === "ta" ? "சேகரிப்பு:" : "Holding:"}
-            </label>
-            <select
-              id="collection-switcher"
-              value={selectedColId}
-              onChange={handleSelectCollection}
-              className="bg-oxblood-800 text-cream-100 text-xs font-sans border border-gold-400/60 rounded-xs px-2.5 py-1 focus:outline-hidden focus:ring-1 focus:ring-gold-400 cursor-pointer max-w-[170px] sm:max-w-[210px] truncate"
-            >
-              {collections.map((c) => (
-                <option key={c.id} value={c.id} className="bg-oxblood-900 text-cream-100">
-                  {c.kind === "fused_layer" || c.id === "fused-v2"
-                    ? "✨ Fused Subcontinental v2"
-                    : c.kind === "sample_real" || c.id === "sample-real-001"
-                    ? "★ Sample A (Real Open Access)"
-                    : c.kind === "sample_synthetic" || c.id === "sample-synth-002"
-                    ? "⚡ Sample B (Synthetic Demo)"
-                    : `📁 ${c.name}`}{" "}
-                  ({c.total_records} items)
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
       </div>
 
-      {/* Main Navigation Row */}
-      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-1.5 flex items-center justify-between overflow-x-auto no-scrollbar" aria-label="Main Navigation">
+      {/* Main Navigation Row with custom red/gold slide scrollbar */}
+      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-1.5 flex items-center justify-between overflow-x-auto nav-scrollbar" aria-label="Main Navigation">
         <div className="flex items-center gap-1 sm:gap-1.5">
           {navLinks.map((link) => {
             const Icon = link.icon;

@@ -77,46 +77,42 @@ export default function LandingPage() {
             {/* Left Column: Oxblood Editorial Panel */}
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-gold-400/20 border border-gold-400/60 rounded-xs text-gold-300 font-serif tracking-widest text-xs uppercase">
-                <span>The World We Have Preserved</span>
-                <span className="w-1 h-1 rounded-full bg-gold-400"></span>
-                <span>The Knowledge We Omitted</span>
+                <span>{t("hero.badge", "THE WORLD WE HAVE PRESERVED • THE KNOWLEDGE WE OMITTED")}</span>
               </div>
 
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-cream-100 leading-[1.15]">
-                We have preserved thousands of fragments of history.
+                {t("hero.title_part1", "We have preserved thousands of fragments of history.")}
                 <span className="block mt-2 italic font-normal text-gold-300">
-                  But what remains undocumented?
+                  {t("hero.title_part2", "But what remains undocumented?")}
                 </span>
               </h1>
 
               <p className="text-base sm:text-lg font-sans text-cream-200/90 leading-relaxed max-w-2xl">
-                <strong className="text-cream-100 font-semibold">THE SILENCE INDEX</strong> is a cultural collection auditing platform. 
-                It diagnoses which kinds of knowledge about Indian heritage are documented, partially documented, undocumented, 
-                or impossible to assess in institutional holdings—then converts those absences into transparent, consent-first priorities.
+                <strong className="text-cream-100 font-semibold">{t("app_name", "THE SILENCE INDEX")}</strong> {t("hero.subtitle", "is a cultural collection auditing platform. It diagnoses which kinds of knowledge about Indian heritage are documented, partially documented, undocumented, or impossible to assess in institutional holdings—then converts those absences into transparent, consent-first priorities.")}
               </p>
 
               {/* Live Computed Stats Ribbon */}
               <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gold-400/30">
                 <div className="bg-oxblood-800/80 p-3.5 rounded-xs border border-gold-400/40">
-                  <span className="text-[11px] font-sans text-gold-300 uppercase tracking-wider block">Holdings Audited</span>
+                  <span className="text-[11px] font-sans text-gold-300 uppercase tracking-wider block">{t("hero.records_audited", "Holdings Audited")}</span>
                   <span className="font-serif text-2xl font-bold text-cream-100">
-                    {summary?.total_records ? summary.total_records.toLocaleString() : "181"}
+                    {summary?.total_records ? summary.total_records.toLocaleString() : "317"}
                   </span>
-                  <span className="text-[10px] text-cream-200/60 block mt-0.5">Verified open-access</span>
+                  <span className="text-[10px] text-cream-200/60 block mt-0.5">{t("observatory.catalog_holdings", "Catalog holdings")}</span>
                 </div>
                 <div className="bg-oxblood-800/80 p-3.5 rounded-xs border border-gold-400/40">
-                  <span className="text-[11px] font-sans text-gold-300 uppercase tracking-wider block">Coverage Debt</span>
+                  <span className="text-[11px] font-sans text-gold-300 uppercase tracking-wider block">{t("hero.cultural_debt", "Coverage Debt")}</span>
                   <span className="font-serif text-2xl font-bold text-gold-400">
                     {audit?.ccd !== undefined ? audit.ccd.toFixed(1) : "33.9"}
                   </span>
                   <span className="text-[10px] text-cream-200/60 block mt-0.5">CCD (Scale 0-100)</span>
                 </div>
                 <div className="bg-oxblood-800/80 p-3.5 rounded-xs border border-gold-400/40">
-                  <span className="text-[11px] font-sans text-gold-300 uppercase tracking-wider block">Assessability</span>
+                  <span className="text-[11px] font-sans text-gold-300 uppercase tracking-wider block">{t("hero.assessability", "Assessability")}</span>
                   <span className="font-serif text-2xl font-bold text-cream-100">
                     {audit?.assessability ? audit.assessability.split(" ")[0] : "7"}/10
                   </span>
-                  <span className="text-[10px] text-cream-200/60 block mt-0.5">Dimensions assessable</span>
+                  <span className="text-[10px] text-cream-200/60 block mt-0.5">{t("matrix.dimensions", "Dimensions assessable")}</span>
                 </div>
               </div>
 
@@ -126,14 +122,14 @@ export default function LandingPage() {
                   href="/observatory"
                   className="px-6 py-3 bg-gold-400 hover:bg-gold-300 text-oxblood-950 font-serif font-bold text-sm tracking-wide rounded-xs shadow-md transition-all flex items-center gap-2 group"
                 >
-                  <span>Explore the Observatory</span>
+                  <span>{t("hero.cta_explore", "Explore Collection Observatory")}</span>
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="/auditor"
                   className="px-6 py-3 bg-olive-700 hover:bg-olive-600 text-cream-100 font-serif font-bold text-sm tracking-wide rounded-xs border border-gold-400/60 transition-all flex items-center gap-2"
                 >
-                  <span>Audit a Collection</span>
+                  <span>{t("hero.cta_audit", "Audit a Collection")}</span>
                 </Link>
               </div>
             </div>

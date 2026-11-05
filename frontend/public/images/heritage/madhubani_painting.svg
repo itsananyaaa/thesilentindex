@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#591C21"/>
+      <stop offset="100%" stop-color="#7D2830"/>
+    </linearGradient>
+    <pattern id="jali" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 0,15 L 15,0 L 30,15 L 15,30 Z" fill="none" stroke="#E5A93B" stroke-width="0.75" opacity="0.15"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="640" height="480" fill="url(#bgGrad)"/>
+  <rect width="640" height="480" fill="url(#jali)"/>
+
+  <!-- Museum Frame Borders -->
+  <rect x="16" y="16" width="608" height="448" fill="none" stroke="#E5A93B" stroke-width="2" opacity="0.8"/>
+  <rect x="22" y="22" width="596" height="436" fill="none" stroke="#E5A93B" stroke-width="0.75" opacity="0.4"/>
+
+  <!-- Corner Brackets -->
+  <path d="M 16,40 L 40,40 L 40,16" fill="none" stroke="#E5A93B" stroke-width="3"/>
+  <path d="M 624,40 L 600,40 L 600,16" fill="none" stroke="#E5A93B" stroke-width="3"/>
+  <path d="M 16,440 L 40,440 L 40,464" fill="none" stroke="#E5A93B" stroke-width="3"/>
+  <path d="M 624,440 L 600,440 L 600,464" fill="none" stroke="#E5A93B" stroke-width="3"/>
+
+  <!-- Header Banner -->
+  <rect x="140" y="38" width="360" height="26" fill="#591C21" stroke="#E5A93B" stroke-width="1" rx="2"/>
+  <text x="320" y="55" font-family="'Cinzel', Georgia, serif" font-size="10" font-weight="bold" fill="#E5A93B" text-anchor="middle" letter-spacing="2">
+    GI REGISTERED • BIHAR
+  </text>
+
+  <!-- Central Symbol -->
+  
+        <!-- Stylized Fish & Lotus Iconography -->
+        <path d="M 230,280 C 270,230 370,230 410,280 C 370,330 270,330 230,280 Z" fill="#E5A93B" opacity="0.75" stroke="#F6EEDB" stroke-width="3"/>
+        <circle cx="370" cy="280" r="10" fill="#591C21"/>
+        <path d="M 230,280 L 195,255 L 210,280 L 195,305 Z" fill="#E5A93B"/>
+        
+
+  <!-- Lower Title Plaque -->
+  <rect x="40" y="385" width="560" height="65" fill="#591C21" opacity="0.9" stroke="#E5A93B" stroke-width="1.5" rx="3"/>
+  <text x="320" y="415" font-family="'Cinzel', Georgia, serif" font-size="20" font-weight="bold" fill="#F6EEDB" text-anchor="middle" letter-spacing="1.5">
+    MADHUBANI PAINTING
+  </text>
+  <text x="320" y="438" font-family="system-ui, sans-serif" font-size="11" fill="#E5A93B" text-anchor="middle" opacity="0.9">
+    Mithila Double-Line Folk Iconography
+  </text>
+</svg>
