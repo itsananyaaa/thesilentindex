@@ -6,9 +6,10 @@ import { CornerFiligree } from "@/components/ornament/CornerFiligree";
 import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
 import { Layers, Search, Filter, ChevronRight, Eye } from "lucide-react";
+import { getActiveCollection } from "@/lib/collection";
 
 export default function CulturalAtlasPage() {
-  const [activeColId, setActiveColId] = useState<string>("sample-real-001");
+  const [activeColId, setActiveColId] = useState<string>("fused-v2");
   const [records, setRecords] = useState<any[]>([]);
   const [categories, setCategories] = useState<any>({});
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -18,12 +19,10 @@ export default function CulturalAtlasPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setActiveColId(stored);
+    setActiveColId(getActiveCollection());
 
     const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setActiveColId(updated);
+      setActiveColId(getActiveCollection());
     };
     window.addEventListener("collection_changed", handleColChange);
 

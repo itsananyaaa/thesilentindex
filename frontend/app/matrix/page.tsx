@@ -7,9 +7,10 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
 import { STATUS_STYLES } from "@/lib/tokens";
 import { Download, X, Layers, Sliders, ExternalLink, HelpCircle, CheckCircle2 } from "lucide-react";
+import { getActiveCollection, setActiveCollection } from "@/lib/collection";
 
 export default function CoverageMatrixPage() {
-  const [activeColId, setActiveColId] = useState<string>("sample-real-001");
+  const [activeColId, setActiveColId] = useState<string>("fused-v2");
   const [matrixData, setMatrixData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -39,12 +40,10 @@ export default function CoverageMatrixPage() {
   });
 
   useEffect(() => {
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setActiveColId(stored);
+    setActiveColId(getActiveCollection());
 
     const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setActiveColId(updated);
+      setActiveColId(getActiveCollection());
     };
     window.addEventListener("collection_changed", handleColChange);
     return () => window.removeEventListener("collection_changed", handleColChange);
@@ -53,14 +52,22 @@ export default function CoverageMatrixPage() {
   const loadMatrix = () => {
     setLoading(true);
     fetch(`/api/collections/${activeColId}/summary`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Collection summary failed");
+        return r.json();
+      })
       .then((col) => {
         const auditId = col.latest_audit_id || `AUDIT-${activeColId.toUpperCase()}-INIT`;
         return fetch(`/api/audits/${auditId}/matrix`);
       })
       .then((r) => r.json())
       .then((data) => setMatrixData(data))
-      .catch((e) => console.error("Error loading matrix:", e))
+      .catch((e) => {
+        console.error("Error loading matrix, falling back to fused-v2:", e);
+        fetch(`/api/audits/AUDIT-FUSED-V2-INIT/matrix`)
+          .then((r) => r.json())
+          .then((data) => setMatrixData(data));
+      })
       .finally(() => setLoading(false));
   };
 

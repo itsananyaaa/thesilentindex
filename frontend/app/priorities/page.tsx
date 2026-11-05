@@ -5,9 +5,10 @@ import Link from "next/link";
 import { CornerFiligree } from "@/components/ornament/CornerFiligree";
 import { Sliders, Filter, ArrowRight, ShieldAlert, CheckCircle2, AlertTriangle, ExternalLink, FileText } from "lucide-react";
 import { DocumentationBriefModal } from "@/components/DocumentationBriefModal";
+import { getActiveCollection, setActiveCollection } from "@/lib/collection";
 
 export default function PrioritiesPage() {
-  const [activeColId, setActiveColId] = useState<string>("sample-real-001");
+  const [activeColId, setActiveColId] = useState<string>("fused-v2");
   const [priorities, setPriorities] = useState<any[]>([]);
   const [selectedDimension, setSelectedDimension] = useState<string>("");
   const [selectedBand, setSelectedBand] = useState<string>("");
@@ -25,12 +26,10 @@ export default function PrioritiesPage() {
   });
 
   useEffect(() => {
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setActiveColId(stored);
+    setActiveColId(getActiveCollection());
 
     const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setActiveColId(updated);
+      setActiveColId(getActiveCollection());
     };
     window.addEventListener("collection_changed", handleColChange);
     return () => window.removeEventListener("collection_changed", handleColChange);
@@ -39,7 +38,10 @@ export default function PrioritiesPage() {
   const loadPriorities = () => {
     setLoading(true);
     fetch(`/api/collections/${activeColId}/summary`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Collection summary failed");
+        return r.json();
+      })
       .then((col) => {
         const auditId = col.latest_audit_id || `AUDIT-${activeColId.toUpperCase()}-INIT`;
         const q = new URLSearchParams();
@@ -52,7 +54,14 @@ export default function PrioritiesPage() {
       .then((data) => {
         if (data.priorities) setPriorities(data.priorities);
       })
-      .catch((e) => console.error(e))
+      .catch((e) => {
+        console.error("Falling back to fused-v2 priorities:", e);
+        fetch(`/api/audits/AUDIT-FUSED-V2-INIT/priorities`)
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.priorities) setPriorities(data.priorities);
+          });
+      })
       .finally(() => setLoading(false));
   };
 

@@ -470,10 +470,20 @@ export default function AuditorPage() {
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-parchment-300">
+          <div className="flex flex-wrap justify-end gap-3 pt-4 border-t border-parchment-300">
+            <button
+              onClick={() => {
+                localStorage.setItem("silence_index_active_collection", "fused-v2");
+                window.dispatchEvent(new Event("collection_changed"));
+                router.push("/observatory");
+              }}
+              className="px-4 py-2.5 bg-cream-200 hover:bg-cream-300 text-oxblood-900 border border-parchment-400 font-serif font-bold text-xs rounded-xs transition-colors"
+            >
+              Back to Fused Collection
+            </button>
             <Link
               href={`/reports/${auditComplete.id}`}
-              className="px-6 py-3 bg-oxblood-900 hover:bg-oxblood-800 text-cream-100 font-serif font-bold text-xs rounded-xs shadow-md inline-flex items-center gap-2"
+              className="px-6 py-2.5 bg-oxblood-900 hover:bg-oxblood-800 text-cream-100 font-serif font-bold text-xs rounded-xs shadow-md inline-flex items-center gap-2"
             >
               <span>View The Silence Report & Export PDF</span>
               <ArrowRight size={14} />

@@ -7,9 +7,10 @@ import {
   Search, Filter, Download, ExternalLink, Bookmark, BookmarkCheck,
   Maximize2, X, ZoomIn, ZoomOut, RotateCcw, AlertTriangle, ShieldCheck
 } from "lucide-react";
+import { getActiveCollection } from "@/lib/collection";
 
 export default function ImageExplorerPage() {
-  const [activeColId, setActiveColId] = useState<string>("sample-real-001");
+  const [activeColId, setActiveColId] = useState<string>("fused-v2");
   const [images, setImages] = useState<any[]>([]);
   const [selectedRights, setSelectedRights] = useState<string>("");
   const [search, setSearch] = useState<string>("");
@@ -23,12 +24,10 @@ export default function ImageExplorerPage() {
   const [savedItems, setSavedItems] = useState<any[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setActiveColId(stored);
+    setActiveColId(getActiveCollection());
 
     const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setActiveColId(updated);
+      setActiveColId(getActiveCollection());
     };
     window.addEventListener("collection_changed", handleColChange);
     return () => window.removeEventListener("collection_changed", handleColChange);

@@ -10,6 +10,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
 import { ArrowRight, Compass, ShieldCheck, Layers, FileText, CheckCircle2, AlertCircle } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
+import { getActiveCollection, setActiveCollection } from "@/lib/collection";
 
 export default function LandingPage() {
   const { lang, t } = useTranslation();
@@ -20,12 +21,10 @@ export default function LandingPage() {
   const [featuredImages, setFeaturedImages] = useState<any[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setActiveColId(stored);
+    setActiveColId(getActiveCollection());
 
     const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setActiveColId(updated);
+      setActiveColId(getActiveCollection());
     };
     window.addEventListener("collection_changed", handleColChange);
     return () => window.removeEventListener("collection_changed", handleColChange);
@@ -34,7 +33,10 @@ export default function LandingPage() {
   useEffect(() => {
     // 1. Fetch real summary for active collection
     fetch(`/api/collections/${activeColId}/summary`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Collection summary fetch failed");
+        return r.json();
+      })
       .then((data) => {
         setSummary(data);
         const auditId = data.latest_audit_id || `AUDIT-${activeColId.toUpperCase()}-INIT`;
@@ -50,15 +52,36 @@ export default function LandingPage() {
           })
           .catch((err) => console.error(err));
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error("Error loading active collection, falling back to fused-v2:", err);
+        if (activeColId !== "fused-v2") {
+          setActiveCollection("fused-v2");
+        }
+      });
 
-    // 2. Fetch images for active collection
+    // 2. Fetch images for active collection (with reliable fallback)
     fetch(`/api/images?collection_id=${activeColId}&page_size=6`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.images) setFeaturedImages(data.images);
+        if (data.images && data.images.length > 0) {
+          setFeaturedImages(data.images);
+        } else {
+          // Always ensure showcase has museum-grade images
+          fetch(`/api/images?collection_id=fused-v2&page_size=6`)
+            .then((r) => r.json())
+            .then((fData) => {
+              if (fData.images) setFeaturedImages(fData.images);
+            });
+        }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error("Error loading images:", err);
+        fetch(`/api/images?collection_id=fused-v2&page_size=6`)
+          .then((r) => r.json())
+          .then((fData) => {
+            if (fData.images) setFeaturedImages(fData.images);
+          });
+      });
   }, [activeColId]);
 
   return (

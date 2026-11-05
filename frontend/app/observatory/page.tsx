@@ -11,6 +11,7 @@ import {
   ChevronRight, RefreshCw, BarChart3, MapPin
 } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
+import { getActiveCollection, setActiveCollection } from "@/lib/collection";
 
 function ObservatoryContent() {
   const router = useRouter();
@@ -37,12 +38,10 @@ function ObservatoryContent() {
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setActiveColId(stored);
+    setActiveColId(getActiveCollection());
 
     const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setActiveColId(updated);
+      setActiveColId(getActiveCollection());
     };
     window.addEventListener("collection_changed", handleColChange);
     return () => window.removeEventListener("collection_changed", handleColChange);
@@ -52,20 +51,27 @@ function ObservatoryContent() {
   useEffect(() => {
     setLoading(true);
     fetch(`/api/collections/${activeColId}/summary`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Collection summary failed");
+        return r.json();
+      })
       .then((data) => {
         setSummary(data);
-        if (data.latest_audit_id) {
-          fetch(`/api/audits/${data.latest_audit_id}`)
-            .then((r) => r.json())
-            .then((aData) => setAudit(aData));
+        const auditId = data.latest_audit_id || `AUDIT-${activeColId.toUpperCase()}-INIT`;
+        fetch(`/api/audits/${auditId}`)
+          .then((r) => r.json())
+          .then((aData) => setAudit(aData));
 
-          fetch(`/api/audits/${data.latest_audit_id}/matrix`)
-            .then((r) => r.json())
-            .then((mData) => setMatrixData(mData));
+        fetch(`/api/audits/${auditId}/matrix`)
+          .then((r) => r.json())
+          .then((mData) => setMatrixData(mData));
+      })
+      .catch((e) => {
+        console.error("Falling back to fused-v2 summary:", e);
+        if (activeColId !== "fused-v2") {
+          setActiveCollection("fused-v2");
         }
       })
-      .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [activeColId]);
 
@@ -144,12 +150,7 @@ function ObservatoryContent() {
             <select
               id="observatory-holding-select"
               value={activeColId}
-              onChange={(e) => {
-                const val = e.target.value;
-                setActiveColId(val);
-                localStorage.setItem("silence_index_active_collection", val);
-                window.dispatchEvent(new Event("collection_changed"));
-              }}
+              onChange={(e) => setActiveCollection(e.target.value)}
               className="bg-transparent text-oxblood-950 font-serif font-bold text-xs focus:outline-hidden cursor-pointer"
             >
               <option value="fused-v2">Fused Subcontinental Collection (317 items)</option>

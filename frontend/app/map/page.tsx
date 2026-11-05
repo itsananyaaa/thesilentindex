@@ -7,10 +7,11 @@ import { CornerFiligree } from "@/components/ornament/CornerFiligree";
 import { StatusBadge } from "@/components/StatusBadge";
 import { MapPin, AlertCircle, Layers, Table as TableIcon, ChevronRight, X, ExternalLink } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
+import { getActiveCollection, setActiveCollection } from "@/lib/collection";
 
 export default function BlindSpotMapPage() {
   const { lang, t } = useTranslation();
-  const [activeColId, setActiveColId] = useState<string>("sample-real-001");
+  const [activeColId, setActiveColId] = useState<string>("fused-v2");
   const [metric, setMetric] = useState<string>("record_count");
   const [mapData, setMapData] = useState<any>(null);
   const [selectedState, setSelectedState] = useState<any>(null);
@@ -22,15 +23,13 @@ export default function BlindSpotMapPage() {
   const leafletMapRef = useRef<any>(null);
   const geoJsonLayerRef = useRef<any>(null);
 
-  const [currentAuditId, setCurrentAuditId] = useState<string>("AUDIT-SAMPLE-REAL-001-INIT");
+  const [currentAuditId, setCurrentAuditId] = useState<string>("AUDIT-FUSED-V2-INIT");
 
   useEffect(() => {
-    const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setActiveColId(stored);
+    setActiveColId(getActiveCollection());
 
     const handleColChange = () => {
-      const updated = localStorage.getItem("silence_index_active_collection");
-      if (updated) setActiveColId(updated);
+      setActiveColId(getActiveCollection());
     };
     window.addEventListener("collection_changed", handleColChange);
     return () => window.removeEventListener("collection_changed", handleColChange);
@@ -39,7 +38,10 @@ export default function BlindSpotMapPage() {
   // Fetch map metrics from API
   useEffect(() => {
     fetch(`/api/collections/${activeColId}/summary`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Collection summary failed");
+        return r.json();
+      })
       .then((col) => {
         const auditId = col.latest_audit_id || `AUDIT-${activeColId.toUpperCase()}-INIT`;
         setCurrentAuditId(auditId);
@@ -47,7 +49,12 @@ export default function BlindSpotMapPage() {
       })
       .then((r) => r.json())
       .then((d) => setMapData(d))
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        console.error("Falling back to fused-v2 map data:", e);
+        fetch(`/api/audits/AUDIT-FUSED-V2-INIT/map?metric=${metric}`)
+          .then((r) => r.json())
+          .then((d) => setMapData(d));
+      });
   }, [activeColId, metric]);
 
   // Fetch state drill-down details when state is selected
