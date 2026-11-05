@@ -71,7 +71,7 @@ export default function ExistenceGapPage() {
         >
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-olive-800 block">
-              {t("gaps.quad1_title", "Quadrant I • Well Documented")}
+              {t("gaps.q1_title", "Quadrant I • Well Documented")}
             </span>
             <CheckCircle2 size={16} className="text-olive-700" />
           </div>
@@ -79,7 +79,7 @@ export default function ExistenceGapPage() {
             {data?.quadrant_summary?.well_documented || 0}
           </span>
           <span className="text-[11px] text-oxblood-800/80 block font-sans">
-            {t("gaps.quad1_desc", "High existence, extensive cataloguing")}
+            {t("gaps.q1_desc", "High existence, extensive cataloguing")}
           </span>
         </button>
 
@@ -94,7 +94,7 @@ export default function ExistenceGapPage() {
         >
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-copper-700 block">
-              {t("gaps.quad2_title", "Quadrant II • Rich Catalog")}
+              {t("gaps.q2_title", "Quadrant II • Rich Catalog")}
             </span>
             <Layers size={16} className="text-copper-600" />
           </div>
@@ -102,7 +102,7 @@ export default function ExistenceGapPage() {
             {data?.quadrant_summary?.deep_catalog_obscure || 0}
           </span>
           <span className="text-[11px] text-oxblood-800/80 block font-sans">
-            {t("gaps.quad2_desc", "Deep documentation, local recognition")}
+            {t("gaps.q2_desc", "Deep documentation, local recognition")}
           </span>
         </button>
 
@@ -117,7 +117,7 @@ export default function ExistenceGapPage() {
         >
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-oxblood-800/80 block">
-              {t("gaps.quad3_title", "Quadrant III • Baseline")}
+              {t("gaps.q3_title", "Quadrant III • Baseline")}
             </span>
             <span className="text-xs font-mono font-bold">•</span>
           </div>
@@ -125,7 +125,7 @@ export default function ExistenceGapPage() {
             {data?.quadrant_summary?.baseline || 0}
           </span>
           <span className="text-[11px] text-oxblood-800/80 block font-sans">
-            {t("gaps.quad3_desc", "Initial catalog presence")}
+            {t("gaps.q3_desc", "Initial catalog presence")}
           </span>
         </button>
 
@@ -140,7 +140,7 @@ export default function ExistenceGapPage() {
         >
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-henna-700 block">
-              {t("gaps.quad4_title", "Quadrant IV • High Priority")}
+              {t("gaps.q4_title", "Quadrant IV • High Priority")}
             </span>
             <AlertTriangle size={16} className="text-henna-600" />
           </div>
@@ -148,7 +148,7 @@ export default function ExistenceGapPage() {
             {data?.quadrant_summary?.high_priority_gap || 0}
           </span>
           <span className="text-[11px] text-oxblood-800/80 block font-sans">
-            {t("gaps.quad4_desc", "Proven existence, sparse documentation")}
+            {t("gaps.q4_desc", "Proven existence, sparse documentation")}
           </span>
         </button>
       </div>

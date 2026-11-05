@@ -7,10 +7,8 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
 import { STATUS_STYLES } from "@/lib/tokens";
 import { Download, X, Layers, Sliders, ExternalLink, HelpCircle, CheckCircle2 } from "lucide-react";
-import { useTranslation } from "@/lib/i18n";
 
 export default function CoverageMatrixPage() {
-  const { lang, t } = useTranslation();
   const [activeColId, setActiveColId] = useState<string>("sample-real-001");
   const [matrixData, setMatrixData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -90,13 +88,14 @@ export default function CoverageMatrixPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-parchment-300">
         <div>
           <span className="font-serif text-xs font-bold uppercase tracking-widest text-copper-600 block mb-1">
-            {t("nav.matrix", "Structural Knowledge Matrix")}
+            Structural Knowledge Matrix
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-oxblood-900">
-            {t("matrix.title", "Cultural Category × Dimension Coverage Matrix")}
+            Cultural Category × Dimension Coverage Matrix
           </h1>
           <p className="text-xs sm:text-sm text-oxblood-800/80 mt-1 max-w-3xl">
-            {t("matrix.subtitle", "A deterministic grid mapping 9 Indian cultural heritage categories across 10 documentation dimensions. Click any cell to inspect the responsible catalog records and download verification manifests.")}
+            A deterministic grid mapping 9 Indian cultural heritage categories across 10 documentation dimensions.
+            Click any cell to inspect the responsible catalog records and download verification manifests.
           </p>
         </div>
 

@@ -5,10 +5,8 @@ import Link from "next/link";
 import { CornerFiligree } from "@/components/ornament/CornerFiligree";
 import { Sliders, Filter, ArrowRight, ShieldAlert, CheckCircle2, AlertTriangle, ExternalLink, FileText } from "lucide-react";
 import { DocumentationBriefModal } from "@/components/DocumentationBriefModal";
-import { useTranslation } from "@/lib/i18n";
 
 export default function PrioritiesPage() {
-  const { lang, t } = useTranslation();
   const [activeColId, setActiveColId] = useState<string>("sample-real-001");
   const [priorities, setPriorities] = useState<any[]>([]);
   const [selectedDimension, setSelectedDimension] = useState<string>("");
@@ -68,13 +66,14 @@ export default function PrioritiesPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-parchment-300">
         <div>
           <span className="font-serif text-xs font-bold uppercase tracking-widest text-copper-600 block mb-1">
-            {t("nav.priorities", "Preservation Priority Engine")}
+            Documentation Priority Roadmap
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-oxblood-900">
-            {t("priorities.title", "Consent-First Documentation Priorities")}
+            Preservation Priority Engine
           </h1>
           <p className="text-xs sm:text-sm text-oxblood-800/80 mt-1 max-w-3xl">
-            {t("priorities.subtitle", "Surfacing structural silences ranked by gap magnitude, evidence confidence, collection breadth, and feasibility.")}
+            Surfacing structural silences ranked by gap magnitude, evidence confidence, collection breadth, and feasibility.
+            Enforcing strict community consent protocols before documentation recommendations.
           </p>
         </div>
 

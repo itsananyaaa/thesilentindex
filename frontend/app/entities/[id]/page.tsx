@@ -96,31 +96,19 @@ export default function HeritageEntityDetailPage() {
             )}
           </div>
 
-          {/* Entity Vector Artwork & Cross-Source Debt Closing Metric */}
-          <div className="flex flex-col sm:flex-row md:flex-col items-center gap-3 shrink-0">
-            {profile.image_url && (
-              <div className="w-48 h-32 rounded-xs overflow-hidden border border-gold-400 bg-oxblood-950 shadow-xs">
-                <img
-                  src={profile.image_url}
-                  alt={profile.label}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
-            <div className="bg-oxblood-900 text-cream-100 border border-gold-400 p-4 rounded-xs text-center w-48">
-              <span className="text-[10px] font-sans uppercase tracking-wider text-gold-300 block">
-                Entity-Level CCD
-              </span>
-              <span className="font-serif text-3xl font-bold text-gold-400">
-                {profile.entity_ccd !== undefined ? profile.entity_ccd.toFixed(1) : "—"}
-              </span>
-              <div className="text-[10px] text-cream-200/80 mt-1 space-y-0.5 font-sans">
-                <p>Record Avg CCD: {profile.record_level_avg_ccd?.toFixed(1)}</p>
-                <p className="text-emerald-400 font-bold">
-                  ↓ Debt Closed: {profile.debt_closed_delta?.toFixed(1)} pts
-                </p>
-              </div>
+          {/* Cross-Source Debt Closing Metric */}
+          <div className="bg-oxblood-900 text-cream-100 border border-gold-400 p-4 rounded-xs shrink-0 text-center min-w-[200px]">
+            <span className="text-[10px] font-sans uppercase tracking-wider text-gold-300 block">
+              Entity-Level CCD
+            </span>
+            <span className="font-serif text-3xl font-bold text-gold-400">
+              {profile.entity_ccd !== undefined ? profile.entity_ccd.toFixed(1) : "—"}
+            </span>
+            <div className="text-[10px] text-cream-200/80 mt-1 space-y-0.5 font-sans">
+              <p>Record Avg CCD: {profile.record_level_avg_ccd?.toFixed(1)}</p>
+              <p className="text-emerald-400 font-bold">
+                ↓ Debt Closed: {profile.debt_closed_delta?.toFixed(1)} pts
+              </p>
             </div>
           </div>
         </div>

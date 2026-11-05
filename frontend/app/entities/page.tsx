@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { CornerFiligree } from "@/components/ornament/CornerFiligree";
-import { Landmark, Search, ChevronRight } from "lucide-react";
+import { Landmark, Search, Filter, ShieldCheck, ExternalLink, ChevronRight, Award } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
 
 export default function EntitiesListPage() {
-  const { t } = useTranslation();
+  const { lang, t } = useTranslation();
   const [entities, setEntities] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -64,77 +64,80 @@ export default function EntitiesListPage() {
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="w-full sm:w-60 bg-cream-100 border border-parchment-400 rounded-xs p-1.5 text-xs font-sans text-oxblood-900 cursor-pointer"
         >
-          <option value="">{t("entities.all_categories", "All Cultural Categories")}</option>
-          <option value="visual_arts">{t("categories.visual_arts", "Visual Arts & Paintings")}</option>
-          <option value="architecture">{t("categories.architecture", "Architecture & Monuments")}</option>
-          <option value="textiles_crafts">{t("categories.textiles_crafts", "Textiles, Weaving & Crafts")}</option>
-          <option value="manuscripts_literature">{t("categories.manuscripts_literature", "Manuscripts & Epigraphy")}</option>
-          <option value="music_instruments">{t("categories.music_instruments", "Music & Musical Instruments")}</option>
-          <option value="dance_performance">{t("categories.dance_performance", "Dance & Performance")}</option>
-          <option value="oral_traditions">{t("categories.oral_traditions", "Oral Traditions")}</option>
-          <option value="ritual_heritage">{t("categories.ritual_heritage", "Ritual Heritage")}</option>
-          <option value="sculpture_material">{t("categories.sculpture_material", "Sculpture & Metalwork")}</option>
+          <option value="">{t("common.all_categories", "All Cultural Categories")}</option>
+          <option value="visual_arts">Visual Arts & Paintings</option>
+          <option value="architecture">Architecture & Monuments</option>
+          <option value="textiles_crafts">Textiles, Weaving & Crafts</option>
+          <option value="manuscripts_literature">Manuscripts & Epigraphy</option>
+          <option value="music_instruments">Music & Musical Instruments</option>
+          <option value="dance_performance">Dance & Performance</option>
+          <option value="oral_traditions">Oral Traditions</option>
+          <option value="ritual_heritage">Ritual Heritage</option>
+          <option value="sculpture_material">Sculpture & Metalwork</option>
         </select>
       </div>
 
       {/* Entities Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {entities.map((e) => {
-          const imgSrc = e.image_url || e.fallback_image_url || "/images/heritage/visual_arts.svg";
-          return (
-            <div
-              key={e.id}
-              className="bg-cream-100 border border-parchment-300 rounded-xs p-4 shadow-xs hover:border-gold-400 transition-all flex flex-col justify-between overflow-hidden"
-            >
-              <div>
-                {/* Museum-Grade SVG Asset Thumbnail */}
-                <div className="h-44 w-full mb-3 rounded-xs overflow-hidden bg-oxblood-950 border border-parchment-300 relative group">
+        {entities.map((e) => (
+          <div
+            key={e.id}
+            className="bg-cream-100 border border-parchment-300 rounded-xs p-4 shadow-xs hover:border-gold-400 transition-all flex flex-col justify-between overflow-hidden"
+          >
+            <div>
+              {/* Representative Image Thumbnail */}
+              {e.image_url ? (
+                <div className="h-40 w-full mb-3 rounded-xs overflow-hidden bg-oxblood-950/20 border border-parchment-300 relative group">
                   <img
-                    src={imgSrc}
+                    src={e.image_url}
                     alt={e.label}
-                    referrerPolicy="no-referrer"
-                    onError={(evt) => {
-                      (evt.currentTarget as HTMLImageElement).src = e.fallback_image_url || "/images/heritage/visual_arts.svg";
-                    }}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
+                    onError={(ev) => {
+                      (ev.target as HTMLImageElement).src = "/images/heritage/visual_arts.svg";
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-[10px] font-mono uppercase font-bold px-2 py-0.5 bg-cream-200 border border-parchment-400 text-oxblood-900 rounded-xs">
-                    {e.entity_type}
-                  </span>
-                  <span className="text-[11px] font-mono text-copper-600 font-bold">
-                    {e.primary_state_codes?.join(", ") || "India"}
-                  </span>
+              ) : (
+                <div className="h-28 w-full mb-3 rounded-xs bg-cream-200/50 border border-parchment-300 flex items-center justify-center text-oxblood-800/50 font-serif italic text-xs">
+                  <span>🏛️ {e.label}</span>
                 </div>
-                <h3 className="font-serif text-base font-bold text-oxblood-900 mb-1 leading-snug">
-                  {e.label}
-                </h3>
-                <p className="text-xs text-oxblood-800/70 font-sans line-clamp-2 mb-3">
-                  {t("entities.category", "Category")}: {e.category_id?.replace(/_/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
-                </p>
-              </div>
+              )}
 
-              <div className="flex items-center justify-between border-t border-parchment-300 pt-3 text-xs">
-                <span className="text-[11px] font-mono text-oxblood-800/80">
-                  {e.linked_records_count} {t("entities.linked_records", e.linked_records_count === 1 ? "linked source record" : "linked source records")}
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="text-[10px] font-mono uppercase font-bold px-2 py-0.5 bg-cream-200 border border-parchment-400 text-oxblood-900 rounded-xs">
+                  {e.entity_type}
                 </span>
-                <Link
-                  href={`/entities/${e.id}`}
-                  className="px-2.5 py-1 bg-gold-400 hover:bg-gold-300 text-oxblood-950 font-serif font-bold text-[11px] rounded-xs shadow-2xs inline-flex items-center gap-1"
-                >
-                  <span>{t("entities.inspect", "Inspect Evidence Stack")}</span>
-                  <ChevronRight size={12} />
-                </Link>
+                <span className="text-[11px] font-mono text-copper-600 font-bold">
+                  {e.primary_state_codes?.join(", ") || "India"}
+                </span>
               </div>
+              <h3 className="font-serif text-base font-bold text-oxblood-900 mb-1 leading-snug">
+                {e.label}
+              </h3>
+              <p className="text-xs text-oxblood-800/70 font-sans line-clamp-2 mb-3">
+                Category: {e.category_id?.replace(/_/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
+              </p>
             </div>
-          );
-        })}
+
+            <div className="flex items-center justify-between border-t border-parchment-300 pt-3 text-xs">
+              <span className="text-[11px] font-mono text-oxblood-800/80">
+                {e.linked_records_count} {t("entities.linked_records", "linked source records")}
+              </span>
+              <Link
+                href={`/entities/${e.id}`}
+                className="px-2.5 py-1 bg-gold-400 hover:bg-gold-300 text-oxblood-950 font-serif font-bold text-[11px] rounded-xs shadow-2xs inline-flex items-center gap-1"
+              >
+                <span>{t("entities.inspect_evidence", "Inspect Evidence Stack")}</span>
+                <ChevronRight size={12} />
+              </Link>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
 

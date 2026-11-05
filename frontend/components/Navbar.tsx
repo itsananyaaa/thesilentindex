@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CornerFiligree } from "./ornament/CornerFiligree";
@@ -11,9 +11,53 @@ import {
 } from "lucide-react";
 import { LANGUAGE_OPTIONS, useTranslation, LanguageCode } from "@/lib/i18n";
 
+interface CollectionItem {
+  id: string;
+  name: string;
+  kind: string;
+  total_records: number;
+}
+
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { lang, t, setLang } = useTranslation();
+  const [collections, setCollections] = useState<CollectionItem[]>([]);
+  const [selectedColId, setSelectedColId] = useState<string>("fused-v2");
+
+  useEffect(() => {
+    // Load collections from API
+    fetch("/api/collections")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setCollections(data);
+        }
+      })
+      .catch((e) => console.error("Error loading collections in Navbar:", e));
+
+    // Read stored collection; default to fused-v2 if not set
+    const stored = localStorage.getItem("silence_index_active_collection");
+    if (stored) {
+      setSelectedColId(stored);
+    } else {
+      setSelectedColId("fused-v2");
+      localStorage.setItem("silence_index_active_collection", "fused-v2");
+    }
+
+    const handleColChange = () => {
+      const updated = localStorage.getItem("silence_index_active_collection");
+      if (updated) setSelectedColId(updated);
+    };
+    window.addEventListener("collection_changed", handleColChange);
+    return () => window.removeEventListener("collection_changed", handleColChange);
+  }, []);
+
+  const handleSelectCollection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setSelectedColId(val);
+    localStorage.setItem("silence_index_active_collection", val);
+    window.dispatchEvent(new Event("collection_changed"));
+  };
 
   const handleSelectLang = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value as LanguageCode;
@@ -61,12 +105,12 @@ export const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Global Controls: Tour + Lang */}
+        {/* Global Controls: Tour + Language Selector */}
         <div className="flex items-center gap-2.5 z-10">
           {/* Guided Tour Trigger */}
           <button
             onClick={handleOpenTour}
-            className="flex items-center gap-1.5 px-2.5 py-1 bg-gold-400/20 hover:bg-gold-400/30 border border-gold-400/60 rounded-xs text-xs font-serif text-gold-300 hover:text-gold-200 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 bg-gold-400/20 hover:bg-gold-400/30 border border-gold-400/60 rounded-xs text-xs font-serif text-gold-300 hover:text-gold-200 transition-colors cursor-pointer shadow-2xs"
             title="Start 90-Second Guided Tour"
           >
             <Sparkles size={13} className="text-gold-400" />
@@ -76,7 +120,7 @@ export const Navbar: React.FC = () => {
           </button>
 
           {/* Multilingual Selector */}
-          <div className="flex items-center gap-1.5 bg-oxblood-800 border border-gold-400/50 rounded-xs px-2.5 py-1">
+          <div className="flex items-center gap-1.5 bg-oxblood-800 border border-gold-400/60 rounded-xs px-2.5 py-1 shadow-2xs">
             <Globe size={13} className="text-gold-400 shrink-0" />
             <select
               id="language-switcher"
@@ -95,8 +139,8 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Navigation Row with custom red/gold slide scrollbar */}
-      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-1.5 flex items-center justify-between overflow-x-auto nav-scrollbar" aria-label="Main Navigation">
+      {/* Main Navigation Row */}
+      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-1.5 flex items-center justify-between overflow-x-auto tab-slider" aria-label="Main Navigation">
         <div className="flex items-center gap-1 sm:gap-1.5">
           {navLinks.map((link) => {
             const Icon = link.icon;

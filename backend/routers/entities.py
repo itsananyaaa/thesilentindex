@@ -1,6 +1,7 @@
 """Heritage Entities API Router (F2).
 Profiles clustered traditions, monuments, crafts, and performing arts across fused sources.
 """
+import os
 import re
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
@@ -9,6 +10,22 @@ from backend.app.models import HeritageEntity, EntityLink, Record
 from backend.engines.entities import evaluate_heritage_entity_ccd
 
 router = APIRouter(prefix="/api/entities", tags=["Heritage Entities"])
+
+HERITAGE_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "public", "images", "heritage")
+)
+
+def resolve_entity_svg(label: str, category_id: str | None) -> str:
+    """Resolve an entity label to a verified local offline SVG illustration."""
+    clean_name = re.sub(r'[^a-z0-9]+', '_', label.lower()).strip('_')
+    svg_filename = f"{clean_name}.svg"
+    if os.path.exists(os.path.join(HERITAGE_DIR, svg_filename)):
+        return f"/images/heritage/{svg_filename}"
+    if category_id:
+        cat_filename = f"{category_id}.svg"
+        if os.path.exists(os.path.join(HERITAGE_DIR, cat_filename)):
+            return f"/images/heritage/{cat_filename}"
+    return "/images/heritage/visual_arts.svg"
 
 @router.get("")
 def list_heritage_entities(
@@ -33,10 +50,8 @@ def list_heritage_entities(
             continue
         link_count = db.query(EntityLink).filter(EntityLink.entity_id == e.id).count()
 
-        # Deterministic local museum SVG illustration
-        slug = re.sub(r'[^a-z0-9]+', '_', e.label.lower()).strip('_')
-        cat_slug = re.sub(r'[^a-z0-9]+', '_', (e.category_id or "visual_arts").lower()).strip('_')
-        img_url = f"/images/heritage/{slug}.svg"
+        # Resolve representative museum-grade SVG vector artwork
+        img_url = resolve_entity_svg(e.label, e.category_id)
 
         results.append({
             "id": e.id,
@@ -46,8 +61,7 @@ def list_heritage_entities(
             "primary_state_codes": e.primary_state_codes,
             "created_from": e.created_from,
             "linked_records_count": link_count,
-            "image_url": img_url,
-            "fallback_image_url": f"/images/heritage/{cat_slug}.svg"
+            "image_url": img_url
         })
 
     return {"total": len(results), "entities": results}
@@ -57,6 +71,9 @@ def get_heritage_entity_profile(entity_id: str, db: Session = Depends(get_db)):
     """Retrieve full entity profile with dimension evidence stack and recognition badges."""
     try:
         profile = evaluate_heritage_entity_ccd(entity_id, db)
+        
+        # Resolve representative image
+        profile["image_url"] = resolve_entity_svg(profile["label"], profile.get("category_id"))
         
         # Add Recognition Badges
         badges = []
@@ -84,10 +101,6 @@ def get_heritage_entity_profile(entity_id: str, db: Session = Depends(get_db)):
             })
 
         profile["recognition_badges"] = badges
-        slug = re.sub(r'[^a-z0-9]+', '_', profile["label"].lower()).strip('_')
-        cat_slug = re.sub(r'[^a-z0-9]+', '_', (profile.get("category_id") or "visual_arts").lower()).strip('_')
-        profile["image_url"] = f"/images/heritage/{slug}.svg"
-        profile["fallback_image_url"] = f"/images/heritage/{cat_slug}.svg"
         return profile
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))

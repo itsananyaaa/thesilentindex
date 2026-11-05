@@ -258,13 +258,14 @@ export default function BlindSpotMapPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-parchment-300">
         <div>
           <span className="font-serif text-xs font-bold uppercase tracking-widest text-copper-600 block mb-1">
-            {t("map.title", "Cartographic Audit")}
+            Cartographic Audit
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-oxblood-900">
-            {t("map.title", "Regional Blind-Spot Map of India")}
+            Regional Blind-Spot Map of India
           </h1>
           <p className="text-xs sm:text-sm text-oxblood-800/80 mt-1 max-w-3xl">
-            {t("map.subtitle", "Spatial distribution of catalogued cultural holdings across 28 States and 8 Union Territories. Highlighting geographic clustering and systemic documentation absences in institutional archives.")}
+            Spatial distribution of catalogued cultural holdings across 28 States and 8 Union Territories.
+            Highlighting geographic clustering and systemic documentation absences in institutional archives.
           </p>
         </div>
 
@@ -285,15 +286,15 @@ export default function BlindSpotMapPage() {
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-4 bg-cream-200/60 border border-parchment-300 rounded-sm">
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
           <div className="px-2.5 py-1 bg-cream-100 border border-parchment-300 rounded-xs">
-            <span className="text-oxblood-800/70">{t("map.documented_states", "Documented States & UTs: ")}</span>
-            <strong className="text-oxblood-900">{mapData?.states_with_records_count || 0} / 36 <span className="text-[10px] font-normal text-oxblood-800/60">(28 States & 8 UTs)</span></strong>
+            <span className="text-oxblood-800/70">{t("map.documented_states", "Documented States & UTs")}: </span>
+            <strong className="text-oxblood-900">{mapData?.states_with_records_count || 0} / 36 <span className="text-[10px] font-normal text-oxblood-800/60">({t("observatory.of_36", "28 States & 8 UTs")})</span></strong>
           </div>
           <div className="px-2.5 py-1 bg-copper-500/10 border border-copper-500/40 rounded-xs text-copper-700">
-            <span>{t("map.none_in_collection", "None in analysed collection: ")}</span>
+            <span>{t("map.none_in_collection", "None in analysed collection")}: </span>
             <strong>{mapData?.zero_states_count || 0} States & UTs</strong>
           </div>
           <div className="px-2.5 py-1 bg-oxblood-900 text-cream-100 rounded-xs">
-            <span>{t("map.missing_geo", "Missing / Unassigned Geography: ")}</span>
+            <span>{t("map.unassigned_geo", "Missing / Unassigned Geography")}: </span>
             <strong className="text-gold-400">{mapData?.missing_geo_records_count || 0} records</strong>
           </div>
         </div>
@@ -301,7 +302,7 @@ export default function BlindSpotMapPage() {
         {/* Metric Selector */}
         <div className="flex flex-wrap items-center gap-2 text-xs max-w-full">
           <label htmlFor="metric-select" className="font-sans font-medium text-oxblood-800 shrink-0">
-            {t("map.metric_label", "Choropleth Metric:")}
+            {t("map.metric_label", "Choropleth Metric")}:
           </label>
           <select
             id="metric-select"
@@ -309,11 +310,11 @@ export default function BlindSpotMapPage() {
             onChange={(e) => setMetric(e.target.value)}
             className="bg-cream-100 border border-parchment-400 rounded-xs px-2 py-1 text-xs font-sans text-oxblood-900 cursor-pointer max-w-[210px] sm:max-w-none truncate"
           >
-            <option value="record_count">{t("map.metric_density", "Record Density (Holding Count)")}</option>
-            <option value="existence">{t("map.metric_existence", "Existence Depth (GI, UNESCO, ASI)")}</option>
-            <option value="gap">{t("map.metric_gap", "Existence–Documentation Gap")}</option>
-            <option value="ccd">{t("map.metric_ccd", "Regional Coverage Debt (CCD)")}</option>
-            <option value="composition">{t("map.metric_composite", "Multi-Source Composition")}</option>
+            <option value="record_count">Record Density (Holding Count)</option>
+            <option value="existence">Existence Depth (GI, UNESCO, ASI)</option>
+            <option value="gap">Existence–Documentation Gap</option>
+            <option value="ccd">Regional Coverage Debt (CCD)</option>
+            <option value="composition">Multi-Source Composition</option>
           </select>
         </div>
       </div>
