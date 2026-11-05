@@ -20,6 +20,12 @@ Developed for the **ART CODE Virtual Hackathon**
 
 ---
 
+[![Production Web App](https://img.shields.io/badge/Production%20Web%20App-thesilentindex.vercel.app-7D2830?style=for-the-badge&logo=vercel)](https://thesilentindex.vercel.app)
+[![Production API](https://img.shields.io/badge/Production%20API-onrender.com-009688?style=for-the-badge&logo=render)](https://thesilentindex-backend.onrender.com)
+[![API Health](https://img.shields.io/badge/API%20Health-200%20OK-brightgreen?style=for-the-badge)](https://thesilentindex-backend.onrender.com/api/health)
+
+---
+
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.24-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
@@ -37,6 +43,19 @@ Developed for the **ART CODE Virtual Hackathon**
 **The Silence Index** is an intelligence platform for curators, digital humanists, archivists, and cultural institutions. It analyses museum collection metadata to diagnose which kinds of knowledge about Indian cultural heritage are **documented**, **partially documented**, **undocumented in the analysed collection**, or **impossible to assess** — and deterministically converts those structural absences into transparent, consent-aware documentation priorities.
 
 It is **not** a chatbot, a generic dashboard, or a tourist website of cultural trivia. It is a museum-grade diagnostic instrument built with mathematical rigor, ethical accountability (CARE Principles & Indigenous Consent), and a visual identity inspired by classical Indian architectural ornamentation, Jali lattice geometric patterns, and storefront editorial typography.
+
+---
+
+## 🌐 Production URLs & Live Access
+
+The Silence Index is deployed and publicly reachable with 100% feature parity, zero synthetic data, and full subcontinental coverage across all 36 States and Union Territories:
+
+| Service | Public URL | Description |
+| :--- | :--- | :--- |
+| **Production Web Application** | **[https://thesilentindex.vercel.app](https://thesilentindex.vercel.app)** | Full Next.js 14 App Router client with 19 interactive routes, multilingual toggle, and local SVG illustrations |
+| **REST API Backend** | **[https://thesilentindex-backend.onrender.com](https://thesilentindex-backend.onrender.com)** | FastAPI 0.110 ASGI backend serving 317 fused records, 157 entities, and 345 state attributions |
+| **API Health & Diagnostics** | **[https://thesilentindex-backend.onrender.com/api/health](https://thesilentindex-backend.onrender.com/api/health)** | Live system diagnostics, SQLite connection verification, layer freshness, and row counts |
+| **Interactive API Documentation** | **[https://thesilentindex-backend.onrender.com/docs](https://thesilentindex-backend.onrender.com/docs)** | Interactive Swagger / OpenAPI 3.0 specification for all 44 endpoints |
 
 ---
 
