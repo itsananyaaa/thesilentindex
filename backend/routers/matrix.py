@@ -1,8 +1,10 @@
+import csv
+import io
+from typing import Any
+
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
-from typing import List, Dict, Any, Optional
-import io
-import csv
+
 from backend.app.db import get_db
 from backend.app.models import Audit, Record, RecordDimensionStatus
 from backend.engines.coverage import CoverageEngine
@@ -12,8 +14,8 @@ router = APIRouter(prefix="/api/audits", tags=["Coverage Matrix"])
 @router.get("/{id}/matrix")
 def get_coverage_matrix(
     id: str,
-    category: Optional[str] = None,
-    dimension: Optional[str] = None,
+    category: str | None = None,
+    dimension: str | None = None,
     db: Session = Depends(get_db)
 ):
     """Retrieve category-by-dimension coverage matrix for an audit."""
@@ -44,7 +46,7 @@ def get_coverage_matrix(
     rows = query.all()
 
     # Aggregate by (category, dimension)
-    cell_data: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    cell_data: dict[Tuple[str, str], dict[str, Any]] = {}
 
     for cat_id, dim_id, status_val, score_val, rec_id in rows:
         key = (cat_id or "visual_arts", dim_id)
@@ -125,7 +127,7 @@ def get_matrix_cell_records(
     id: str,
     category: str,
     dimension: str,
-    format: Optional[str] = "json",
+    format: str | None = "json",
     db: Session = Depends(get_db)
 ):
     """Retrieve list of responsible records in a specific category x dimension matrix cell."""

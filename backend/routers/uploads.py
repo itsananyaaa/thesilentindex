@@ -1,12 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
-from sqlalchemy.orm import Session
-from typing import Dict, Any, List
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from sqlalchemy.orm import Session
 
 from backend.app.db import get_db
-from backend.app.models import Collection, Record, ColumnMapping, FieldProvenance
-from backend.app.schemas import UploadValidationResponse, ColumnMappingUpdateRequest
+from backend.app.models import Collection, ColumnMapping, FieldProvenance, Record
+from backend.app.schemas import ColumnMappingUpdateRequest, UploadValidationResponse
 from backend.engines.ingest import parse_and_validate_file
 from backend.engines.normalise import NormalisationEngine
 
@@ -24,7 +24,7 @@ async def upload_collection_file(
     except ValueError as e:
         raise HTTPException(status_code=400, detail={"code": "VALIDATION_FAILED", "message": str(e)})
     except Exception as e:
-        raise HTTPException(status_code=500, detail={"code": "SERVER_ERROR", "message": f"Unexpected parsing error: {str(e)}"})
+        raise HTTPException(status_code=500, detail={"code": "SERVER_ERROR", "message": f"Unexpected parsing error: {e!s}"})
 
     col_id = f"upload-{uuid.uuid4().hex[:8]}"
     clean_name = (file.filename or "Uploaded Collection").replace(".csv", "").replace(".json", "").replace("_", " ").title()
@@ -34,7 +34,7 @@ async def upload_collection_file(
         name=clean_name,
         kind="upload",
         description=f"User-uploaded cultural collection audit: {file.filename} ({parsed['total_rows']} records).",
-        source_notes=f"Uploaded at {datetime.now(timezone.utc).isoformat()} via Collection Auditor wizard."
+        source_notes=f"Uploaded at {datetime.now(UTC).isoformat()} via Collection Auditor wizard."
     )
     db.add(col)
 

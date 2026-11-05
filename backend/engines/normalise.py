@@ -2,11 +2,11 @@
 Normalises state authorities, dates, Unicode NFC, and splits multi-values.
 Preserves original values immutably and outputs explicit field provenance records.
 """
-from typing import Dict, Any, List, Tuple, Optional
-import unicodedata
-import yaml
 import os
-import re
+import unicodedata
+from typing import Any
+
+import yaml
 
 STATES_PATH = os.path.join(os.path.dirname(__file__), "../../config/states.yaml")
 
@@ -17,7 +17,7 @@ class NormalisationEngine:
         self.states_list = cfg.get("states", [])
         
         # Build normalization lookup dict
-        self.state_lookup: Dict[str, Dict[str, Any]] = {}
+        self.state_lookup: dict[str, dict[str, Any]] = {}
         for s in self.states_list:
             self.state_lookup[s["name"].lower()] = s
             self.state_lookup[s["code"].lower()] = s
@@ -31,7 +31,7 @@ class NormalisationEngine:
         s = str(val).strip()
         return unicodedata.normalize("NFC", s)
 
-    def normalise_state(self, raw_state: str) -> Tuple[Optional[str], Optional[str], Optional[Dict[str, Any]]]:
+    def normalise_state(self, raw_state: str) -> tuple[str | None, str | None, dict[str, Any] | None]:
         """Normalise state name against canonical states authority.
         
         Returns:
@@ -71,7 +71,7 @@ class NormalisationEngine:
             "detail": f"State '{clean}' could not be matched to canonical India authority table."
         }
 
-    def detect_geographic_conflict(self, state: Optional[str], place: Optional[str]) -> Optional[Dict[str, Any]]:
+    def detect_geographic_conflict(self, state: str | None, place: str | None) -> dict[str, Any] | None:
         """Detect contradictory geography, e.g. State: Bihar, Place: Thanjavur."""
         if not state or not place:
             return None

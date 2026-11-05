@@ -1,6 +1,8 @@
+
 import pytest
-import json
+
 from backend.engines.ingest import parse_and_validate_file, suggest_column_mappings
+
 
 def test_empty_file_rejected():
     with pytest.raises(ValueError, match="empty"):
@@ -18,14 +20,14 @@ def test_bom_detected_and_handled():
     assert "BOM" in res["warnings"][0]
 
 def test_semicolon_delimiter():
-    semi_csv = "title;state;category\nChola Bronze;Tamil Nadu;sculpture_material\n".encode("utf-8")
+    semi_csv = b"title;state;category\nChola Bronze;Tamil Nadu;sculpture_material\n"
     res = parse_and_validate_file(semi_csv, "semi.csv")
     assert res["delimiter"] == ";"
     assert res["total_rows"] == 1
     assert res["headers"] == ["title", "state", "category"]
 
 def test_json_lines_parsing():
-    jsonl_data = '{"title": "Pahari Painting", "state": "Himachal Pradesh"}\n{"title": "Pattachitra", "state": "Odisha"}\n'.encode("utf-8")
+    jsonl_data = b'{"title": "Pahari Painting", "state": "Himachal Pradesh"}\n{"title": "Pattachitra", "state": "Odisha"}\n'
     res = parse_and_validate_file(jsonl_data, "data.jsonl")
     assert res["total_rows"] == 2
     assert "title" in res["headers"]

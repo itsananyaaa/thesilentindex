@@ -1,18 +1,63 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sqlalchemy import (
-    Column, String, Integer, Float, Boolean, Text, DateTime, JSON, ForeignKey, Enum as SqlEnum, Index
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
 )
 from sqlalchemy.orm import relationship
+
 from backend.app.db import Base
+
+
+class SourceLayer(Base):
+    __tablename__ = "source_layers"
+
+    id = Column(String, primary_key=True) # gi_registry | wikidata | commons | unesco_ich | museum_open_access
+    name = Column(String, nullable=False)
+    kind = Column(String, nullable=False) # craft_registration | monument | commons_media | intangible_element | museum_object
+    licence_summary = Column(String, nullable=False) # e.g. CC0, Public Domain, OGL-India
+    terms_url = Column(String, nullable=True)
+    access_method = Column(String, nullable=False) # sparql_public | official_registry_cache | commons_api | curated_inscribed
+    enabled = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
+
+    harvest_runs = relationship("HarvestRun", back_populates="layer", cascade="all, delete-orphan")
+    records = relationship("Record", back_populates="layer")
+
+
+class HarvestRun(Base):
+    __tablename__ = "harvest_runs"
+
+    id = Column(String, primary_key=True)
+    layer_id = Column(String, ForeignKey("source_layers.id"), nullable=False, index=True)
+    started_at = Column(DateTime, default=lambda: datetime.now(UTC))
+    finished_at = Column(DateTime, nullable=True)
+    status = Column(String, default="completed") # running | completed | failed
+    items_seen = Column(Integer, default=0)
+    items_kept = Column(Integer, default=0)
+    items_rejected = Column(Integer, default=0)
+    rejection_reasons_json = Column(JSON, default=dict)
+    errors_json = Column(JSON, default=list)
+
+    layer = relationship("SourceLayer", back_populates="harvest_runs")
+
 
 class Collection(Base):
     __tablename__ = "collections"
 
     id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
-    kind = Column(String, nullable=False) # sample_real | sample_synthetic | upload
+    kind = Column(String, nullable=False) # sample_real | sample_synthetic | upload | fused_v2
     description = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
     source_notes = Column(Text, nullable=True)
 
     records = relationship("Record", back_populates="collection", cascade="all, delete-orphan")
@@ -25,7 +70,9 @@ class Record(Base):
 
     id = Column(String, primary_key=True)
     collection_id = Column(String, ForeignKey("collections.id"), nullable=False, index=True)
+    layer_id = Column(String, ForeignKey("source_layers.id"), nullable=True, index=True)
     row_index = Column(Integer, nullable=False)
+    record_kind = Column(String, default="museum_object", index=True) # craft_registration | monument | commons_media | intangible_element | image_only | museum_object
     original_json = Column(JSON, nullable=False) # Immutable raw data
     
     # Normalized fields
@@ -55,14 +102,60 @@ class Record(Base):
     is_synthetic = Column(Boolean, default=False)
 
     collection = relationship("Collection", back_populates="records")
+    layer = relationship("SourceLayer", back_populates="records")
     provenances = relationship("FieldProvenance", back_populates="record", cascade="all, delete-orphan")
     inferences = relationship("Inference", back_populates="record", cascade="all, delete-orphan")
     dimension_statuses = relationship("RecordDimensionStatus", back_populates="record", cascade="all, delete-orphan")
+    state_attributions = relationship("StateAttribution", back_populates="record", cascade="all, delete-orphan")
+    entity_links = relationship("EntityLink", back_populates="record", cascade="all, delete-orphan")
 
     __table_args__ = (
         Index("idx_records_col_cat", "collection_id", "category_id"),
         Index("idx_records_col_state", "collection_id", "state"),
+        Index("idx_records_col_kind", "collection_id", "record_kind"),
     )
+
+
+class StateAttribution(Base):
+    __tablename__ = "state_attributions"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    record_id = Column(String, ForeignKey("records.id"), nullable=False, index=True)
+    state_code = Column(String(5), nullable=False, index=True) # 2-letter ISO, e.g. "PB", "HR", "KL"
+    basis = Column(String, nullable=False) # structured | inferred | curated
+    confidence = Column(Float, default=1.0)
+    multi_state = Column(Boolean, default=False)
+
+    record = relationship("Record", back_populates="state_attributions")
+
+
+class HeritageEntity(Base):
+    __tablename__ = "entities"
+
+    id = Column(String, primary_key=True) # ENT-GI-xxx, ENT-WD-Qxxx, ENT-UNESCO-xxx
+    label = Column(String, nullable=False, index=True)
+    entity_type = Column(String, nullable=False, index=True) # craft | monument | tradition | art_form | festival
+    wikidata_qid = Column(String, nullable=True, index=True)
+    primary_state_codes = Column(JSON, default=list) # e.g. ["PB", "HR"]
+    category_id = Column(String, nullable=True, index=True)
+    description = Column(Text, nullable=True)
+    created_from = Column(String, nullable=False) # source layer that originated this entity
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
+
+    links = relationship("EntityLink", back_populates="entity", cascade="all, delete-orphan")
+
+
+class EntityLink(Base):
+    __tablename__ = "entity_links"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    entity_id = Column(String, ForeignKey("entities.id"), nullable=False, index=True)
+    record_id = Column(String, ForeignKey("records.id"), nullable=False, index=True)
+    link_basis = Column(String, nullable=False) # exact_external_id | name_exact | cluster_similarity
+    confidence = Column(Float, default=1.0)
+
+    entity = relationship("HeritageEntity", back_populates="links")
+    record = relationship("Record", back_populates="entity_links")
 
 
 class FieldProvenance(Base):
@@ -91,7 +184,7 @@ class Inference(Base):
     model_version = Column(String, nullable=True)
     confidence = Column(Float, default=1.0)
     evidence_text = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
 
     record = relationship("Record", back_populates="inferences")
 
@@ -112,8 +205,8 @@ class ImageModel(Base):
     attribution_text = Column(Text, nullable=False)
     attribution_required = Column(Boolean, default=False)
     download_allowed = Column(Boolean, default=False)
-    harvested_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    verified_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    harvested_at = Column(DateTime, default=lambda: datetime.now(UTC))
+    verified_at = Column(DateTime, default=lambda: datetime.now(UTC))
     original_json = Column(JSON, nullable=True)
 
 
@@ -135,7 +228,7 @@ class Audit(Base):
 
     id = Column(String, primary_key=True)
     collection_id = Column(String, ForeignKey("collections.id"), nullable=False, index=True)
-    started_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    started_at = Column(DateTime, default=lambda: datetime.now(UTC))
     finished_at = Column(DateTime, nullable=True)
     status = Column(String, default="pending") # pending | running | completed | failed
     weights_json = Column(JSON, nullable=True)

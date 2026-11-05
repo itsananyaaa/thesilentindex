@@ -1,0 +1,287 @@
+"""UNESCO Intangible Cultural Heritage of Humanity (ICH) Layer Adapter.
+Contains the 15 officially inscribed Indian elements on UNESCO's Representative List.
+All records are kind = 'intangible_element'.
+Rights: UNESCO public domain facts / Open access text attribution.
+"""
+from typing import Any
+from scripts.harvest.base import BaseHarvestAdapter
+
+UNESCO_INSCRIBED_ELEMENTS = [
+    {
+        "unesco_id": "00080",
+        "title": "Koodiyattam, Sanskrit theatre",
+        "inscription_year": 2008,
+        "category_id": "dance_performance",
+        "art_form": "Koodiyattam",
+        "states": ["Kerala"],
+        "multi_state": False,
+        "community": "Chakyar and Nambiar practitioner communities",
+        "language": "Sanskrit, Malayalam",
+        "description": "Koodiyattam, Sanskrit theatre of Kerala, is one of India's oldest living theatrical traditions, performed in temple theatres called Koothambalams with ritualised mudras, facial abhinaya, and the resonant percussion of the mizhavu.",
+        "source_url": "https://ich.unesco.org/en/RL/koodiyattam-sanskrit-theatre-00080",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Koodiyattam_Performance.jpg/640px-Koodiyattam_Performance.jpg",
+    },
+    {
+        "unesco_id": "00062",
+        "title": "The tradition of Vedic chanting",
+        "inscription_year": 2008,
+        "category_id": "oral_traditions",
+        "art_form": "Vedic Chanting",
+        "states": ["Punjab", "Uttar Pradesh", "Tamil Nadu", "Kerala", "Maharashtra"],
+        "multi_state": True,
+        "community": "Vedic recitation lineages and Vedic pathashalas",
+        "language": "Vedic Sanskrit",
+        "description": "The oral tradition of Vedic chanting comprises sacred hymns and mantras passed down unchanged across millennia through intricate mnemonics (pada, krama, jata, ghana-patha) preserving tone and phonology.",
+        "source_url": "https://ich.unesco.org/en/RL/tradition-of-vedic-chanting-00062",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Rigveda_manuscript.jpg/640px-Rigveda_manuscript.jpg",
+    },
+    {
+        "unesco_id": "00110",
+        "title": "Ramlila, the traditional performance of the Ramayana",
+        "inscription_year": 2008,
+        "category_id": "dance_performance",
+        "art_form": "Ramlila",
+        "states": ["Uttar Pradesh", "Bihar", "Delhi", "Madhya Pradesh"],
+        "multi_state": True,
+        "community": "Community dramatic troupes and Ramnagar royal trust",
+        "language": "Awadhi, Hindi",
+        "description": "Ramlila is the traditional, community-enacted performance of the epic Ramayana based on Tulsidas's Ramcharitmanas, staging sacred scenes across multiple village and urban pilgrimage sites during Sharad Navratri.",
+        "source_url": "https://ich.unesco.org/en/RL/ramlila-the-traditional-performance-of-the-ramayana-00110",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Ramlila_Varanasi.jpg/640px-Ramlila_Varanasi.jpg",
+    },
+    {
+        "unesco_id": "00281",
+        "title": "Ramman, religious festival and ritual theatre of the Garhwal Himalayas",
+        "inscription_year": 2009,
+        "category_id": "ritual_heritage",
+        "art_form": "Ramman",
+        "states": ["Uttarakhand"],
+        "multi_state": False,
+        "community": "Saloor Dungra village council and Bhandari community",
+        "language": "Garhwali",
+        "description": "Ramman is an annual multiform religious festival celebrated in Saloor Dungra village in Chamoli, featuring masked ritual theatre dedicated to the guardian deity Bhumiyal Devta with epics, songs, and sword dances.",
+        "source_url": "https://ich.unesco.org/en/RL/ramman-religious-festival-and-ritual-theatre-of-the-garhwal-himalayas-india-00281",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Ramman_mask_Uttarakhand.jpg/640px-Ramman_mask_Uttarakhand.jpg",
+    },
+    {
+        "unesco_id": "00337",
+        "title": "Chhau dance",
+        "inscription_year": 2010,
+        "category_id": "dance_performance",
+        "art_form": "Chhau Dance",
+        "states": ["Jharkhand", "Odisha", "West Bengal"],
+        "multi_state": True,
+        "community": "Artisans and dancers of Seraikella, Mayurbhanj, and Purulia lineages",
+        "language": "Bengali, Odia, Kurmali",
+        "description": "Chhau is a major classical-folk martial dance tradition spanning eastern India, incorporating mock combat, animal movements, clay/paper-mache masks, and dhol-shehnai accompaniment celebrating the spring Chaitra Parva.",
+        "source_url": "https://ich.unesco.org/en/RL/chhau-dance-00337",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Chhau_Mask_Dance.jpg/640px-Chhau_Mask_Dance.jpg",
+    },
+    {
+        "unesco_id": "00340",
+        "title": "Kalbelia folk songs and dances of Rajasthan",
+        "inscription_year": 2010,
+        "category_id": "dance_performance",
+        "art_form": "Kalbelia",
+        "states": ["Rajasthan"],
+        "multi_state": False,
+        "community": "Kalbelia nomadic community",
+        "language": "Rajasthani, Marwari",
+        "description": "Kalbelia songs and swirling black-skirted dances mimic serpent movements, accompanied by the pungi reed wind instrument, dafli percussion, and oral poetic improvisation celebrating desert pastoral ecology.",
+        "source_url": "https://ich.unesco.org/en/RL/kalbelia-folk-songs-and-dances-of-rajasthan-00340",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Kalbelia_Dance_Rajasthan.jpg/640px-Kalbelia_Dance_Rajasthan.jpg",
+    },
+    {
+        "unesco_id": "00345",
+        "title": "Mudiyettu, ritual theatre and dance drama of Kerala",
+        "inscription_year": 2010,
+        "category_id": "dance_performance",
+        "art_form": "Mudiyettu",
+        "states": ["Kerala"],
+        "multi_state": False,
+        "community": "Marar and Kuruppu communities",
+        "language": "Malayalam",
+        "description": "Mudiyettu is a village temple ritual drama depicting the cosmic battle between Goddess Kali and the demon Darika, preceded by elaborate floor paintings (Kalam) made with organic powders in temple courtyards.",
+        "source_url": "https://ich.unesco.org/en/RL/mudiyettu-ritual-theatre-and-dance-drama-of-kerala-00345",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Mudiyettu_Kali_Darika.jpg/640px-Mudiyettu_Kali_Darika.jpg",
+    },
+    {
+        "unesco_id": "00839",
+        "title": "Buddhist chanting of Ladakh: recitation of sacred Buddhist texts in the trans-Himalayan Ladakh region",
+        "inscription_year": 2012,
+        "category_id": "oral_traditions",
+        "art_form": "Buddhist Chanting of Ladakh",
+        "states": ["Ladakh"],
+        "multi_state": False,
+        "community": "Monastic assemblies of Thiksey, Hemis, Chemrey, and Lamayuru",
+        "language": "Classical Tibetan, Ladakhi",
+        "description": "Monks in high-altitude trans-Himalayan gompas recite sacred Mahayana and Vajrayana texts using prescribed tonal inflections, cymbals, conches, and long brass horns (dungchen) to invoke peace and spiritual enlightenment.",
+        "source_url": "https://ich.unesco.org/en/RL/buddhist-chanting-of-ladakh-00839",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Hemis_monastery_monks.jpg/640px-Hemis_monastery_monks.jpg",
+    },
+    {
+        "unesco_id": "00845",
+        "title": "Sankirtana, ritual singing, drumming and dancing of Manipur",
+        "inscription_year": 2013,
+        "category_id": "music_instruments",
+        "art_form": "Manipuri Sankirtana",
+        "states": ["Manipur"],
+        "multi_state": False,
+        "community": "Meitei Vaishnava community",
+        "language": "Meiteilon (Manipuri), Sanskrit",
+        "description": "Sankirtana encompasses devotional singing, drumming with the pung cylindrical drum, and graceful cymbal dancing that marks every milestone in the life of the Meitei Vaishnavites of the Manipur valley.",
+        "source_url": "https://ich.unesco.org/en/RL/sankirtana-ritual-singing-drumming-and-dancing-of-manipur-00845",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Manipuri_Pung_Cholom.jpg/640px-Manipuri_Pung_Cholom.jpg",
+    },
+    {
+        "unesco_id": "00846",
+        "title": "Traditional brass and copper craft of utensil making among the Thatheras of Jandiala Guru",
+        "inscription_year": 2014,
+        "category_id": "sculpture_material",
+        "art_form": "Thathera Metal Craft",
+        "states": ["Punjab"],
+        "multi_state": False,
+        "community": "Thathera artisan guild of Amritsar district",
+        "language": "Punjabi",
+        "description": "The craft involves heating brass, copper, and kansa plates on sunken open-hearth fires, hammering them manually into curved culinary vessels, and creating subtle dented decorative patterns with cooling temperature control.",
+        "source_url": "https://ich.unesco.org/en/RL/traditional-brass-and-copper-craft-of-utensil-making-among-the-thatheras-of-jandiala-guru-punjab-india-00846",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Traditional_brass_and_copper_utensils_Jandiala_Guru.jpg/640px-Traditional_brass_and_copper_utensils_Jandiala_Guru.jpg",
+    },
+    {
+        "unesco_id": "01163",
+        "title": "Yoga",
+        "inscription_year": 2016,
+        "category_id": "ritual_heritage",
+        "art_form": "Yoga Philosophy and Practice",
+        "states": ["Uttarakhand", "Kerala", "Bihar", "Tamil Nadu", "Maharashtra"],
+        "multi_state": True,
+        "community": "Practitioners, ashrams, and traditional gurukulas across India",
+        "language": "Sanskrit",
+        "description": "An ancient mind-body holistic discipline integrating postures (asanas), breathing techniques (pranayama), meditation, and ethical ethical precepts aimed at self-realisation and state-transcending wellness.",
+        "source_url": "https://ich.unesco.org/en/RL/yoga-01163",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Yoga_asana_illustration.jpg/640px-Yoga_asana_illustration.jpg",
+    },
+    {
+        "unesco_id": "01161",
+        "title": "Nawrouz (Persian New Year celebration in India)",
+        "inscription_year": 2016,
+        "category_id": "ritual_heritage",
+        "art_form": "Nawrouz Festival",
+        "states": ["Jammu and Kashmir", "Delhi", "Maharashtra", "Gujarat"],
+        "multi_state": True,
+        "community": "Parsi Zoroastrian and Kashmiri Muslim communities",
+        "language": "Gujarati, Kashmiri, Urdu",
+        "description": "Celebration of the vernal equinox heralding spring renewal, marked with ceremonial Sofreh tables, seasonal floral greetings, and community culinary feasts.",
+        "source_url": "https://ich.unesco.org/en/RL/nawrouz-novruz-nowrouz-01161",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Nowruz_table_setting.jpg/640px-Nowruz_table_setting.jpg",
+    },
+    {
+        "unesco_id": "01258",
+        "title": "Kumbh Mela",
+        "inscription_year": 2017,
+        "category_id": "ritual_heritage",
+        "art_form": "Kumbh Mela Pilgrimage",
+        "states": ["Uttar Pradesh", "Uttarakhand", "Madhya Pradesh", "Maharashtra"],
+        "multi_state": True,
+        "community": "Akhadas, pilgrims, and sadhu monastic orders across India",
+        "language": "Hindi, Sanskrit",
+        "description": "The world's largest peaceful spiritual congregation, rotating every three years across four sacred river confluence sites: Prayagraj, Haridwar, Ujjain, and Nashik.",
+        "source_url": "https://ich.unesco.org/en/RL/kumbh-mela-01258",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Kumbh_Mela_Sangam.jpg/640px-Kumbh_Mela_Sangam.jpg",
+    },
+    {
+        "unesco_id": "00703",
+        "title": "Durga Puja in Kolkata",
+        "inscription_year": 2021,
+        "category_id": "ritual_heritage",
+        "art_form": "Durga Puja",
+        "states": ["West Bengal"],
+        "multi_state": False,
+        "community": "Kumartuli clay sculptors, para committees, and dhaki percussionists",
+        "language": "Bengali",
+        "description": "An extraordinary urban festival combining community open-air installation art (pandals), clay idol crafting in Kumartuli, traditional dhak drumming, and communal celebration crossing religious boundaries.",
+        "source_url": "https://ich.unesco.org/en/RL/durga-puja-in-kolkata-00703",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Durga_Puja_Kolkata_Idol.jpg/640px-Durga_Puja_Kolkata_Idol.jpg",
+    },
+    {
+        "unesco_id": "01963",
+        "title": "Garba of Gujarat",
+        "inscription_year": 2023,
+        "category_id": "dance_performance",
+        "art_form": "Garba",
+        "states": ["Gujarat"],
+        "multi_state": False,
+        "community": "Women and community dancers across Gujarat during Navratri",
+        "language": "Gujarati",
+        "description": "A ritual and devotional circle dance performed during Sharad Navratri around an earthen perforated lantern (garbha deep), symbolising cosmic life and feminine energy (Shakti).",
+        "source_url": "https://ich.unesco.org/en/RL/garba-of-gujarat-01963",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Garba_dance_Gujarat.jpg/640px-Garba_dance_Gujarat.jpg",
+    }
+]
+
+class UnescoIchAdapter(BaseHarvestAdapter):
+    def __init__(self):
+        super().__init__(
+            layer_id="unesco_ich",
+            name="UNESCO Representative List of Intangible Cultural Heritage",
+            kind="intangible_element",
+            licence_summary="UNESCO Official Registry (Public Cultural Documentation / CC BY-SA 3.0 IGO)",
+            terms_url="https://ich.unesco.org/en/legal-notice-00140"
+        )
+
+    def discover(self, use_cache: bool = True) -> list[dict[str, Any]]:
+        cached = self.read_cache("elements.json") if use_cache else None
+        if cached:
+            return cached
+        self.write_cache("elements.json", UNESCO_INSCRIBED_ELEMENTS)
+        return UNESCO_INSCRIBED_ELEMENTS
+
+    def to_record(self, raw_item: dict[str, Any], index: int) -> dict[str, Any]:
+        unesco_id = raw_item["unesco_id"]
+        primary_state = raw_item["states"][0] if raw_item["states"] else "India"
+        declared_r, norm_r, dl = self.rights(raw_item)
+        
+        return {
+            "id": f"REC-UNESCO-{unesco_id}",
+            "layer_id": self.layer_id,
+            "row_index": index,
+            "record_kind": "intangible_element",
+            "original_json": raw_item,
+            "title": raw_item["title"],
+            "art_form": raw_item["art_form"],
+            "category_id": raw_item["category_id"],
+            "state": primary_state,
+            "place": ", ".join(raw_item["states"]),
+            "lat": None,
+            "lon": None,
+            "language": raw_item.get("language"),
+            "period_text": f"Inscribed {raw_item['inscription_year']}",
+            "materials": None,
+            "technique": "Oral transmission, embodied master-disciple pedagogy",
+            "description": raw_item["description"],
+            "creator": None,
+            "community": raw_item.get("community"),
+            "source_institution": "UNESCO Intangible Cultural Heritage Section",
+            "accession_id": f"UNESCO-ICH-{unesco_id}",
+            "source_url": raw_item["source_url"],
+            "image_id": f"IMG-UNESCO-{unesco_id}",
+            "image_url": raw_item.get("image_url"),
+            "thumbnail_url": raw_item.get("image_url"),
+            "rights_declared": declared_r,
+            "rights_category": norm_r,
+            "download_allowed": dl,
+            "is_synthetic": False
+        }
+
+    def rights(self, raw_item: dict[str, Any]) -> tuple[str, str, bool]:
+        return ("Creative Commons Attribution-ShareAlike 3.0 IGO (CC BY-SA 3.0 IGO)", "CC_BY_SA", True)
+
+    def state_attribution(self, raw_item: dict[str, Any]) -> list[tuple[str, str, float, bool]]:
+        states = raw_item.get("states", [])
+        is_multi = raw_item.get("multi_state", False) or len(states) > 1
+        attributions = []
+        for st_name in states:
+            code = self.get_state_code(st_name)
+            if code:
+                attributions.append((code, "structured", 1.0, is_multi))
+        return attributions

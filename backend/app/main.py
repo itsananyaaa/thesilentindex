@@ -1,17 +1,33 @@
 import os
-import json
-from datetime import datetime, timezone
-from fastapi import FastAPI, Request, status
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
-from fastapi.exceptions import RequestValidationError
+from datetime import UTC, datetime
 
-from backend.routers import collections, audits, matrix, map, records, images, uploads, config_router
+from fastapi import FastAPI, Request, status
+from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, JSONResponse
+
+from backend.routers import (
+    audits,
+    briefs,
+    collections,
+    compare,
+    config_router,
+    entities,
+    exports,
+    gaps,
+    health,
+    images,
+    map,
+    matrix,
+    records,
+    sources,
+    uploads,
+)
 
 app = FastAPI(
     title="THE SILENCE INDEX API",
     description="Cultural Collection Auditing & Preservation Priority Intelligence Platform.",
-    version="1.0.0",
+    version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -50,17 +66,13 @@ app.include_router(records.router)
 app.include_router(images.router)
 app.include_router(uploads.router)
 app.include_router(config_router.router)
-
-@app.get("/api/health", tags=["System"])
-def health_check():
-    """Health status and system timestamp."""
-    return {
-        "status": "healthy",
-        "service": "THE SILENCE INDEX",
-        "version": "1.0.0",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "tagline": "Because what is missing from history matters too."
-    }
+app.include_router(sources.router)
+app.include_router(entities.router)
+app.include_router(gaps.router)
+app.include_router(compare.router)
+app.include_router(briefs.router)
+app.include_router(exports.router)
+app.include_router(health.router)
 
 @app.get("/api/geo/states", tags=["System"])
 def get_india_states_geojson():

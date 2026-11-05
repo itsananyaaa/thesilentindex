@@ -163,7 +163,7 @@ export default function BlindSpotMapPage() {
   }, [mapData]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 w-full overflow-x-hidden">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-parchment-300">
         <div>
@@ -193,36 +193,38 @@ export default function BlindSpotMapPage() {
       </div>
 
       {/* Metrics & Chips Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-cream-200/60 border border-parchment-300 rounded-sm">
-        <div className="flex flex-wrap items-center gap-3 text-xs">
-          <div className="px-3 py-1 bg-cream-100 border border-parchment-300 rounded-xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-4 bg-cream-200/60 border border-parchment-300 rounded-sm">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
+          <div className="px-2.5 py-1 bg-cream-100 border border-parchment-300 rounded-xs">
             <span className="text-oxblood-800/70">Documented States & UTs: </span>
             <strong className="text-oxblood-900">{mapData?.states_with_records_count || 0} / 36 <span className="text-[10px] font-normal text-oxblood-800/60">(28 States & 8 UTs)</span></strong>
           </div>
-          <div className="px-3 py-1 bg-copper-500/10 border border-copper-500/40 rounded-xs text-copper-700">
+          <div className="px-2.5 py-1 bg-copper-500/10 border border-copper-500/40 rounded-xs text-copper-700">
             <span>None in analysed collection: </span>
             <strong>{mapData?.zero_states_count || 0} States & UTs</strong>
           </div>
-          <div className="px-3 py-1 bg-oxblood-900 text-cream-100 rounded-xs">
+          <div className="px-2.5 py-1 bg-oxblood-900 text-cream-100 rounded-xs">
             <span>Missing / Unassigned Geography: </span>
             <strong className="text-gold-400">{mapData?.missing_geo_records_count || 0} records</strong>
           </div>
         </div>
 
         {/* Metric Selector */}
-        <div className="flex items-center gap-2 text-xs">
-          <label htmlFor="metric-select" className="font-sans font-medium text-oxblood-800">
+        <div className="flex flex-wrap items-center gap-2 text-xs max-w-full">
+          <label htmlFor="metric-select" className="font-sans font-medium text-oxblood-800 shrink-0">
             Choropleth Metric:
           </label>
           <select
             id="metric-select"
             value={metric}
             onChange={(e) => setMetric(e.target.value)}
-            className="bg-cream-100 border border-parchment-400 rounded-xs px-2 py-1 text-xs font-sans text-oxblood-900 cursor-pointer"
+            className="bg-cream-100 border border-parchment-400 rounded-xs px-2 py-1 text-xs font-sans text-oxblood-900 cursor-pointer max-w-[210px] sm:max-w-none truncate"
           >
             <option value="record_count">Record Density (Holding Count)</option>
-            <option value="ccd">Regional Cultural Coverage Debt</option>
-            <option value="languages">Language Diversity</option>
+            <option value="existence">Existence Depth (GI, UNESCO, ASI)</option>
+            <option value="gap">Existence–Documentation Gap</option>
+            <option value="ccd">Regional Coverage Debt (CCD)</option>
+            <option value="composition">Multi-Source Composition</option>
           </select>
         </div>
       </div>
@@ -274,8 +276,8 @@ export default function BlindSpotMapPage() {
       ) : (
         /* Interactive Map Container */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-8 bg-cream-100 border-2 border-gold-400/80 rounded-sm p-2 shadow-md relative min-h-[540px]">
-            <div ref={mapContainerRef} className="w-full h-[540px] rounded-xs bg-[#EDE0C4]/30 z-0" />
+          <div className="lg:col-span-8 bg-cream-100 border-2 border-gold-400/80 rounded-sm p-2 shadow-md relative min-h-[540px] overflow-hidden">
+            <div ref={mapContainerRef} className="w-full h-[540px] rounded-xs bg-[#EDE0C4]/30 z-0 overflow-hidden" />
 
             {/* Map Legend Floating Box */}
             <div className="absolute bottom-4 left-4 z-10 bg-cream-100/95 border border-parchment-400 p-3 rounded-xs shadow-md text-xs space-y-1.5 backdrop-blur-xs">
@@ -297,6 +299,40 @@ export default function BlindSpotMapPage() {
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 bg-[#EDE0C4] border border-copper-500 border-dashed"></span>
                 <span className="italic text-copper-700">None in analysed collection</span>
+              </div>
+            </div>
+
+            {/* Small Territory Direct Targeting Chips (Hardening for small UTs difficult to target via national polygon) */}
+            <div className="mt-3 pt-2.5 border-t border-parchment-300">
+              <span className="text-[10px] font-sans uppercase tracking-wider text-copper-600 block mb-1.5 font-bold">
+                Small Territory Direct Targeting Chips:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { code: "IN-LD", name: "Lakshadweep", short: "LD" },
+                  { code: "IN-CH", name: "Chandigarh", short: "CH" },
+                  { code: "IN-PY", name: "Puducherry", short: "PY" },
+                  { code: "IN-AN", name: "Andaman and Nicobar Islands", short: "AN" },
+                  { code: "IN-DN", name: "Dadra and Nagar Haveli and Daman and Diu", short: "DN" },
+                  { code: "IN-LA", name: "Ladakh", short: "LA" },
+                  { code: "IN-DL", name: "Delhi", short: "DL" }
+                ].map((ut) => {
+                  const isSel = selectedState?.code === ut.code;
+                  return (
+                    <button
+                      key={ut.code}
+                      onClick={() => setSelectedState({ code: ut.code, name: ut.name })}
+                      className={`px-2 py-1 rounded-xs font-serif text-[11px] font-semibold border transition-all ${
+                        isSel
+                          ? "bg-oxblood-900 text-cream-100 border-gold-400 shadow-xs"
+                          : "bg-cream-100 hover:bg-cream-200 border-parchment-400 text-oxblood-900"
+                      }`}
+                    >
+                      <span>{ut.name.split(" ")[0]}</span>
+                      <span className="text-[9px] font-mono ml-1 opacity-70">({ut.short})</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>

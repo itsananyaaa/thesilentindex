@@ -15,9 +15,8 @@ Detects:
 - Sharada / Grantha historical scripts
 - Latin (English or Transliteration)
 """
-from typing import Dict, Any, List
-import unicodedata
 import re
+from typing import Any
 
 SCRIPT_RANGES = {
     "Devanagari": (0x0900, 0x097F),
@@ -39,12 +38,12 @@ SCRIPT_RANGES = {
 # Common transliteration diacritics in IAST / ISO 15919
 INDIC_DIACRITICS_REGEX = re.compile(r"[āīūṛṝḷḹēōṃḥṅñṇṭḍśṣźž]", re.IGNORECASE)
 
-def detect_unicode_scripts(text: str) -> Dict[str, int]:
+def detect_unicode_scripts(text: str) -> dict[str, int]:
     """Count characters per Unicode script block in the given text."""
     if not text:
         return {}
     
-    counts: Dict[str, int] = {}
+    counts: dict[str, int] = {}
     for char in text:
         cp = ord(char)
         matched = False
@@ -58,7 +57,7 @@ def detect_unicode_scripts(text: str) -> Dict[str, int]:
             
     return counts
 
-def analyze_indic_text(text: str) -> Dict[str, Any]:
+def analyze_indic_text(text: str) -> dict[str, Any]:
     """Analyze text for Indic scripts or Latin transliteration.
     
     Returns:

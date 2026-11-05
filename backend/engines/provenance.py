@@ -2,10 +2,12 @@
 Checks custodial completeness, institution attribution, accession IDs,
 and geographic contradictions.
 """
-from typing import List, Dict, Any
+from typing import Any
+
 from backend.engines.normalise import NormalisationEngine
 
-def audit_provenance_and_sources(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+
+def audit_provenance_and_sources(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Scan collection records for provenance, source, and geographic integrity issues.
     
     Returns:

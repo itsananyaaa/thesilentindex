@@ -114,7 +114,7 @@ function ObservatoryContent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 overflow-x-hidden">
       {/* Sample Banner Badge */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-cream-200/80 border border-gold-400 rounded-sm">
         <div>
@@ -223,8 +223,8 @@ function ObservatoryContent() {
                     style={{ width: "100%" }}
                     title="Not assessable: No consultation column in dataset"
                   >
-                    <span className="bg-cream-100/95 border border-parchment-400 px-2.5 py-0.5 rounded-xs text-[10px] text-oxblood-950 font-bold tracking-tight shadow-xs">
-                      100% Not Assessable (Dataset lacks consultation field)
+                    <span className="bg-cream-100/95 border border-parchment-400 px-2.5 py-0.5 rounded-xs text-[10px] text-oxblood-950 font-bold tracking-tight shadow-xs whitespace-nowrap">
+                      100% Not Assessable <span className="hidden sm:inline">(Dataset lacks consultation field)</span>
                     </span>
                   </div>
                 ) : (

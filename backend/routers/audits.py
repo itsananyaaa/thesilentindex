@@ -1,27 +1,39 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, BackgroundTasks
-from sqlalchemy.orm import Session
-from sqlalchemy import func
-from typing import Dict, Any, List, Optional
-import io
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+from typing import Any
 
-from backend.app.db import get_db, SessionLocal
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Response
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
+from backend.app.db import SessionLocal, get_db
 from backend.app.models import (
-    Audit, Collection, Record, RecordDimensionStatus, Finding,
-    PreservationPriority, DuplicateCluster, ColumnMapping
+    Audit,
+    Collection,
+    ColumnMapping,
+    DuplicateCluster,
+    Finding,
+    PreservationPriority,
+    Record,
+    RecordDimensionStatus,
 )
-from backend.app.schemas import AuditStartRequest, AuditProgressResponse, FindingResponse, PriorityCardResponse
-from backend.engines.coverage import CoverageEngine
+from backend.app.schemas import (
+    AuditProgressResponse,
+    AuditStartRequest,
+)
 from backend.engines.ccd import compute_collection_ccd
+from backend.engines.coverage import CoverageEngine
 from backend.engines.duplicates import find_duplicate_clusters
-from backend.engines.provenance import audit_provenance_and_sources
-from backend.engines.priority import compute_preservation_priorities
 from backend.engines.explain import explain_finding
-from backend.engines.report import build_report_json, export_report_csv, export_report_pdf
+from backend.engines.priority import compute_preservation_priorities
+from backend.engines.provenance import audit_provenance_and_sources
+from backend.engines.report import (
+    export_report_csv,
+    export_report_pdf,
+)
 
 router = APIRouter(prefix="/api/audits", tags=["Audits & Findings"])
 
-def run_audit_task(audit_id: str, collection_id: str, weights: Optional[Dict[str, float]]):
+def run_audit_task(audit_id: str, collection_id: str, weights: dict[str, float] | None):
     """Background task to execute full 7-stage collection audit."""
     db: Session = SessionLocal()
     try:
@@ -192,7 +204,7 @@ def run_audit_task(audit_id: str, collection_id: str, weights: Optional[Dict[str
         audit.progress_stage = "completed"
         audit.progress_percent = 100
         audit.status = "completed"
-        audit.finished_at = datetime.now(timezone.utc)
+        audit.finished_at = datetime.now(UTC)
         db.commit()
 
     except Exception as e:
@@ -204,14 +216,14 @@ def run_audit_task(audit_id: str, collection_id: str, weights: Optional[Dict[str
     finally:
         db.close()
 
-@router.post("", response_model=Dict[str, Any])
+@router.post("", response_model=dict[str, Any])
 def start_audit(req: AuditStartRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """Initiate a full collection audit with optional weight overrides."""
     col = db.query(Collection).filter_by(id=req.collection_id).first()
     if not col:
         raise HTTPException(status_code=404, detail={"code": "NOT_FOUND", "message": f"Collection '{req.collection_id}' not found."})
 
-    audit_id = f"AUDIT-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
+    audit_id = f"AUDIT-{datetime.now(UTC).strftime('%Y%m%d%H%M%S')}"
     new_audit = Audit(
         id=audit_id,
         collection_id=col.id,
@@ -335,9 +347,9 @@ def get_single_finding(id: str, fid: str, db: Session = Depends(get_db)):
 @router.get("/{id}/priorities")
 def get_audit_priorities(
     id: str,
-    dimension: Optional[str] = None,
-    band: Optional[str] = None,
-    consultation: Optional[str] = None,
+    dimension: str | None = None,
+    band: str | None = None,
+    consultation: str | None = None,
     db: Session = Depends(get_db)
 ):
     """Retrieve ranked preservation priority recommendations with consent routing flags."""

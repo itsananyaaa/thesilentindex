@@ -1,23 +1,28 @@
+
 from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, and_, func
-from typing import Dict, Any, List, Optional
+
 from backend.app.db import get_db
-from backend.app.models import Record, FieldProvenance, RecordDimensionStatus, ImageModel, Audit
-from backend.engines.coverage import CoverageEngine
+from backend.app.models import (
+    FieldProvenance,
+    ImageModel,
+    Record,
+    RecordDimensionStatus,
+)
 from backend.engines.taxonomy import TaxonomyEngine
 
 router = APIRouter(prefix="/api/records", tags=["Records Explorer"])
 
 @router.get("")
 def list_records(
-    collection_id: Optional[str] = None,
-    state: Optional[str] = None,
-    category: Optional[str] = None,
-    language: Optional[str] = None,
-    source: Optional[str] = None,
-    completeness_band: Optional[str] = None, # high (>=0.7), medium (0.4-0.7), low (<0.4)
-    q: Optional[str] = None,
+    collection_id: str | None = None,
+    state: str | None = None,
+    category: str | None = None,
+    language: str | None = None,
+    source: str | None = None,
+    completeness_band: str | None = None, # high (>=0.7), medium (0.4-0.7), low (<0.4)
+    q: str | None = None,
     page: int = Query(1, ge=1),
     page_size: int = Query(24, ge=1, le=100),
     db: Session = Depends(get_db)

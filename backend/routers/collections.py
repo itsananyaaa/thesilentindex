@@ -1,14 +1,15 @@
+
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from sqlalchemy import func
-from typing import List, Dict, Any
+from sqlalchemy.orm import Session
+
 from backend.app.db import get_db
-from backend.app.models import Collection, Record, Audit
+from backend.app.models import Audit, Collection, Record
 from backend.app.schemas import CollectionSummary
 
 router = APIRouter(prefix="/api/collections", tags=["Collections"])
 
-@router.get("", response_model=List[CollectionSummary])
+@router.get("", response_model=list[CollectionSummary])
 def list_collections(db: Session = Depends(get_db)):
     """List all available collections (Sample A, Sample B, and User Uploads)."""
     collections = db.query(Collection).all()

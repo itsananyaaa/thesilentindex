@@ -220,3 +220,110 @@ Gated image asset download:
 - Returns binary stream if licence is `CC0`, `PDM`, `CC_BY`, or `CC_BY_SA`.
 - Returns **HTTP 403 Forbidden** with message `"Asset rights are declared as restricted or unknown; direct download is disabled to respect cultural and intellectual property"` if the licence is not verified open access.
 
+---
+
+## 6. Multi-Source Fusion & Harvest Layers (v2 Feature F1)
+
+### `GET /api/sources`
+Returns the status, licence terms, item counts, and sync status for all configured source layers:
+- `gi_registry` (Geographical Indications Registry, Government of India)
+- `unesco_ich` (UNESCO Representative List of the Intangible Cultural Heritage of Humanity)
+- `wikidata_sparql` (Wikidata SPARQL Endpoint — ASI Protected Monuments)
+- `commons` (Wikimedia Commons Cultural Media)
+- `museum_oa` (Museum Open Access Repositories)
+
+### `POST /api/sources/{layer_id}/toggle`
+Toggles an active source layer on or off. Automatically recalculates collection totals and provenance attribution.
+
+### `GET /api/sources/ledger.csv`
+Exports an immutable attribution and licence ledger in CSV format detailing every harvested item, its origin URL, declared rights, and transformation history.
+
+---
+
+## 7. Heritage Entities & Debt Resolution (v2 Feature F2)
+
+### `GET /api/entities`
+Lists clustered heritage entities (crafts, monuments, performing traditions, rituals) aggregated across multiple institutional source layers.
+- Query parameters: `q`, `category_id`, `state_code`, `limit`, `offset`.
+
+### `GET /api/entities/{id}`
+Returns the comprehensive profile of a single heritage entity, including:
+- Entity-level CCD: $S(E, d) = \max_{r \in E} S(r, d)$
+- Average record-level CCD vs. entity CCD
+- Debt closed delta ($\Delta \text{CCD}$)
+- Full multi-source evidence stack per dimension
+- Linked institution records
+- Official recognition badges (GI Tag, UNESCO Inscription, ASI Monument of National Importance)
+
+---
+
+## 8. Existence–Documentation Gap (v2 Feature F3)
+
+### `GET /api/gaps`
+Computes the 2-axis gap quadrant analysis across all 36 Indian states and union territories:
+- **Axis X (Existence Depth):** Verified heritage presence derived from legal registers (GI Registry, UNESCO ICH, ASI monument gazetteers).
+- **Axis Y (Institutional Documentation):** Record volume and completeness inside the audited catalog.
+- Highlights **Urgent Documentational Blind Spots** (high legal presence, near-zero museum holdings).
+
+---
+
+## 9. Audit Comparison & Improvement Simulator (v2 Feature F4)
+
+### `GET /api/compare`
+Compares two audits (e.g., baseline vs. post-enrichment, or single institution vs. multi-source fused collection). Returns:
+- CCD delta and percentage reduction
+- Dimensional delta breakdown
+- Newly documented traditions and regional expansions
+- Newly closed debt clusters
+
+### `POST /api/compare/simulate-improvement`
+Simulates the projected impact of a targeted documentation campaign:
+- Input: `audit_id`, `dimension_targets`, `records_to_enrich`
+- Output: Projected new CCD score, confidence interval shift, and top closed priorities.
+
+---
+
+## 10. Documentation Briefs & PDF Generation (v2 Feature F5)
+
+### `GET /api/priorities/{id}/brief`
+Generates a structured, printable JSON brief for a selected preservation priority:
+- Target slice (region, tradition)
+- Primary documentation deficit
+- Step-by-step researcher methodology
+- Free, Prior, and Informed Consent (FPIC) checklist
+- Recommended archives and local communities to consult
+
+### `GET /api/priorities/{id}/brief.pdf`
+Generates a publication-grade, one-page PDF document using ReportLab:
+- Institutional header with ornamental filigree styling
+- Formatted tables, rubrics, and field notes
+- Downloadable for physical fieldwork teams
+
+---
+
+## 11. Open Data & Linked Data Exports (v2 Feature F6)
+
+### `GET /api/export/{audit_id}/jsonld`
+Exports the entire audited collection as Linked Open Data (JSON-LD) mapped to **CIDOC CRM** (`E22_Man-Made_Object`, `E53_Place`) and **Schema.org** (`VisualArtwork`, `Place`, `GovernmentOrganization`).
+
+### `GET /api/export/{audit_id}/csv`
+Full tabular dump of audited records, including all 10 normalized dimension scores, provenance tags, and geographic coordinates.
+
+### `GET /api/export/{audit_id}/geojson`
+Geographical feature collection representing all 36 states and union territories enriched with their audited CCD score, record density, and blind-spot classification.
+
+---
+
+## 12. Diagnostics & System Health (v2 Feature F9)
+
+### `GET /api/health`
+High-speed system health probe returning database connectivity, loaded collections, and uptime.
+
+### `POST /api/health/verify`
+Runs an on-demand, deep integrity check across:
+- Authority table taxonomy integrity
+- Geographic gazetteer consistency (ISO 3166-2:IN validation)
+- Orphaned records and image asset accessibility
+- Audit arithmetic consistency
+
+

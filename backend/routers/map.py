@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy import func
-from typing import Dict, Any, List, Optional
-import yaml
 import os
+
+import yaml
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
 from backend.app.db import get_db
 from backend.app.models import Audit, Record, RecordDimensionStatus
 
@@ -16,7 +17,7 @@ with open(STATES_PATH, "r", encoding="utf-8") as f:
 @router.get("/{id}/map")
 def get_map_data(
     id: str,
-    metric: Optional[str] = "record_count",
+    metric: str | None = "record_count",
     db: Session = Depends(get_db)
 ):
     """Retrieve choropleth map metrics across all 36 Indian states and union territories."""

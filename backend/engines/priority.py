@@ -9,7 +9,7 @@ Priority = 100 * (0.40*G + 0.25*E + 0.20*B + 0.15*F)
 Bands: High / Medium / Lower investigation priority (NEVER "importance").
 Consent gating: none | recommended | required.
 """
-from typing import List, Dict, Any, Optional
+from typing import Any
 
 DEFAULT_PRIORITY_WEIGHTS = {
     "g": 0.40,
@@ -38,10 +38,10 @@ CONSENT_REQUIRED_DIMENSIONS = {
 }
 
 def compute_preservation_priorities(
-    collection_records: List[Dict[str, Any]],
-    record_evaluations: List[Dict[str, Dict[str, Any]]],
-    weights: Optional[Dict[str, float]] = None
-) -> List[Dict[str, Any]]:
+    collection_records: list[dict[str, Any]],
+    record_evaluations: list[dict[str, dict[str, Any]]],
+    weights: dict[str, float] | None = None
+) -> list[dict[str, Any]]:
     """Generate ranked preservation priority recommendations across slices and dimensions."""
     w = {**DEFAULT_PRIORITY_WEIGHTS, **(weights or {})}
     w_g, w_e, w_b, w_f = w.get("g", 0.40), w.get("e", 0.25), w.get("b", 0.20), w.get("f", 0.15)
@@ -97,11 +97,7 @@ def compute_preservation_priorities(
         # Filter records for slice
         matching_indices = []
         for idx, r in enumerate(collection_records):
-            if s["type"] == "collection":
-                matching_indices.append(idx)
-            elif s["type"] == "category" and (r.get("category_id") == s["filter_val"] or r.get("category") == s["filter_val"]):
-                matching_indices.append(idx)
-            elif s["type"] == "state" and r.get("state") == s["filter_val"]:
+            if s["type"] == "collection" or s["type"] == "category" and (r.get("category_id") == s["filter_val"] or r.get("category") == s["filter_val"]) or s["type"] == "state" and r.get("state") == s["filter_val"]:
                 matching_indices.append(idx)
 
         slice_count = len(matching_indices)
@@ -169,7 +165,7 @@ def compute_preservation_priorities(
         if consultation == "required":
             next_step = f"Consult relevant {s['name']} community elders or practitioner custodians before initiating documentation protocols."
         elif dim_id == "original_language":
-            next_step = f"Partner with regional linguistic scholars to transcribe and catalogue original Indic script titles and oral vernacular terms."
+            next_step = "Partner with regional linguistic scholars to transcribe and catalogue original Indic script titles and oral vernacular terms."
         elif dim_id == "materials_and_techniques":
             next_step = f"Conduct physical condition and materials analysis on {slice_count} records to document traditional pigments, alloys, and weave structures."
         elif dim_id == "geographic_provenance":

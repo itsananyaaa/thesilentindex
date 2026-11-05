@@ -1,0 +1,48 @@
+{
+  "app_name": "THE SILENCE INDEX",
+  "tagline": "Because what is missing from history matters too.",
+  "nav": {
+    "observatory": "Observatory",
+    "map": "Blind-Spot Map",
+    "matrix": "Coverage Matrix",
+    "auditor": "Auditor",
+    "priorities": "Priorities",
+    "atlas": "Atlas",
+    "sources": "Source Fusion",
+    "entities": "Heritage Entities",
+    "gaps": "Existence Gaps",
+    "compare": "Compare Audits",
+    "health": "Health & Reliability",
+    "method": "Method",
+    "ethics": "Ethics & CARE"
+  },
+  "states": {
+    "documented": "Documented",
+    "partial": "Partial",
+    "undocumented": "Undocumented in collection",
+    "not_assessable": "Not assessable",
+    "not_applicable": "Not applicable"
+  },
+  "dimensions": {
+    "visual_documentation": "Visual Documentation",
+    "historical_context": "Historical Context",
+    "original_language": "Original-Language Documentation",
+    "geographic_provenance": "Geographic Provenance",
+    "materials_and_techniques": "Materials & Techniques",
+    "practitioner_perspective": "Practitioner / Artisan Perspective",
+    "oral_histories": "Oral Histories & Associated Narratives",
+    "source_attribution": "Source Attribution & Provenance",
+    "community_validation": "Community Validation",
+    "preservation_accessibility": "Preservation & Accessibility Information"
+  },
+  "caveats": {
+    "mandate": "Absence of a record is never proof that a tradition, region or community has less heritage.",
+    "debt": "Cultural Coverage Debt measures documentation completeness in the analyzed collection, never cultural value.",
+    "consent": "Living practitioner knowledge requires free, prior and informed community consultation."
+  },
+  "priority_bands": {
+    "high": "High investigation priority",
+    "medium": "Medium investigation priority",
+    "lower": "Lower investigation priority"
+  }
+}

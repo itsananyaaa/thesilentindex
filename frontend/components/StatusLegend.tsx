@@ -24,7 +24,7 @@ export const StatusLegend: React.FC<{ compact?: boolean; className?: string }> =
         </div>
 
         {/* Provenance Indicators */}
-        <div className="flex items-center gap-2 border-l border-parchment-300 pl-4">
+        <div className="flex flex-wrap items-center gap-2 border-t sm:border-t-0 sm:border-l border-parchment-300 pt-2 sm:pt-0 sm:pl-4">
           <span className="font-serif font-bold text-oxblood-900 uppercase tracking-wider text-[11px] mr-1">
             Provenance:
           </span>

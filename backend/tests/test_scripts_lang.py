@@ -1,4 +1,5 @@
-from backend.engines.scripts_lang import analyze_indic_text, detect_unicode_scripts
+from backend.engines.scripts_lang import analyze_indic_text
+
 
 def test_devanagari_detection():
     res = analyze_indic_text("मधुबनी चित्रकला (Mithila Painting)")

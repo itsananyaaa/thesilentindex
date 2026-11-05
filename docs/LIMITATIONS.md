@@ -50,3 +50,13 @@ In accordance with ethical digital humanities practices and hackathon integrity 
 ### 2.6 Small-Sample Suppression
 - To prevent statistical distortions and unwarranted conclusions on scarce data, the platform suppresses Cultural Coverage Debt scores for any demographic or categorical slice with fewer than 5 records ($N < 5$), displaying **"Insufficient Evidence"**.
 
+### 2.7 Multi-Source Harvesting & Offline Determinism
+- While the platform includes automated adapters for live harvesting (`scripts/harvest/`) across GI Registry, UNESCO, Wikidata, Wikimedia Commons, and Museum APIs, production and hackathon demonstrations rely on an offline frozen seed dataset (`data/seed/records_fused.jsonl`). This protects against upstream API rate limits, schema deprecations, or network failures.
+
+### 2.8 Subcontinental Floor & Sparse Coverage Badging
+- All 36 States and Union Territories of India are actively represented in the fused dataset. However, because the system strictly adheres to Non-Negotiable Rule 3 (*No invented data*), small island territories (e.g., Lakshadweep) and newly demarcated union territories (e.g., Ladakh, DNH & DD) possess sparse open-access records in upstream registries. The platform badges these areas with honest `Sparse` coverage indicators rather than populating them with synthetic or hallucinated artifacts.
+
+### 2.9 Multi-State Heritage Entities Accounting
+- Traditional knowledge systems, geographical indications, and living folklore frequently transcend state borders (e.g., Basmati rice cultivation spanning 7 states, Phulkari embroidery across Punjab, Haryana, and Rajasthan, or Chhau dance across West Bengal, Jharkhand, and Odisha).
+- In accordance with our double-entry attribution model, multi-state cultural records are stored exactly once in the canonical `records` catalog (preserving unique collection totals) and mapped to each participating territory in `state_attributions` with a `multi_state=True` flag. Curators must distinguish between unique physical objects and regional heritage attributions.
+

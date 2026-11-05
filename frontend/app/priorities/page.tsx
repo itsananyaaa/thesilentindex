@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { CornerFiligree } from "@/components/ornament/CornerFiligree";
-import { Sliders, Filter, ArrowRight, ShieldAlert, CheckCircle2, AlertTriangle, ExternalLink } from "lucide-react";
+import { Sliders, Filter, ArrowRight, ShieldAlert, CheckCircle2, AlertTriangle, ExternalLink, FileText } from "lucide-react";
+import { DocumentationBriefModal } from "@/components/DocumentationBriefModal";
 
 export default function PrioritiesPage() {
   const [activeColId, setActiveColId] = useState<string>("sample-real-001");
@@ -12,6 +13,7 @@ export default function PrioritiesPage() {
   const [selectedBand, setSelectedBand] = useState<string>("");
   const [selectedConsultation, setSelectedConsultation] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [briefPriorityId, setBriefPriorityId] = useState<string | null>(null);
 
   // Weight sliders state (defaults from config/weights.yaml)
   const [showSliders, setShowSliders] = useState<boolean>(false);
@@ -278,18 +280,30 @@ export default function PrioritiesPage() {
                   </div>
                 </div>
 
-                {/* Card Footer with Click-through Records link */}
-                <div className="pt-4 mt-4 border-t border-parchment-300 flex items-center justify-between text-xs">
+                {/* Card Footer with Click-through Records link & Brief Generator */}
+                <div className="pt-4 mt-4 border-t border-parchment-300 flex flex-wrap items-center justify-between gap-2 text-xs">
                   <div className="font-serif font-bold text-oxblood-900">
                     Priority Score: <span className="text-gold-500 font-mono text-sm">{p.score.toFixed(1)}</span>
                   </div>
-                  <Link
-                    href={`/observatory?category=${encodeURIComponent(p.slice.filter_val || "")}`}
-                    className="text-henna-600 hover:text-henna-700 font-serif font-bold text-[11px] inline-flex items-center gap-1 group"
-                  >
-                    <span>Inspect Evidence</span>
-                    <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
+                  
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setBriefPriorityId(p.id)}
+                      className="px-2 py-1 bg-gold-400/20 hover:bg-gold-400/30 border border-gold-400/60 text-oxblood-900 font-serif text-[11px] font-semibold rounded-xs inline-flex items-center gap-1 transition-colors cursor-pointer"
+                      title="View field brief and PDF"
+                    >
+                      <FileText size={12} className="text-gold-600" />
+                      <span>Field Brief</span>
+                    </button>
+
+                    <Link
+                      href={`/observatory?category=${encodeURIComponent(p.slice.filter_val || "")}`}
+                      className="text-henna-600 hover:text-henna-700 font-serif font-bold text-[11px] inline-flex items-center gap-1 group"
+                    >
+                      <span>Evidence</span>
+                      <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             );
@@ -300,6 +314,12 @@ export default function PrioritiesPage() {
           </div>
         )}
       </div>
+
+      {/* Documentation Brief Modal */}
+      <DocumentationBriefModal
+        priorityId={briefPriorityId}
+        onClose={() => setBriefPriorityId(null)}
+      />
 
       {/* Cultural Responsibility Note */}
       <div className="p-4 bg-cream-200/60 border border-parchment-300 rounded-sm text-xs text-oxblood-800/80 font-sans space-y-1">

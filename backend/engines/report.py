@@ -2,14 +2,22 @@
 Builds structured report as JSON, renders CSV exports, and compiles
 high-fidelity museum-grade PDF reports via ReportLab.
 """
-from typing import Dict, Any, List
-import io
 import csv
-from datetime import datetime, timezone
-from reportlab.lib.pagesizes import letter
+import io
+from datetime import UTC, datetime
+from typing import Any
+
 from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, KeepTogether
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.platypus import (
+    HRFlowable,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
+)
 
 # Palette colors from design tokens
 OXBLOOD = colors.HexColor("#4A1C20")
@@ -21,11 +29,11 @@ CREAM_CARD = colors.HexColor("#EDE0C4")
 PARCHMENT = colors.HexColor("#D9C8A4")
 INK = colors.HexColor("#2E1013")
 
-def build_report_json(audit_dict: Dict[str, Any]) -> Dict[str, Any]:
+def build_report_json(audit_dict: dict[str, Any]) -> dict[str, Any]:
     """Structure full audit results into a cohesive report object."""
     return audit_dict
 
-def export_report_csv(report_data: Dict[str, Any]) -> str:
+def export_report_csv(report_data: dict[str, Any]) -> str:
     """Generate CSV string of findings and priorities."""
     output = io.StringIO()
     writer = csv.writer(output)
@@ -36,7 +44,7 @@ def export_report_csv(report_data: Dict[str, Any]) -> str:
     writer.writerow(["Audit ID", report_data.get("audit_id")])
     writer.writerow(["Cultural Coverage Debt (CCD)", report_data.get("ccd")])
     writer.writerow(["Assessability", report_data.get("assessability")])
-    writer.writerow(["Generated At", datetime.now(timezone.utc).isoformat()])
+    writer.writerow(["Generated At", datetime.now(UTC).isoformat()])
     writer.writerow([])
     
     # Findings
@@ -69,7 +77,7 @@ def export_report_csv(report_data: Dict[str, Any]) -> str:
 
     return output.getvalue()
 
-def export_report_pdf(report_data: Dict[str, Any]) -> bytes:
+def export_report_pdf(report_data: dict[str, Any]) -> bytes:
     """Render a museum-grade audit report PDF with ReportLab."""
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -145,11 +153,13 @@ def export_report_pdf(report_data: Dict[str, Any]) -> bytes:
     assess = report_data.get("assessability", "N/A")
     tot_rec = report_data.get("total_records", 0)
 
+    applicable_count = report_data.get("applicable_dimensions_count", 10)
     summary_text = (
         f"<b>Collection:</b> {col_name}<br/>"
         f"<b>Total Holdings Analysed:</b> {tot_rec} records<br/>"
         f"<b>Cultural Coverage Debt (CCD):</b> <b>{ccd_val:.1f}</b> (90% CI: {ccd_ci[0]} - {ccd_ci[1]})<br/>"
         f"<b>Assessability:</b> {assess}<br/>"
+        f"<b>Applicability:</b> Evaluated on {applicable_count} applicable dimensions<br/>"
         f"<b>Audit Run Date:</b> {report_data.get('started_at', '2026')[:10]}"
     )
     summary_table = Table([[Paragraph(summary_text, body_style)]], colWidths=[530])

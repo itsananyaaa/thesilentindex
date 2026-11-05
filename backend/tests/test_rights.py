@@ -1,5 +1,5 @@
-import pytest
-from backend.engines.rights import normalise_rights, RightsCategory
+from backend.engines.rights import RightsCategory, normalise_rights
+
 
 def test_cc0_normalization():
     cat, allowed, exp = normalise_rights("CC0 1.0 Universal Public Domain Dedication")

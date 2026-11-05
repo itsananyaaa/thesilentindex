@@ -1,13 +1,14 @@
-from fastapi import APIRouter
-from typing import Dict, Any
-import yaml
 import os
+from typing import Any
+
+import yaml
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/api/config", tags=["Configuration & Authorities"])
 
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), "../../config")
 
-def read_yaml_config(filename: str) -> Dict[str, Any]:
+def read_yaml_config(filename: str) -> dict[str, Any]:
     path = os.path.join(CONFIG_DIR, filename)
     with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)

@@ -7,9 +7,11 @@ Assigns:
 - Not assessable (no mapped column in dataset for this dimension)
 - Not applicable (dimension does not apply to category)
 """
-from typing import Dict, Any, List, Optional, Set
-import yaml
 import os
+from typing import Any
+
+import yaml
+
 from backend.engines.scripts_lang import analyze_indic_text
 
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), "../../config")
@@ -21,7 +23,9 @@ class CoverageEngine:
         with open(rubrics_path, "r", encoding="utf-8") as f:
             self.rubrics = yaml.safe_load(f)
         with open(applicability_path, "r", encoding="utf-8") as f:
-            self.applicability = yaml.safe_load(f).get("categories", {})
+            app_data = yaml.safe_load(f) or {}
+            self.applicability = app_data.get("categories", {})
+            self.record_kinds_applicability = app_data.get("record_kinds", {})
 
         self.threshold_documented = self.rubrics.get("thresholds", {}).get("documented", 0.75)
         self.threshold_partial = self.rubrics.get("thresholds", {}).get("partial", 0.25)
@@ -29,10 +33,10 @@ class CoverageEngine:
 
     def evaluate_record(
         self,
-        record: Dict[str, Any],
-        mapped_canonical_fields: Set[str],
-        category_id: Optional[str] = None
-    ) -> Dict[str, Dict[str, Any]]:
+        record: dict[str, Any],
+        mapped_canonical_fields: set[str],
+        category_id: str | None = None
+    ) -> dict[str, dict[str, Any]]:
         """Evaluate a single record across all 10 dimensions.
         
         Args:
@@ -46,16 +50,32 @@ class CoverageEngine:
         results = {}
         effective_cat = category_id or record.get("category_id") or record.get("category") or "visual_arts"
         cat_applicability = self.applicability.get(effective_cat, {}).get("applicable_dimensions", {})
+        
+        rec_kind = record.get("record_kind") or "museum_object"
+        kind_applicability = self.record_kinds_applicability.get(rec_kind, {}).get("applicable_dimensions", {})
 
         for dim_id, dim_spec in self.dimension_definitions.items():
-            # 1. Applicability Check
-            is_applicable = cat_applicability.get(dim_id, True)
-            if not is_applicable:
+            # 1. Applicability Check (Category & Record Kind)
+            is_cat_applicable = cat_applicability.get(dim_id, True)
+            is_kind_applicable = kind_applicability.get(dim_id, True)
+            
+            if not is_cat_applicable:
                 results[dim_id] = {
                     "dimension": dim_id,
                     "score": 0.0,
                     "status": "Not applicable",
                     "reason": f"Dimension is not applicable to category '{effective_cat}'.",
+                    "applicable": False,
+                    "assessable": False
+                }
+                continue
+
+            if not is_kind_applicable:
+                results[dim_id] = {
+                    "dimension": dim_id,
+                    "score": 0.0,
+                    "status": "Not applicable",
+                    "reason": f"Dimension is not applicable to record kind '{rec_kind}'.",
                     "applicable": False,
                     "assessable": False
                 }
@@ -111,7 +131,7 @@ class CoverageEngine:
 
         return results
 
-    def _score_dimension(self, dim_id: str, rec: Dict[str, Any]) -> (float, str):
+    def _score_dimension(self, dim_id: str, rec: dict[str, Any]) -> (float, str):
         """Compute transparent deterministic score in [0, 1] per dimension."""
         score = 0.0
         reasons = []

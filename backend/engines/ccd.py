@@ -2,7 +2,8 @@
 Computes collection-level and slice-level coverage, debt, assessability,
 sensitivity strips, and reproducible bootstrap 90% confidence intervals.
 """
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Any
+
 import numpy as np
 
 DEFAULT_WEIGHTS = {
@@ -19,11 +20,11 @@ DEFAULT_WEIGHTS = {
 }
 
 def compute_collection_ccd(
-    record_dimension_evaluations: List[Dict[str, Dict[str, Any]]],
-    weights: Optional[Dict[str, float]] = None,
+    record_dimension_evaluations: list[dict[str, dict[str, Any]]],
+    weights: dict[str, float] | None = None,
     seed: int = 42,
     num_bootstrap: int = 1000
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Compute collection-wide Cultural Coverage Debt (CCD) and bootstrap confidence interval.
     
     Args:
@@ -100,7 +101,7 @@ def compute_collection_ccd(
         dim_debt[d] = round(1.0 - c_d, 4)
 
     # Core CCD formula: 100 * sum(w_d * Debt_d) / sum(w_d)
-    def calc_weighted_ccd(debts: Dict[str, float], w_map: Dict[str, float]) -> float:
+    def calc_weighted_ccd(debts: dict[str, float], w_map: dict[str, float]) -> float:
         num = sum(w_map.get(d, 1.0) * debts[d] for d in assessable_dims)
         denom = sum(w_map.get(d, 1.0) for d in assessable_dims)
         return (100.0 * num / denom) if denom > 0 else 0.0
@@ -156,9 +157,9 @@ def compute_collection_ccd(
     }
 
 def compute_slice_ccd(
-    slice_records: List[Dict[str, Dict[str, Any]]],
-    weights: Optional[Dict[str, float]] = None
-) -> Dict[str, Any]:
+    slice_records: list[dict[str, dict[str, Any]]],
+    weights: dict[str, float] | None = None
+) -> dict[str, Any]:
     """Compute CCD for a specific slice (e.g. state, category, or language).
     If slice has fewer than 5 records, returns 'insufficient evidence' as strictly required.
     """

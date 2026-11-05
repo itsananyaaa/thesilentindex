@@ -4,11 +4,11 @@ Optional LLM wording is strictly gated: receives ONLY already-computed numbers,
 is off by default, and every LLM sentence is clearly labelled 'AI-worded'.
 """
 import os
-from typing import Dict, Any
+from typing import Any
 
 LLM_EXPLAIN = os.environ.get("LLM_EXPLAIN", "0") == "1"
 
-def explain_finding(finding_dict: Dict[str, Any]) -> Dict[str, str]:
+def explain_finding(finding_dict: dict[str, Any]) -> dict[str, str]:
     """Generate human-readable explanation and impact summary for a finding.
     
     Returns:

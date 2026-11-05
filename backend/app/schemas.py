@@ -1,20 +1,22 @@
-from typing import List, Dict, Any, Optional
-from pydantic import BaseModel, Field
+from typing import Any
+
+from pydantic import BaseModel
+
 
 class CollectionSummary(BaseModel):
     id: str
     name: str
     kind: str
-    description: Optional[str] = None
+    description: str | None = None
     created_at: Any
     total_records: int
     art_forms_count: int
     states_count: int
     languages_count: int
     provenance_rate: float
-    latest_audit_id: Optional[str] = None
-    latest_ccd: Optional[float] = None
-    latest_assessability: Optional[str] = None
+    latest_audit_id: str | None = None
+    latest_ccd: float | None = None
+    latest_assessability: str | None = None
 
 class ColumnMappingItem(BaseModel):
     source_column: str
@@ -23,7 +25,7 @@ class ColumnMappingItem(BaseModel):
     confirmed: bool = True
 
 class ColumnMappingUpdateRequest(BaseModel):
-    mappings: List[ColumnMappingItem]
+    mappings: list[ColumnMappingItem]
 
 class UploadValidationResponse(BaseModel):
     upload_id: str
@@ -32,36 +34,36 @@ class UploadValidationResponse(BaseModel):
     detected_encoding: str
     detected_delimiter: str
     has_header: bool
-    warnings: List[str]
-    suggested_mappings: List[ColumnMappingItem]
-    sample_rows: List[Dict[str, Any]]
+    warnings: list[str]
+    suggested_mappings: list[ColumnMappingItem]
+    sample_rows: list[dict[str, Any]]
 
 class AuditStartRequest(BaseModel):
     collection_id: str
-    weights: Optional[Dict[str, float]] = None
+    weights: dict[str, float] | None = None
 
 class AuditProgressResponse(BaseModel):
     audit_id: str
     status: str
     stage: str
     percent: int
-    message: Optional[str] = None
-    error: Optional[str] = None
+    message: str | None = None
+    error: str | None = None
 
 class FindingResponse(BaseModel):
     id: str
     kind: str
     title: str
     issue: str
-    evidence: Dict[str, Any]
+    evidence: dict[str, Any]
     why_it_matters: str
     certainty: str
     suggested_action: str
-    record_ids: List[str]
+    record_ids: list[str]
 
 class PriorityCardResponse(BaseModel):
     id: str
-    slice: Dict[str, Any]
+    slice: dict[str, Any]
     dimension: str
     dimension_name: str
     g: float
@@ -72,13 +74,13 @@ class PriorityCardResponse(BaseModel):
     band: str
     consultation: str
     next_step: str
-    reasons: List[str]
+    reasons: list[str]
 
 class DuplicateClusterResponse(BaseModel):
     cluster_id: str
     similarity: float
-    matched_fields: List[str]
-    records: List[Dict[str, Any]]
+    matched_fields: list[str]
+    records: list[dict[str, Any]]
 
 class AuditMatrixCellResponse(BaseModel):
     category_id: str
@@ -90,23 +92,23 @@ class AuditMatrixCellResponse(BaseModel):
     assessable: bool
     dominant_status: str
     mean_score: float
-    status_distribution: Dict[str, int]
-    responsible_record_ids: List[str]
+    status_distribution: dict[str, int]
+    responsible_record_ids: list[str]
 
 class AuditReportResponse(BaseModel):
     audit_id: str
-    collection: Dict[str, Any]
+    collection: dict[str, Any]
     started_at: str
-    finished_at: Optional[str]
+    finished_at: str | None
     ccd: float
-    ccd_interval: List[float]
+    ccd_interval: list[float]
     assessability: str
     total_records: int
-    dimension_summaries: List[Dict[str, Any]]
-    category_summaries: List[Dict[str, Any]]
-    state_summaries: List[Dict[str, Any]]
-    findings: List[FindingResponse]
-    priorities: List[PriorityCardResponse]
+    dimension_summaries: list[dict[str, Any]]
+    category_summaries: list[dict[str, Any]]
+    state_summaries: list[dict[str, Any]]
+    findings: list[FindingResponse]
+    priorities: list[PriorityCardResponse]
     duplicates_count: int
     uncertain_classifications_count: int
 

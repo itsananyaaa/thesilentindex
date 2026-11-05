@@ -2,11 +2,11 @@
 Handles CSV, JSON arrays, and JSON Lines up to 25 MB.
 Validates file integrity and generates transparent column mappings with confidence scores.
 """
-from typing import Dict, Any, List, Tuple, Optional
-import io
 import csv
+import io
 import json
-import re
+from typing import Any
+
 from rapidfuzz import fuzz
 
 CANONICAL_FIELD_ALIASES = {
@@ -40,7 +40,7 @@ CANONICAL_FIELD_ALIASES = {
 
 MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024 # 25 MB
 
-def detect_encoding_and_delimiter(raw_bytes: bytes) -> Tuple[str, str, bool, List[str]]:
+def detect_encoding_and_delimiter(raw_bytes: bytes) -> tuple[str, str, bool, list[str]]:
     """Detect text encoding, delimiter, BOM presence, and potential mojibake."""
     warnings = []
     has_bom = False
@@ -80,7 +80,7 @@ def detect_encoding_and_delimiter(raw_bytes: bytes) -> Tuple[str, str, bool, Lis
 
     return encoding, best_delim, has_bom, warnings
 
-def parse_and_validate_file(raw_bytes: bytes, filename: str) -> Dict[str, Any]:
+def parse_and_validate_file(raw_bytes: bytes, filename: str) -> dict[str, Any]:
     """Validate uploaded file format and extract structured rows."""
     if len(raw_bytes) > MAX_FILE_SIZE_BYTES:
         raise ValueError(f"File size exceeds 25 MB limit ({len(raw_bytes) / 1024 / 1024:.1f} MB).")
@@ -123,7 +123,7 @@ def parse_and_validate_file(raw_bytes: bytes, filename: str) -> Dict[str, Any]:
             csv_reader = csv.DictReader(io.StringIO(text_content), delimiter=delimiter)
             rows = list(csv_reader)
         except Exception as e:
-            raise ValueError(f"Failed to parse CSV file: {str(e)}")
+            raise ValueError(f"Failed to parse CSV file: {e!s}")
 
     if not rows:
         raise ValueError("No recognizable rows or records found in the uploaded file.")
@@ -148,7 +148,7 @@ def parse_and_validate_file(raw_bytes: bytes, filename: str) -> Dict[str, Any]:
         "all_rows": rows
     }
 
-def suggest_column_mappings(headers: List[str]) -> List[Dict[str, Any]]:
+def suggest_column_mappings(headers: list[str]) -> list[dict[str, Any]]:
     """Map uploaded column headers to canonical fields with confidence scoring."""
     mappings = []
     for h in headers:

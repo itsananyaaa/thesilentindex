@@ -3,9 +3,11 @@ Uses token-blocking and RapidFuzz token-set similarity.
 Candidate clusters are surfaced with full provenance and match evidence;
 records are NEVER merged automatically.
 """
-from typing import List, Dict, Any, Tuple
-from rapidfuzz import fuzz
 import re
+from typing import Any
+
+from rapidfuzz import fuzz
+
 
 def clean_for_matching(text: str) -> str:
     if not text:
@@ -14,7 +16,7 @@ def clean_for_matching(text: str) -> str:
     clean = re.sub(r"[^\w\s]", " ", text.lower())
     return " ".join(clean.split())
 
-def find_duplicate_clusters(records: List[Dict[str, Any]], similarity_threshold: float = 82.0) -> List[Dict[str, Any]]:
+def find_duplicate_clusters(records: list[dict[str, Any]], similarity_threshold: float = 82.0) -> list[dict[str, Any]]:
     """Detect candidate duplicate clusters among records.
     
     Args:
@@ -94,8 +96,7 @@ def find_duplicate_clusters(records: List[Dict[str, Any]], similarity_threshold:
                 current_cluster_ids.append(id2)
                 cluster_records.append(r2)
                 seen_in_cluster.add(id2)
-                if combined_sim > highest_similarity:
-                    highest_similarity = combined_sim
+                highest_similarity = max(highest_similarity, combined_sim)
 
         if len(current_cluster_ids) > 1:
             seen_in_cluster.add(id1)

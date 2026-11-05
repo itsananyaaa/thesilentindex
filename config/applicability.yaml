@@ -128,3 +128,76 @@ categories:
       community_validation: true
       preservation_accessibility: true
 
+# Record kind-level applicability profiles (v2)
+record_kinds:
+  monument:
+    name: "Protected Monuments & Archaeological Sites"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: false  # Not applicable unless living active shrine
+      oral_histories: false            # Not applicable unless living lore
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  craft_registration:
+    name: "Geographical Indications & Craft Registrations"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true   # Applicant guild / artisan community
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+  intangible_element:
+    name: "UNESCO & National Intangible Cultural Heritage"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: false  # Intangible performance / ritual
+      practitioner_perspective: true   # Central to living tradition
+      oral_histories: true             # Lineage & master-disciple lore
+      source_attribution: true
+      community_validation: true       # Community consent & validation
+      preservation_accessibility: true
+
+  image_only:
+    name: "Visual Commons & Field Photography"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: false
+      geographic_provenance: true
+      materials_and_techniques: false
+      practitioner_perspective: false
+      oral_histories: false
+      source_attribution: true
+      community_validation: false
+      preservation_accessibility: true
+
+  museum_object:
+    name: "Institutional Museum Catalog Object"
+    applicable_dimensions:
+      visual_documentation: true
+      historical_context: true
+      original_language: true
+      geographic_provenance: true
+      materials_and_techniques: true
+      practitioner_perspective: true
+      oral_histories: true
+      source_attribution: true
+      community_validation: true
+      preservation_accessibility: true
+
+

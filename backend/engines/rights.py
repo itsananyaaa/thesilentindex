@@ -3,9 +3,10 @@ Maps declared rights strings to standard cultural heritage rights categories:
 CC0 | PDM | CC_BY | CC_BY_SA | CC_BY_NC | CC_BY_ND | CC_OTHER | IN_COPYRIGHT | UNKNOWN | NEEDS_REVIEW.
 Determines download eligibility according to open-access terms.
 """
-from enum import Enum
-from typing import Tuple, Dict, Any
 import re
+from enum import Enum
+from typing import Any
+
 
 class RightsCategory(str, Enum):
     CC0 = "CC0"
@@ -27,7 +28,7 @@ REUSABLE_CATEGORIES = {
     RightsCategory.CC_BY_SA,
 }
 
-def normalise_rights(declared: str | None, raw_payload: Dict[str, Any] | None = None) -> Tuple[RightsCategory, bool, str]:
+def normalise_rights(declared: str | None, raw_payload: dict[str, Any] | None = None) -> tuple[RightsCategory, bool, str]:
     """Normalise a declared rights/license string into RightsCategory, download_allowed flag,
     and a clear human-readable explanation.
     

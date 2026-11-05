@@ -1,19 +1,19 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import RedirectResponse
-from sqlalchemy.orm import Session
 from sqlalchemy import or_
-from typing import Dict, Any, List, Optional
+from sqlalchemy.orm import Session
+
 from backend.app.db import get_db
-from backend.app.models import ImageModel, Record
-from backend.engines.rights import RightsCategory, REUSABLE_CATEGORIES
+from backend.app.models import ImageModel
 
 router = APIRouter(prefix="/api/images", tags=["Images & Media"])
 
 @router.get("")
 def list_images(
-    rights_category: Optional[str] = None,
-    institution: Optional[str] = None,
-    q: Optional[str] = None,
+    rights_category: str | None = None,
+    institution: str | None = None,
+    q: str | None = None,
     page: int = Query(1, ge=1),
     page_size: int = Query(24, ge=1, le=100),
     db: Session = Depends(get_db)

@@ -1,11 +1,12 @@
 import csv
-import json
 import hashlib
-import pytest
-from backend.engines.coverage import CoverageEngine
+import json
+
 from backend.engines.ccd import compute_collection_ccd, compute_slice_ccd
+from backend.engines.coverage import CoverageEngine
 from backend.engines.duplicates import find_duplicate_clusters
-from backend.engines.rights import normalise_rights, RightsCategory
+from backend.engines.rights import normalise_rights
+
 
 def test_golden_tiny_collection():
     """Verify that engine output on tiny_collection.csv matches tiny_collection.expected.json."""

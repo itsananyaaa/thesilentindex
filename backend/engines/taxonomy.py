@@ -3,10 +3,11 @@ Deterministic rule-based classification using config/taxonomy.yaml.
 Supports exact matching, alias lookup, sensitivity hint detection, and confidence scoring.
 Anything below 0.6 confidence is flagged for review.
 """
-from typing import Dict, Any, List, Optional, Tuple
-import yaml
 import os
 import re
+from typing import Any
+
+import yaml
 
 TAXONOMY_PATH = os.path.join(os.path.dirname(__file__), "../../config/taxonomy.yaml")
 
@@ -17,7 +18,7 @@ class TaxonomyEngine:
         self.categories = self.config.get("categories", {})
         self.sensitivity_keywords = self.config.get("sensitivity_keywords", [])
 
-    def classify_record(self, record_dict: Dict[str, Any]) -> Dict[str, Any]:
+    def classify_record(self, record_dict: dict[str, Any]) -> dict[str, Any]:
         """Classify a record into one of 9 cultural categories.
         
         Returns:
@@ -90,11 +91,11 @@ class TaxonomyEngine:
             "confidence": round(best_score, 2) if best_score > 0 else 0.40,
             "method": "fallback_inference",
             "needs_review": True,
-            "evidence_text": f"Low-confidence inference from fragmentary text clues.",
+            "evidence_text": "Low-confidence inference from fragmentary text clues.",
             "sensitivity_notices": self.detect_sensitivity(record_dict, best_cat)
         }
 
-    def detect_sensitivity(self, record_dict: Dict[str, Any], category_id: Optional[str]) -> List[str]:
+    def detect_sensitivity(self, record_dict: dict[str, Any], category_id: str | None) -> list[str]:
         """Detect cultural sensitivity keywords and category-specific sensitivity hints."""
         notices = []
         full_text = " ".join([
