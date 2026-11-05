@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: thesilentindex-backend
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.10
+      - key: DATABASE_URL
+        value: sqlite:///./silence_index.db
+      - key: ALLOWED_ORIGINS
+        value: "https://thesilentindex.vercel.app"
