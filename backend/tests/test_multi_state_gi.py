@@ -55,3 +55,4 @@ def test_db_fused_collection_counts():
         assert attr_count > rec_count
     finally:
         db.close()
+

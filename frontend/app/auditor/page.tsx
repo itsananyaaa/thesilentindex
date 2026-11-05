@@ -233,6 +233,21 @@ export default function AuditorPage() {
 
               <div className="mt-4 space-y-3">
                 <div
+                  onClick={() => handleSelectSample("fused-v2")}
+                  className="p-3 bg-cream-100 border-2 border-gold-400 rounded-xs hover:border-gold-500 cursor-pointer transition-colors shadow-2xs"
+                >
+                  <div className="flex items-center justify-between">
+                    <strong className="font-serif text-sm text-oxblood-900">✨ Fused Subcontinental Holding (v2)</strong>
+                    <span className="text-[10px] font-mono font-bold uppercase bg-oxblood-900 text-gold-300 px-1.5 py-0.5 rounded-xs">
+                      317 Items • 36 Regions
+                    </span>
+                  </div>
+                  <p className="text-xs text-oxblood-800/70 mt-1">
+                    Multi-source harvest across GI Registry, UNESCO, Wikidata monuments, and Museum open-access catalogs.
+                  </p>
+                </div>
+
+                <div
                   onClick={() => handleSelectSample("sample-real-001")}
                   className="p-3 bg-cream-100 border border-parchment-400 rounded-xs hover:border-gold-400 cursor-pointer transition-colors"
                 >

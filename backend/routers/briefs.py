@@ -157,3 +157,4 @@ def generate_documentation_brief_pdf(priority_id: str, db: Session = Depends(get
         media_type="application/pdf",
         headers={"Content-Disposition": f"attachment; filename=Documentation_Brief_{data['priority_id']}.pdf"}
     )
+

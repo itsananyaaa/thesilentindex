@@ -73,3 +73,4 @@
 | **Standout Features** | Core auditing only | 9 new features: `/sources`, `/entities/[id]`, `/gaps`, `/compare`, Brief PDF, Linked Open Data JSON-LD, Guided Tour, i18n (EN/HI/ML/TA), `/health`. |
 | **Cartography** | Polygon click only | Small territory chips beneath map (Lakshadweep, Chandigarh, Puducherry, A&N, DNH&DD, Ladakh, Delhi) + 5 map modes. |
 | **Reliability** | Local SQLite, basic errors | Offline cache replay, Alembic migrations, circuit breaker, checksum verification, strict upload security. |
+

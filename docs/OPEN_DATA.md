@@ -40,3 +40,4 @@ All endpoints are publicly accessible and CORS-enabled:
 - **CSV Data Dump**: `GET /api/export/{collection_id}/csv`
 - **GeoJSON Choropleth Boundary**: `GET /api/export/{collection_id}/geojson`
 - **Harvest Ledger**: `GET /api/sources/ledger.csv`
+

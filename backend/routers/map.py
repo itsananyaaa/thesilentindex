@@ -52,20 +52,44 @@ def get_map_data(
         (Record.state.is_(None)) | (Record.state == "")
     ).scalar() or 0
 
+    # Query distinct layers and state attributions for existence/composition metrics
+    from backend.app.models import StateAttribution
+    state_attrib_counts = dict(
+        db.query(StateAttribution.state_code, func.count(StateAttribution.id))
+        .group_by(StateAttribution.state_code).all()
+    )
+
+    state_layer_counts = dict(
+        db.query(Record.state, func.count(func.distinct(Record.layer_id)))
+        .filter(Record.collection_id == col_id)
+        .group_by(Record.state).all()
+    )
+
     state_features = []
     total_coll_records = sum(c["total_records"] for c in counts_by_name.values()) + missing_geo_count
 
     for st in STATES_CONFIG:
         name = st["name"]
         code = st["code"]
+        short_code = code.replace("IN-", "")
         data = counts_by_name.get(name, {"total_records": 0, "art_forms_count": 0, "languages_count": 0})
         count = data["total_records"]
         is_zero = (count == 0)
 
-        # Slice debt calculation for state if count >= 5
+        # Existence metric (registered entities from state attributions + baseline)
+        exist_cnt = state_attrib_counts.get(short_code, 0)
+        if exist_cnt == 0:
+            exist_cnt = max(1, count)
+
+        # Gap score: high existence with sparse documentation
+        gap_score = round(max(0, exist_cnt - count) if count < 10 else 0, 1)
+
+        # Composition count: distinct source layers in this state
+        comp_cnt = state_layer_counts.get(name, 1 if count > 0 else 0)
+
+        # Slice debt calculation for state
         state_ccd = None
-        if count >= 5:
-            # Average score for this state
+        if count >= 3:
             avg_score = db.query(func.avg(RecordDimensionStatus.score)).join(
                 Record, RecordDimensionStatus.record_id == Record.id
             ).filter(
@@ -74,17 +98,22 @@ def get_map_data(
             ).scalar()
             if avg_score is not None:
                 state_ccd = round((1.0 - float(avg_score)) * 100.0, 1)
+        elif is_zero:
+            state_ccd = 100.0 # completely undocumented
 
         state_features.append({
             "code": code,
             "name": name,
             "type": st.get("type", "State"),
             "record_count": count,
+            "existence_count": exist_cnt,
+            "gap_score": gap_score,
+            "composition_count": comp_cnt,
+            "state_ccd": state_ccd,
             "is_zero_in_collection": is_zero,
             "zero_label": "none in the analysed collection" if is_zero else None,
             "art_forms_count": data["art_forms_count"],
             "languages_count": data["languages_count"],
-            "state_ccd": state_ccd,
             "has_insufficient_evidence": count < 5 and not is_zero,
             "share_of_collection_pct": round((count / total_coll_records) * 100, 2) if total_coll_records > 0 else 0.0
         })

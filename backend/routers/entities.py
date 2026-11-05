@@ -4,7 +4,7 @@ Profiles clustered traditions, monuments, crafts, and performing arts across fus
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from backend.app.db import get_db
-from backend.app.models import HeritageEntity, EntityLink
+from backend.app.models import HeritageEntity, EntityLink, Record
 from backend.engines.entities import evaluate_heritage_entity_ccd
 
 router = APIRouter(prefix="/api/entities", tags=["Heritage Entities"])
@@ -31,6 +31,18 @@ def list_heritage_entities(
         if state and state.upper() not in (e.primary_state_codes or []):
             continue
         link_count = db.query(EntityLink).filter(EntityLink.entity_id == e.id).count()
+
+        # Retrieve representative image from linked records
+        first_img = db.query(Record.image_url).join(
+            EntityLink, Record.id == EntityLink.record_id
+        ).filter(
+            EntityLink.entity_id == e.id,
+            Record.image_url.isnot(None),
+            Record.image_url != ""
+        ).first()
+
+        img_url = first_img[0] if first_img else None
+
         results.append({
             "id": e.id,
             "label": e.label,
@@ -38,7 +50,8 @@ def list_heritage_entities(
             "category_id": e.category_id,
             "primary_state_codes": e.primary_state_codes,
             "created_from": e.created_from,
-            "linked_records_count": link_count
+            "linked_records_count": link_count,
+            "image_url": img_url
         })
 
     return {"total": len(results), "entities": results}
@@ -78,3 +91,4 @@ def get_heritage_entity_profile(entity_id: str, db: Session = Depends(get_db)):
         return profile
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+

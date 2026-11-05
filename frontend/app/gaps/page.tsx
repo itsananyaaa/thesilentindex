@@ -56,93 +56,97 @@ export default function ExistenceGapPage() {
         </p>
       </div>
 
-      {/* Quadrant Summary KPI Cards */}
+      {/* Quadrant Summary KPI Cards (Ordered I, II, III, IV) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <button
-          onClick={() => setSelectedQuadrant(selectedQuadrant === "high_priority_gap" ? "all" : "high_priority_gap")}
-          className={`p-4 rounded-xs border text-left transition-all ${
-            selectedQuadrant === "high_priority_gap"
-              ? "bg-oxblood-900 text-cream-100 border-gold-400 ring-2 ring-gold-400"
-              : "bg-cream-100 border-henna-500/40 hover:bg-cream-200/50"
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-copper-600 block">
-              Quadrant IV • High Priority
-            </span>
-            <AlertTriangle size={15} className="text-copper-600" />
-          </div>
-          <span className="font-serif text-2xl font-bold block my-1">
-            {data?.quadrant_summary?.high_priority_gap || 0}
-          </span>
-          <span className="text-[11px] opacity-80 block font-sans">
-            Proven existence, sparse documentation
-          </span>
-        </button>
-
+        {/* Quadrant I */}
         <button
           onClick={() => setSelectedQuadrant(selectedQuadrant === "well_documented" ? "all" : "well_documented")}
-          className={`p-4 rounded-xs border text-left transition-all ${
+          className={`p-4 rounded-xs border-2 text-left transition-all shadow-xs ${
             selectedQuadrant === "well_documented"
               ? "bg-olive-800 text-cream-100 border-gold-400 ring-2 ring-gold-400"
-              : "bg-cream-100 border-olive-600/40 hover:bg-cream-200/50"
+              : "bg-cream-100 border-olive-700/60 hover:bg-cream-200/50"
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-olive-700 block">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-olive-800 block">
               Quadrant I • Well Documented
             </span>
-            <CheckCircle2 size={15} className="text-olive-700" />
+            <CheckCircle2 size={16} className="text-olive-700" />
           </div>
-          <span className="font-serif text-2xl font-bold block my-1">
+          <span className="font-serif text-2xl font-bold block my-1 text-oxblood-900">
             {data?.quadrant_summary?.well_documented || 0}
           </span>
-          <span className="text-[11px] opacity-80 block font-sans">
+          <span className="text-[11px] text-oxblood-800/80 block font-sans">
             High existence, extensive cataloguing
           </span>
         </button>
 
+        {/* Quadrant II */}
         <button
           onClick={() => setSelectedQuadrant(selectedQuadrant === "deep_catalog_obscure" ? "all" : "deep_catalog_obscure")}
-          className={`p-4 rounded-xs border text-left transition-all ${
+          className={`p-4 rounded-xs border-2 text-left transition-all shadow-xs ${
             selectedQuadrant === "deep_catalog_obscure"
               ? "bg-copper-600 text-cream-100 border-gold-400 ring-2 ring-gold-400"
-              : "bg-cream-100 border-parchment-400 hover:bg-cream-200/50"
+              : "bg-cream-100 border-copper-600/60 hover:bg-cream-200/50"
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-copper-600 block">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-copper-700 block">
               Quadrant II • Rich Catalog
             </span>
-            <Layers size={15} className="text-copper-600" />
+            <Layers size={16} className="text-copper-600" />
           </div>
-          <span className="font-serif text-2xl font-bold block my-1">
+          <span className="font-serif text-2xl font-bold block my-1 text-oxblood-900">
             {data?.quadrant_summary?.deep_catalog_obscure || 0}
           </span>
-          <span className="text-[11px] opacity-80 block font-sans">
+          <span className="text-[11px] text-oxblood-800/80 block font-sans">
             Deep documentation, local recognition
           </span>
         </button>
 
+        {/* Quadrant III */}
         <button
           onClick={() => setSelectedQuadrant(selectedQuadrant === "baseline" ? "all" : "baseline")}
-          className={`p-4 rounded-xs border text-left transition-all ${
+          className={`p-4 rounded-xs border-2 text-left transition-all shadow-xs ${
             selectedQuadrant === "baseline"
               ? "bg-oxblood-950 text-cream-100 border-gold-400 ring-2 ring-gold-400"
-              : "bg-cream-100 border-parchment-300 hover:bg-cream-200/50"
+              : "bg-cream-100 border-parchment-400 hover:bg-cream-200/50"
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-oxblood-800/70 block">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-oxblood-800/80 block">
               Quadrant III • Baseline
             </span>
             <span className="text-xs font-mono font-bold">•</span>
           </div>
-          <span className="font-serif text-2xl font-bold block my-1">
+          <span className="font-serif text-2xl font-bold block my-1 text-oxblood-900">
             {data?.quadrant_summary?.baseline || 0}
           </span>
-          <span className="text-[11px] opacity-80 block font-sans">
+          <span className="text-[11px] text-oxblood-800/80 block font-sans">
             Initial catalog presence
+          </span>
+        </button>
+
+        {/* Quadrant IV */}
+        <button
+          onClick={() => setSelectedQuadrant(selectedQuadrant === "high_priority_gap" ? "all" : "high_priority_gap")}
+          className={`p-4 rounded-xs border-2 text-left transition-all shadow-xs ${
+            selectedQuadrant === "high_priority_gap"
+              ? "bg-oxblood-900 text-cream-100 border-gold-400 ring-2 ring-gold-400"
+              : "bg-cream-100 border-henna-600/60 hover:bg-cream-200/50"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-henna-700 block">
+              Quadrant IV • High Priority
+            </span>
+            <AlertTriangle size={16} className="text-henna-600" />
+          </div>
+          <span className="font-serif text-2xl font-bold block my-1 text-oxblood-900">
+            {data?.quadrant_summary?.high_priority_gap || 0}
+          </span>
+          <span className="text-[11px] text-oxblood-800/80 block font-sans">
+            Proven existence, sparse documentation
           </span>
         </button>
       </div>
@@ -307,3 +311,4 @@ export default function ExistenceGapPage() {
     </div>
   );
 }
+

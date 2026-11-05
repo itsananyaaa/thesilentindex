@@ -285,3 +285,4 @@ class UnescoIchAdapter(BaseHarvestAdapter):
             if code:
                 attributions.append((code, "structured", 1.0, is_multi))
         return attributions
+

@@ -254,3 +254,4 @@ class WikidataSparqlAdapter(BaseHarvestAdapter):
         if code:
             return [(code, "structured", 1.0, False)]
         return []
+

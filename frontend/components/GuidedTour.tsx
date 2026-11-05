@@ -10,18 +10,24 @@ export const GuidedTour: React.FC = () => {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    const dismissed = localStorage.getItem("silence_index_tour_dismissed");
-    if (!dismissed) {
-      // Show tour on first visit
-      const timer = setTimeout(() => setIsOpen(true), 1200);
-      return () => clearTimeout(timer);
-    }
+    // Always listen for manual tour open requests
     const handleReopen = () => {
       setStep(0);
       setIsOpen(true);
     };
     window.addEventListener("open_guided_tour", handleReopen);
-    return () => window.removeEventListener("open_guided_tour", handleReopen);
+
+    // Auto-show on first visit if not dismissed
+    const dismissed = typeof window !== "undefined" ? localStorage.getItem("silence_index_tour_dismissed") : null;
+    let timer: any = null;
+    if (!dismissed) {
+      timer = setTimeout(() => setIsOpen(true), 1200);
+    }
+
+    return () => {
+      window.removeEventListener("open_guided_tour", handleReopen);
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   const handleDismiss = () => {
@@ -126,7 +132,7 @@ export const GuidedTour: React.FC = () => {
   const Icon = current.icon;
 
   return (
-    <div className="fixed inset-0 z-50 bg-oxblood-950/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[100] bg-oxblood-950/80 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="relative w-full max-w-lg bg-cream-100 border-2 border-gold-400 rounded-sm shadow-2xl p-6 overflow-hidden">
         <JaliLattice className="absolute inset-0 opacity-5 pointer-events-none" />
         <CornerFiligree position="top-left" size={28} className="absolute left-1 top-1" />
@@ -210,3 +216,4 @@ export const GuidedTour: React.FC = () => {
     </div>
   );
 };
+

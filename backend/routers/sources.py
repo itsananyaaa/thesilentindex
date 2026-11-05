@@ -90,3 +90,4 @@ def download_harvest_ledger(db: Session = Depends(get_db)):
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=the_silence_index_harvest_ledger.csv"}
     )
+

@@ -120,3 +120,4 @@ def test_f9_health_diagnostics_api():
     vdata = v_res.json()
     assert vdata["overall_status"] in ("PASSED", "WARNING")
     assert len(vdata["checks"]) >= 4
+

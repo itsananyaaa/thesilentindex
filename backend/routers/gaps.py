@@ -111,3 +111,4 @@ def get_existence_documentation_gaps(
         "quadrant_summary": quadrant_counts,
         "points": points
     }
+

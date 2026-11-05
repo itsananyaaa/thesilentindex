@@ -9,7 +9,7 @@ import {
   Layers, MapPin, Grid3X3, UploadCloud, Compass, Image as ImageIcon, 
   BookOpen, Sparkles, Database, Building2, TrendingUp, GitCompare, Activity, Globe
 } from "lucide-react";
-import { LANGUAGE_OPTIONS } from "@/lib/i18n";
+import { LANGUAGE_OPTIONS, useTranslation, LanguageCode } from "@/lib/i18n";
 
 interface CollectionItem {
   id: string;
@@ -20,9 +20,9 @@ interface CollectionItem {
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
+  const { lang, t, setLang } = useTranslation();
   const [collections, setCollections] = useState<CollectionItem[]>([]);
-  const [selectedColId, setSelectedColId] = useState<string>("sample-real-001");
-  const [selectedLang, setSelectedLang] = useState<string>("en");
+  const [selectedColId, setSelectedColId] = useState<string>("fused-v2");
 
   useEffect(() => {
     // Load collections from API
@@ -35,12 +35,14 @@ export const Navbar: React.FC = () => {
       })
       .catch((e) => console.error("Error loading collections in Navbar:", e));
 
-    // Read stored collection
+    // Read stored collection; default to fused-v2 if not set
     const stored = localStorage.getItem("silence_index_active_collection");
-    if (stored) setSelectedColId(stored);
-
-    const storedLang = localStorage.getItem("silence_index_lang") || "en";
-    setSelectedLang(storedLang);
+    if (stored) {
+      setSelectedColId(stored);
+    } else {
+      setSelectedColId("fused-v2");
+      localStorage.setItem("silence_index_active_collection", "fused-v2");
+    }
 
     const handleColChange = () => {
       const updated = localStorage.getItem("silence_index_active_collection");
@@ -58,8 +60,8 @@ export const Navbar: React.FC = () => {
   };
 
   const handleSelectLang = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const val = e.target.value;
-    setSelectedLang(val);
+    const val = e.target.value as LanguageCode;
+    setLang(val);
     localStorage.setItem("silence_index_lang", val);
     window.dispatchEvent(new Event("language_changed"));
   };
@@ -69,19 +71,19 @@ export const Navbar: React.FC = () => {
   };
 
   const navLinks = [
-    { href: "/observatory", label: "Observatory", icon: Layers },
-    { href: "/map", label: "Blind-Spot Map", icon: MapPin },
-    { href: "/matrix", label: "Coverage Matrix", icon: Grid3X3 },
-    { href: "/sources", label: "Sources", icon: Database, badge: "F1" },
-    { href: "/entities", label: "Entities", icon: Building2, badge: "F2" },
-    { href: "/gaps", label: "Gaps", icon: TrendingUp, badge: "F3" },
-    { href: "/compare", label: "Compare", icon: GitCompare, badge: "F4" },
-    { href: "/priorities", label: "Priorities", icon: Compass },
-    { href: "/atlas", label: "Atlas", icon: Layers },
-    { href: "/explorer", label: "Image Explorer", icon: ImageIcon },
-    { href: "/auditor", label: "Auditor", icon: UploadCloud },
-    { href: "/health", label: "Diagnostics", icon: Activity, badge: "F9" },
-    { href: "/method", label: "Method", icon: BookOpen },
+    { href: "/observatory", key: "observatory", label: "Observatory", icon: Layers },
+    { href: "/map", key: "map", label: "Blind-Spot Map", icon: MapPin },
+    { href: "/matrix", key: "matrix", label: "Coverage Matrix", icon: Grid3X3 },
+    { href: "/sources", key: "sources", label: "Sources", icon: Database, badge: "F1" },
+    { href: "/entities", key: "entities", label: "Entities", icon: Building2, badge: "F2" },
+    { href: "/gaps", key: "gaps", label: "Gaps", icon: TrendingUp, badge: "F3" },
+    { href: "/compare", key: "compare", label: "Compare", icon: GitCompare, badge: "F4" },
+    { href: "/priorities", key: "priorities", label: "Priorities", icon: Compass },
+    { href: "/atlas", key: "atlas", label: "Atlas", icon: Layers },
+    { href: "/explorer", key: "explorer", label: "Image Explorer", icon: ImageIcon },
+    { href: "/auditor", key: "auditor", label: "Auditor", icon: UploadCloud },
+    { href: "/health", key: "health", label: "Diagnostics", icon: Activity, badge: "F9" },
+    { href: "/method", key: "method", label: "Method", icon: BookOpen },
   ];
 
   return (
@@ -98,7 +100,7 @@ export const Navbar: React.FC = () => {
               THE SILENCE INDEX
             </span>
             <span className="hidden xl:inline-block text-xs font-serif italic text-gold-400/90 pl-2 border-l border-gold-400/40">
-              Because what is missing from history matters too.
+              {t("tagline", "Because what is missing from history matters too.")}
             </span>
           </Link>
         </div>
@@ -112,7 +114,9 @@ export const Navbar: React.FC = () => {
             title="Start 90-Second Guided Tour"
           >
             <Sparkles size={13} className="text-gold-400" />
-            <span className="hidden sm:inline font-semibold">90s Tour</span>
+            <span className="font-semibold">
+              {lang === "ml" ? "90 സെക്കൻഡ് ടൂർ" : lang === "hi" ? "90s दौरा" : lang === "ta" ? "90s சுற்றுலா" : "90s Tour"}
+            </span>
           </button>
 
           {/* Multilingual Selector */}
@@ -120,7 +124,7 @@ export const Navbar: React.FC = () => {
             <Globe size={12} className="text-gold-400 shrink-0" />
             <select
               id="language-switcher"
-              value={selectedLang}
+              value={lang}
               onChange={handleSelectLang}
               aria-label="Interface Language"
               className="bg-transparent text-cream-100 text-[11px] font-sans focus:outline-hidden cursor-pointer"
@@ -136,21 +140,21 @@ export const Navbar: React.FC = () => {
           {/* Persistent Collection Switcher */}
           <div className="flex items-center gap-1.5">
             <label htmlFor="collection-switcher" className="text-[11px] font-sans font-medium text-gold-300 uppercase tracking-wider hidden lg:inline">
-              Holding:
+              {lang === "ml" ? "ശേഖരം:" : lang === "hi" ? "संग्रह:" : lang === "ta" ? "சேகரிப்பு:" : "Holding:"}
             </label>
             <select
               id="collection-switcher"
               value={selectedColId}
               onChange={handleSelectCollection}
-              className="bg-oxblood-800 text-cream-100 text-xs font-sans border border-gold-400/60 rounded-xs px-2 py-1 focus:outline-hidden focus:ring-1 focus:ring-gold-400 cursor-pointer max-w-[170px] sm:max-w-[210px] truncate"
+              className="bg-oxblood-800 text-cream-100 text-xs font-sans border border-gold-400/60 rounded-xs px-2.5 py-1 focus:outline-hidden focus:ring-1 focus:ring-gold-400 cursor-pointer max-w-[170px] sm:max-w-[210px] truncate"
             >
               {collections.map((c) => (
                 <option key={c.id} value={c.id} className="bg-oxblood-900 text-cream-100">
-                  {c.kind === "fused_layer"
+                  {c.kind === "fused_layer" || c.id === "fused-v2"
                     ? "✨ Fused Subcontinental v2"
-                    : c.kind === "sample_real"
+                    : c.kind === "sample_real" || c.id === "sample-real-001"
                     ? "★ Sample A (Real Open Access)"
-                    : c.kind === "sample_synthetic"
+                    : c.kind === "sample_synthetic" || c.id === "sample-synth-002"
                     ? "⚡ Sample B (Synthetic Demo)"
                     : `📁 ${c.name}`}{" "}
                   ({c.total_records} items)
@@ -167,6 +171,7 @@ export const Navbar: React.FC = () => {
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
+            const labelText = t(`nav.${link.key}`, link.label);
             return (
               <Link
                 key={link.href}
@@ -178,7 +183,7 @@ export const Navbar: React.FC = () => {
                 }`}
               >
                 <Icon size={13} className={isActive ? "text-oxblood-950" : "text-gold-400"} />
-                <span>{link.label}</span>
+                <span>{labelText}</span>
                 {link.badge && (
                   <span className={`text-[9px] font-mono px-1 rounded-xs uppercase ${
                     isActive ? "bg-oxblood-950 text-gold-300" : "bg-oxblood-800 text-gold-400/90"
@@ -196,7 +201,7 @@ export const Navbar: React.FC = () => {
             href="/ethics"
             className="text-gold-300/80 hover:text-gold-200 underline underline-offset-4 decoration-gold-400/40 text-[11px] whitespace-nowrap"
           >
-            Ethics & CARE
+            {t("nav.ethics", "Ethics & CARE")}
           </Link>
         </div>
       </nav>

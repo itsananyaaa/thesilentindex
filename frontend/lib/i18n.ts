@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import en from "../locales/en.json";
 import hi from "../locales/hi.json";
 import ml from "../locales/ml.json";
@@ -83,4 +84,28 @@ export function getTranslation(keyPath: string, lang: LanguageCode = "en"): stri
     }
   }
   return typeof cur === "string" ? cur : keyPath;
+}
+
+export function useTranslation() {
+  const [lang, setLang] = useState<LanguageCode>("en");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = (localStorage.getItem("silence_index_lang") as LanguageCode) || "en";
+    setLang(stored);
+
+    const handleLangChange = () => {
+      const updated = (localStorage.getItem("silence_index_lang") as LanguageCode) || "en";
+      setLang(updated);
+    };
+    window.addEventListener("language_changed", handleLangChange);
+    return () => window.removeEventListener("language_changed", handleLangChange);
+  }, []);
+
+  const t = (key: string, fallback?: string) => {
+    const val = getTranslation(key, lang);
+    return val !== key ? val : (fallback ?? key);
+  };
+
+  return { lang, t, setLang };
 }

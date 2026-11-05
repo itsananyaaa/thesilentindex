@@ -62,6 +62,119 @@ export default function BlindSpotMapPage() {
       .finally(() => setLoadingState(false));
   }, [selectedState, currentAuditId]);
 
+  // Helper function to calculate choropleth styles based on metric
+  const getFeatureStyle = (stateInfo: any, currentMetric: string) => {
+    if (!stateInfo) {
+      return {
+        fillColor: "#EDE0C4",
+        fillOpacity: 0.8,
+        color: "#B0673A",
+        weight: 1,
+        dashArray: "3 3",
+        className: "leaflet-state-polygon cursor-pointer",
+      };
+    }
+
+    if (currentMetric === "existence") {
+      const ext = stateInfo.existence_count || 0;
+      let fill = "#EDE0C4";
+      if (ext > 10) fill = "#3F4220"; // Olive
+      else if (ext > 4) fill = "#6B2F27"; // Henna
+      else if (ext > 0) fill = "#C8A24A"; // Gold
+      return {
+        fillColor: fill,
+        fillOpacity: 0.85,
+        color: "#2E1013",
+        weight: 1,
+        dashArray: ext === 0 ? "3 3" : undefined,
+        className: "leaflet-state-polygon cursor-pointer",
+      };
+    }
+
+    if (currentMetric === "gap") {
+      const gap = stateInfo.gap_score || 0;
+      let fill = "#3F4220";
+      if (gap > 6) fill = "#4A1C20"; // Severe Gap (Oxblood)
+      else if (gap > 2) fill = "#B0673A"; // Moderate Gap (Copper)
+      else if (gap > 0) fill = "#C8A24A"; // Mild Gap (Gold)
+      return {
+        fillColor: fill,
+        fillOpacity: 0.85,
+        color: "#2E1013",
+        weight: 1,
+        className: "leaflet-state-polygon cursor-pointer",
+      };
+    }
+
+    if (currentMetric === "ccd") {
+      const ccd = stateInfo.state_ccd !== null && stateInfo.state_ccd !== undefined ? stateInfo.state_ccd : 50;
+      let fill = "#C8A24A";
+      if (ccd > 50) fill = "#4A1C20"; // High Debt
+      else if (ccd > 30) fill = "#B0673A"; // Medium Debt
+      else fill = "#3F4220"; // Low Debt
+      return {
+        fillColor: fill,
+        fillOpacity: 0.85,
+        color: "#2E1013",
+        weight: 1,
+        className: "leaflet-state-polygon cursor-pointer",
+      };
+    }
+
+    if (currentMetric === "composition") {
+      const comp = stateInfo.composition_count || 0;
+      let fill = "#EDE0C4";
+      if (comp >= 3) fill = "#4A1C20"; // 3+ Layers
+      else if (comp === 2) fill = "#B0673A"; // 2 Layers
+      else if (comp === 1) fill = "#C8A24A"; // 1 Layer
+      return {
+        fillColor: fill,
+        fillOpacity: 0.85,
+        color: "#2E1013",
+        weight: 1,
+        dashArray: comp === 0 ? "3 3" : undefined,
+        className: "leaflet-state-polygon cursor-pointer",
+      };
+    }
+
+    // Default: record_count
+    const count = stateInfo.record_count || 0;
+    if (count === 0) {
+      return {
+        fillColor: "#EDE0C4",
+        fillOpacity: 0.8,
+        color: "#B0673A",
+        weight: 1,
+        dashArray: "3 3",
+        className: "leaflet-state-polygon cursor-pointer",
+      };
+    }
+
+    let fill = "#EDE0C4";
+    if (count > 25) fill = "#4A1C20";
+    else if (count > 12) fill = "#6B2F27";
+    else if (count > 5) fill = "#B0673A";
+    else fill = "#C8A24A";
+
+    return {
+      fillColor: fill,
+      fillOpacity: 0.85,
+      color: "#2E1013",
+      weight: 1,
+      className: "leaflet-state-polygon cursor-pointer",
+    };
+  };
+
+  // Update styles reactively when metric changes
+  useEffect(() => {
+    if (!geoJsonLayerRef.current || !mapData) return;
+    geoJsonLayerRef.current.eachLayer((layer: any) => {
+      const code = layer.feature?.properties?.code;
+      const stateInfo = mapData?.states?.find((s: any) => s.code === code);
+      layer.setStyle(getFeatureStyle(stateInfo, metric));
+    });
+  }, [metric, mapData]);
+
   // Initialize Leaflet map safely on client side
   useEffect(() => {
     if (typeof window === "undefined" || !mapContainerRef.current) return;
@@ -99,33 +212,7 @@ export default function BlindSpotMapPage() {
             style: (feature: any) => {
               const code = feature?.properties?.code;
               const stateInfo = mapData?.states?.find((s: any) => s.code === code);
-              const count = stateInfo?.record_count || 0;
-
-              if (count === 0) {
-                return {
-                  fillColor: "#EDE0C4",
-                  fillOpacity: 0.8,
-                  color: "#B0673A",
-                  weight: 1,
-                  dashArray: "3 3",
-                  className: "leaflet-state-polygon cursor-pointer",
-                };
-              }
-
-              // Sequential cream-to-oxblood choropleth
-              let fill = "#EDE0C4";
-              if (count > 25) fill = "#4A1C20"; // Oxblood
-              else if (count > 12) fill = "#6B2F27"; // Henna
-              else if (count > 5) fill = "#B0673A"; // Copper
-              else if (count > 0) fill = "#C8A24A"; // Antique Gold
-
-              return {
-                fillColor: fill,
-                fillOpacity: 0.85,
-                color: "#2E1013",
-                weight: 1,
-                className: "leaflet-state-polygon cursor-pointer",
-              };
+              return getFeatureStyle(stateInfo, metric);
             },
             onEachFeature: (feature: any, layer: any) => {
               const code = feature?.properties?.code;
@@ -140,7 +227,8 @@ export default function BlindSpotMapPage() {
                   layer.setStyle({ weight: 2.5, color: "#C8A24A" });
                 },
                 mouseout: () => {
-                  layer.setStyle({ weight: 1, color: "#2E1013" });
+                  const stateInfo = mapData?.states?.find((s: any) => s.code === code);
+                  layer.setStyle(getFeatureStyle(stateInfo, metric));
                 },
               });
             },
@@ -276,29 +364,108 @@ export default function BlindSpotMapPage() {
       ) : (
         /* Interactive Map Container */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-8 bg-cream-100 border-2 border-gold-400/80 rounded-sm p-2 shadow-md relative min-h-[540px] overflow-hidden">
-            <div ref={mapContainerRef} className="w-full h-[540px] rounded-xs bg-[#EDE0C4]/30 z-0 overflow-hidden" />
+          <div className="lg:col-span-8 bg-cream-100 border-2 border-gold-400/80 rounded-sm p-3 shadow-md flex flex-col justify-between overflow-hidden">
+            <div className="relative w-full h-[540px] rounded-xs bg-[#EDE0C4]/30 overflow-hidden border border-parchment-300">
+              <div ref={mapContainerRef} className="w-full h-full z-0" />
 
-            {/* Map Legend Floating Box */}
-            <div className="absolute bottom-4 left-4 z-10 bg-cream-100/95 border border-parchment-400 p-3 rounded-xs shadow-md text-xs space-y-1.5 backdrop-blur-xs">
-              <span className="font-serif font-bold text-[11px] uppercase tracking-wider block text-oxblood-900">
-                Holdings Density Legend
-              </span>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 bg-[#4A1C20] border border-oxblood-900"></span>
-                <span>High Density (&gt; 25 records)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 bg-[#6B2F27] border border-oxblood-900"></span>
-                <span>Medium Density (12 - 25 records)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 bg-[#C8A24A] border border-oxblood-900"></span>
-                <span>Low Density (1 - 12 records)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 bg-[#EDE0C4] border border-copper-500 border-dashed"></span>
-                <span className="italic text-copper-700">None in analysed collection</span>
+              {/* Map Legend Floating Box strictly inside the map viewport at top-3 left-3 */}
+              <div className="absolute top-3 left-3 z-[1000] bg-cream-100/95 border border-parchment-400 p-2.5 rounded-xs shadow-md text-[11px] space-y-1.5 backdrop-blur-xs max-w-[240px]">
+                <span className="font-serif font-bold text-[10px] uppercase tracking-wider block text-oxblood-900 border-b border-parchment-300 pb-1">
+                  {metric === "existence"
+                    ? "Existence Depth (GI & ASI)"
+                    : metric === "gap"
+                    ? "Documentation Gap Severity"
+                    : metric === "ccd"
+                    ? "Regional Debt Score (CCD)"
+                    : metric === "composition"
+                    ? "Multi-Source Composition"
+                    : "Holdings Density Legend"}
+                </span>
+
+                {metric === "existence" ? (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#3F4220] border border-oxblood-900 shrink-0"></span>
+                      <span>High Legal Presence (&gt; 10 items)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#6B2F27] border border-oxblood-900 shrink-0"></span>
+                      <span>Moderate Presence (4 - 10)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#C8A24A] border border-oxblood-900 shrink-0"></span>
+                      <span>Initial Presence (1 - 3)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#EDE0C4] border border-copper-500 border-dashed shrink-0"></span>
+                      <span className="italic text-copper-700">None in official registries</span>
+                    </div>
+                  </>
+                ) : metric === "gap" ? (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#4A1C20] border border-oxblood-900 shrink-0"></span>
+                      <span>Severe Gap (Proven legal existence, sparse records)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#B0673A] border border-oxblood-900 shrink-0"></span>
+                      <span>Moderate Documentation Gap</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#3F4220] border border-oxblood-900 shrink-0"></span>
+                      <span>Balanced / Well Documented</span>
+                    </div>
+                  </>
+                ) : metric === "ccd" ? (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#4A1C20] border border-oxblood-900 shrink-0"></span>
+                      <span>High Coverage Debt (CCD &gt; 50)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#B0673A] border border-oxblood-900 shrink-0"></span>
+                      <span>Moderate Coverage Debt (30 - 50)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#3F4220] border border-oxblood-900 shrink-0"></span>
+                      <span>Low Coverage Debt (CCD &lt; 30)</span>
+                    </div>
+                  </>
+                ) : metric === "composition" ? (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#4A1C20] border border-oxblood-900 shrink-0"></span>
+                      <span>Multi-Layer Fused (3+ Layers)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#B0673A] border border-oxblood-900 shrink-0"></span>
+                      <span>Dual Layer (2 Layers)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#C8A24A] border border-oxblood-900 shrink-0"></span>
+                      <span>Single Layer (1 Layer)</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#4A1C20] border border-oxblood-900 shrink-0"></span>
+                      <span>High Density (&gt; 25 records)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#6B2F27] border border-oxblood-900 shrink-0"></span>
+                      <span>Medium Density (12 - 25 records)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#C8A24A] border border-oxblood-900 shrink-0"></span>
+                      <span>Low Density (1 - 12 records)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 bg-[#EDE0C4] border border-copper-500 border-dashed shrink-0"></span>
+                      <span className="italic text-copper-700">None in analysed collection</span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 

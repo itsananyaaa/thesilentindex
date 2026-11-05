@@ -91,3 +91,4 @@ class BaseHarvestAdapter(ABC):
     def state_attribution(self, raw_item: dict[str, Any]) -> list[tuple[str, str, float, bool]]:
         """Returns list of (state_code, basis, confidence, multi_state)."""
         pass
+

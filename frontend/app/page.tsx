@@ -9,9 +9,11 @@ import { OrnamentalBand } from "@/components/ornament/OrnamentalBand";
 import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
 import { ArrowRight, Compass, ShieldCheck, Layers, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { useTranslation } from "@/lib/i18n";
 
 export default function LandingPage() {
-  const [activeColId, setActiveColId] = useState<string>("sample-real-001");
+  const { lang, t } = useTranslation();
+  const [activeColId, setActiveColId] = useState<string>("fused-v2");
   const [summary, setSummary] = useState<any>(null);
   const [audit, setAudit] = useState<any>(null);
   const [priorities, setPriorities] = useState<any[]>([]);
@@ -69,7 +71,7 @@ export default function LandingPage() {
         <CornerFiligree position="bottom-left" size={48} className="absolute left-3 bottom-3 z-10" />
         <CornerFiligree position="bottom-right" size={48} className="absolute right-3 bottom-3 z-10" />
 
-        <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 pt-7 pb-16 lg:pt-9 lg:pb-20 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column: Oxblood Editorial Panel */}

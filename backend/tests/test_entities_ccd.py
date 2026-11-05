@@ -43,3 +43,4 @@ def test_entity_level_ccd_evaluation():
             assert d_data["score"] >= 0.0 and d_data["score"] <= 1.0
     finally:
         db.close()
+

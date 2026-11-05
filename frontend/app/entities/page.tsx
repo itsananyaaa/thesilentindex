@@ -76,13 +76,30 @@ export default function EntitiesListPage() {
       </div>
 
       {/* Entities Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {entities.map((e) => (
           <div
             key={e.id}
-            className="bg-cream-100 border border-parchment-300 rounded-xs p-5 shadow-xs hover:border-gold-400 transition-all flex flex-col justify-between"
+            className="bg-cream-100 border border-parchment-300 rounded-xs p-4 shadow-xs hover:border-gold-400 transition-all flex flex-col justify-between overflow-hidden"
           >
             <div>
+              {/* Representative Image Thumbnail */}
+              {e.image_url ? (
+                <div className="h-40 w-full mb-3 rounded-xs overflow-hidden bg-oxblood-950/20 border border-parchment-300 relative group">
+                  <img
+                    src={e.image_url}
+                    alt={e.label}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              ) : (
+                <div className="h-28 w-full mb-3 rounded-xs bg-cream-200/50 border border-parchment-300 flex items-center justify-center text-oxblood-800/50 font-serif italic text-xs">
+                  <span>🏛️ {e.label}</span>
+                </div>
+              )}
+
               <div className="flex items-center justify-between gap-2 mb-2">
                 <span className="text-[10px] font-mono uppercase font-bold px-2 py-0.5 bg-cream-200 border border-parchment-400 text-oxblood-900 rounded-xs">
                   {e.entity_type}
@@ -91,11 +108,11 @@ export default function EntitiesListPage() {
                   {e.primary_state_codes?.join(", ") || "India"}
                 </span>
               </div>
-              <h3 className="font-serif text-base font-bold text-oxblood-900 mb-1">
+              <h3 className="font-serif text-base font-bold text-oxblood-900 mb-1 leading-snug">
                 {e.label}
               </h3>
-              <p className="text-xs text-oxblood-800/70 font-sans line-clamp-2 mb-4">
-                Category: {e.category_id.replace(/_/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
+              <p className="text-xs text-oxblood-800/70 font-sans line-clamp-2 mb-3">
+                Category: {e.category_id?.replace(/_/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
               </p>
             </div>
 
@@ -117,3 +134,4 @@ export default function EntitiesListPage() {
     </div>
   );
 }
+

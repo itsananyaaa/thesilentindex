@@ -164,3 +164,4 @@ def evaluate_heritage_entity_ccd(
             } for r in records
         ]
     }
+
