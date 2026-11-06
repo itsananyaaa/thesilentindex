@@ -27,6 +27,11 @@ Developed for the **ART CODE Virtual Hackathon**
 
 ---
 
+[![Repository Views](https://komarev.com/ghpvc/?username=itsananyaaa&repo=thesilentindex&color=7D2830&style=for-the-badge&label=REPOSITORY+VIEWS)](https://github.com/itsananyaaa/thesilentindex)
+[![Website Visits](https://komarev.com/ghpvc/?username=thesilentindex-web&color=009688&style=for-the-badge&label=WEBSITE+VISITS)](https://thesilentindex.vercel.app)
+
+---
+
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.24-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
@@ -50,6 +55,17 @@ It is **not** a chatbot, a generic dashboard, or a tourist website of cultural t
 - **Production REST API Backend:** [https://thesilentindex-backend.onrender.com](https://thesilentindex-backend.onrender.com)
 - **API Health & Diagnostics:** [https://thesilentindex-backend.onrender.com/api/health](https://thesilentindex-backend.onrender.com/api/health)
 - **Interactive API Documentation:** [https://thesilentindex-backend.onrender.com/docs](https://thesilentindex-backend.onrender.com/docs)
+- **Repository Traffic Insights:** [GitHub Traffic Graph](https://github.com/itsananyaaa/thesilentindex/graphs/traffic)
+
+### 📊 Real-Time Analytics & Telemetry Tracking
+
+| Channel | Live Metric Counter | Telemetry Scope & Access |
+| :--- | :---: | :--- |
+| **GitHub Repository** | [![Repository Views](https://komarev.com/ghpvc/?username=itsananyaaa&repo=thesilentindex&color=7D2830&style=flat-square&label=Repository%20Views)](https://github.com/itsananyaaa/thesilentindex) | Increments dynamically on repository visits. 14-day rolling visitor trends, referring domains (search, social, portals), and unique clones are audited under [GitHub Traffic Insights](https://github.com/itsananyaaa/thesilentindex/graphs/traffic). |
+| **Live Web Application** | [![Website Visits](https://komarev.com/ghpvc/?username=thesilentindex-web&color=009688&style=flat-square&label=Website%20Visits)](https://thesilentindex.vercel.app) | Tracks incoming requests and visits to the production client at `thesilentindex.vercel.app`. Real-time page paths, geographic regions, and client device metrics are monitored via Vercel Web Analytics. |
+
+> [!NOTE]
+> **Privacy Architecture & Camo Proxy Notice:** In strict conformance with GitHub's image security architecture (`camo.githubusercontent.com`) and international privacy frameworks (GDPR & the Indian Digital Personal Data Protection Act), image badges never log personal identifying information (PII) such as individual email addresses or user identities. Aggregate volume, referring platforms, and geographical distribution are privately accessible to the repository maintainer through the GitHub and Vercel analytics consoles.
 
 ### 📌 Core Philosophy & The Four-State Absence Model
 Conventional archival tools treat absent metadata as a boolean failure (`null` or `empty`). The Silence Index implements a nuanced, 4-state epistemological model:
