@@ -22,11 +22,39 @@ export default function LandingPage() {
   const [isPlayingSound, setIsPlayingSound] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Initialize strictly at 40% volume and stop all audio when leaving the landing page
+  // Initialize strictly at 40% volume, auto-play when link opens, and stop all audio when leaving the landing page
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = 0.40;
+
+      // Automatically start playing when the link is opening
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlayingSound(true);
+          })
+          .catch(() => {
+            // When browser autoplay policies restrict unprompted audio, unlock and play on first gesture anywhere
+            const startPlayback = () => {
+              if (audioRef.current && audioRef.current.paused) {
+                audioRef.current.volume = 0.40;
+                audioRef.current.play().then(() => {
+                  setIsPlayingSound(true);
+                }).catch(() => {});
+              }
+              ["click", "touchstart", "keydown", "scroll"].forEach((evt) =>
+                window.removeEventListener(evt, startPlayback)
+              );
+            };
+
+            ["click", "touchstart", "keydown", "scroll"].forEach((evt) =>
+              window.addEventListener(evt, startPlayback, { once: true })
+            );
+          });
+      }
     }
+
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -217,34 +245,32 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right Column: Borderless Living Classical Dance Experience */}
-            <div className="lg:col-span-5 relative flex flex-col items-center justify-center min-h-[580px]">
+            {/* Right Column: Borderless Living Classical Dance Experience (Shifted downwards for elegant header breathing room) */}
+            <div className="lg:col-span-5 relative flex flex-col items-center justify-center pt-8 sm:pt-14 lg:pt-16 min-h-[580px]">
               {/* Audio element playing Raga Bindu's soothing traditional Indian meditation music strictly at 40% volume on landing page */}
               <audio
                 ref={audioRef}
                 src="/audio/raga_bindu_stress_melts_away.m4a"
+                autoPlay
                 loop
                 preload="auto"
               />
 
               {/* Radiant Warm Golden & Rose Aura blooming behind the dancers */}
-              <div className="absolute inset-0 bg-radial from-gold-400/25 via-pink-500/10 to-transparent blur-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-radial from-gold-400/20 via-pink-500/10 to-transparent blur-3xl pointer-events-none" />
 
               {/* Composition Stage Container */}
-              <div className="relative w-full max-w-[460px] flex flex-col items-center select-none">
+              <div className="relative w-full max-w-[460px] flex flex-col items-center select-none pt-4">
                 
                 {/* 1. Sacred Golden Floor Mandala beneath the dancers' feet */}
                 <div className="absolute -bottom-6 w-80 h-36 flex items-center justify-center pointer-events-none">
-                  {/* Glowing floor halo */}
-                  <div className="absolute inset-0 bg-radial from-gold-400/35 via-gold-500/15 to-transparent blur-xl rounded-full" />
-                  
-                  {/* Sacred Rangoli / Mandala Geometry */}
-                  <svg viewBox="0 0 300 120" className="w-full h-full opacity-70 animate-gold-swirl" style={{ transformOrigin: "center center" }}>
+                  {/* Sacred Rangoli / Mandala Geometry without blurry white wash */}
+                  <svg viewBox="0 0 300 120" className="w-full h-full opacity-65 animate-gold-swirl" style={{ transformOrigin: "center center" }}>
                     <defs>
                       <linearGradient id="mandalaGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#ECD399" stopOpacity="0.9" />
-                        <stop offset="50%" stopColor="#C8A24A" stopOpacity="0.75" />
-                        <stop offset="100%" stopColor="#B0673A" stopOpacity="0.6" />
+                        <stop offset="0%" stopColor="#ECD399" stopOpacity="0.85" />
+                        <stop offset="50%" stopColor="#C8A24A" stopOpacity="0.7" />
+                        <stop offset="100%" stopColor="#B0673A" stopOpacity="0.5" />
                       </linearGradient>
                     </defs>
                     {/* Concentric rings */}
@@ -348,9 +374,9 @@ export default function LandingPage() {
                   ))}
                 </svg>
 
-                {/* 3. Floating Glowing Lotuses (Layered organically around the dancers) */}
-                {/* Lotus A: Top Left floating near upper dancer's arched leg */}
-                <div className="absolute -top-3 left-3 w-28 h-24 z-20 pointer-events-none animate-lotus-top-left">
+                {/* 3. Floating Glowing Lotuses (Positioned gracefully with headroom from header tabs) */}
+                {/* Lotus A: Top Left floating gracefully beside upper dancer's arched pose */}
+                <div className="absolute top-4 left-3 w-24 h-20 z-20 pointer-events-none animate-lotus-top-left">
                   <Image
                     src="/images/lotus_top_left.png"
                     alt="Sacred Glowing Lotus"
@@ -360,8 +386,8 @@ export default function LandingPage() {
                   />
                 </div>
 
-                {/* Lotus B: Top Center floating high in the celestial space */}
-                <div className="absolute -top-7 right-28 w-16 h-14 z-20 pointer-events-none animate-lotus-top-center">
+                {/* Lotus B: Top Center floating gently in celestial space */}
+                <div className="absolute top-1 right-24 w-14 h-12 z-20 pointer-events-none animate-lotus-top-center">
                   <Image
                     src="/images/lotus_top_center.png"
                     alt="Floating Lotus Blossom"
@@ -372,7 +398,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Lotus C: Top Right floating near graceful mudra hand */}
-                <div className="absolute top-24 -right-4 w-24 h-20 z-20 pointer-events-none animate-lotus-top-right">
+                <div className="absolute top-26 -right-2 w-22 h-18 z-20 pointer-events-none animate-lotus-top-right">
                   <Image
                     src="/images/lotus_top_right.png"
                     alt="Celestial Lotus"
@@ -382,13 +408,13 @@ export default function LandingPage() {
                   />
                 </div>
 
-                {/* Lotus D: Sacred Floor Lotus resting in lower foreground by the mandala */}
-                <div className="absolute -bottom-4 -left-4 w-44 h-32 z-20 pointer-events-none animate-lotus-floor">
+                {/* Lotus D: Normal Crisp Glowing Pink Lotus Blossom at lower-left (replaces blurry wash) */}
+                <div className="absolute bottom-6 left-1 w-24 h-20 z-20 pointer-events-none animate-lotus-top-left">
                   <Image
-                    src="/images/lotus_floor.png"
-                    alt="Sacred Floor Lotus Blossom"
-                    width={250}
-                    height={180}
+                    src="/images/lotus_top_left.png"
+                    alt="Glowing Pink Lotus Blossom"
+                    width={150}
+                    height={115}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -401,7 +427,7 @@ export default function LandingPage() {
                     width={450}
                     height={555}
                     priority
-                    className="w-auto h-auto max-h-[530px] object-contain drop-shadow-[0_15px_30px_rgba(200,162,74,0.35)]"
+                    className="w-auto h-auto max-h-[520px] object-contain drop-shadow-[0_15px_30px_rgba(200,162,74,0.35)]"
                   />
                 </div>
 
@@ -431,21 +457,6 @@ export default function LandingPage() {
                   )}
                 </button>
 
-              </div>
-
-              {/* Living Heritage Micro-Badge */}
-              <div className="mt-3 text-center">
-                <div className="inline-flex items-center gap-2 text-[11px] font-mono text-gold-300/80 tracking-wider uppercase">
-                  <Sparkles size={12} className="text-gold-400" />
-                  <span>Stress Melts Away • Soft Indian Traditional Music by Raga Bindu</span>
-                </div>
-                <div className="text-[10px] text-cream-200/60 font-sans mt-0.5 flex items-center justify-center gap-2">
-                  <span>Classical Natya Shastra Sacred Choreography</span>
-                  <span>•</span>
-                  <Link href="/atlas" className="text-gold-300 hover:underline">
-                    View in Atlas →
-                  </Link>
-                </div>
               </div>
             </div>
 
