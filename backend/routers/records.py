@@ -24,7 +24,7 @@ def list_records(
     completeness_band: str | None = None, # high (>=0.7), medium (0.4-0.7), low (<0.4)
     q: str | None = None,
     page: int = Query(1, ge=1),
-    page_size: int = Query(24, ge=1, le=100),
+    page_size: int = Query(24, ge=1, le=500),
     db: Session = Depends(get_db)
 ):
     """Search and browse collection records with comprehensive faceted filters."""
