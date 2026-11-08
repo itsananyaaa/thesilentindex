@@ -22,44 +22,57 @@ export default function LandingPage() {
   const [isPlayingSound, setIsPlayingSound] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Initialize strictly at 40% volume, auto-play when link opens, and stop all audio when leaving the landing page
+  // Compulsory default audio playback when website is opened (40% volume strictly, stopped on leaving)
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.40;
+    const audio = audioRef.current;
+    if (!audio) return;
 
-      // Automatically start playing when the link is opening
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlayingSound(true);
-          })
-          .catch(() => {
-            // When browser autoplay policies restrict unprompted audio, unlock and play on first gesture anywhere
-            const startPlayback = () => {
-              if (audioRef.current && audioRef.current.paused) {
-                audioRef.current.volume = 0.40;
-                audioRef.current.play().then(() => {
-                  setIsPlayingSound(true);
-                }).catch(() => {});
-              }
-              ["click", "touchstart", "keydown", "scroll"].forEach((evt) =>
-                window.removeEventListener(evt, startPlayback)
-              );
-            };
+    audio.volume = 0.40;
 
-            ["click", "touchstart", "keydown", "scroll"].forEach((evt) =>
-              window.addEventListener(evt, startPlayback, { once: true })
-            );
-          });
+    const startAudio = () => {
+      if (audio.paused) {
+        audio.volume = 0.40;
+        audio.play().then(() => {
+          setIsPlayingSound(true);
+        }).catch(() => {});
+      } else {
+        setIsPlayingSound(true);
       }
-    }
+    };
+
+    // 1. Immediate trigger on initial mount
+    startAudio();
+
+    // 2. Trigger as soon as audio data/metadata loads
+    audio.addEventListener("canplay", startAudio, { once: true });
+    audio.addEventListener("loadeddata", startAudio, { once: true });
+
+    // 3. Fallback: Catch any user interaction anywhere on the window/document (click, move, touch, scroll)
+    const interactionEvents = [
+      "pointerdown", "mousedown", "touchstart", "click", "keydown",
+      "wheel", "scroll", "mousemove", "pointermove", "focus"
+    ];
+
+    const onInteraction = () => {
+      startAudio();
+      interactionEvents.forEach((evt) => {
+        window.removeEventListener(evt, onInteraction);
+        document.removeEventListener(evt, onInteraction);
+      });
+    };
+
+    interactionEvents.forEach((evt) => {
+      window.addEventListener(evt, onInteraction, { passive: true, once: true });
+      document.addEventListener(evt, onInteraction, { passive: true, once: true });
+    });
 
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
+      audio.pause();
+      audio.currentTime = 0;
+      interactionEvents.forEach((evt) => {
+        window.removeEventListener(evt, onInteraction);
+        document.removeEventListener(evt, onInteraction);
+      });
     };
   }, []);
 
@@ -262,40 +275,61 @@ export default function LandingPage() {
               {/* Composition Stage Container */}
               <div className="relative w-full max-w-[460px] flex flex-col items-center select-none pt-4">
                 
-                {/* 1. Sacred Golden Floor Mandala beneath the dancers' feet */}
-                <div className="absolute -bottom-6 w-80 h-36 flex items-center justify-center pointer-events-none">
-                  {/* Sacred Rangoli / Mandala Geometry without blurry white wash */}
-                  <svg viewBox="0 0 300 120" className="w-full h-full opacity-65 animate-gold-swirl" style={{ transformOrigin: "center center" }}>
+                {/* 1. Sacred Golden Circle Mandala (Stationed behind the waist of the standing woman & head of the sitting woman) */}
+                <div className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] sm:w-[380px] sm:h-[380px] flex items-center justify-center pointer-events-none z-0">
+                  {/* Subtle warm golden radial backlight */}
+                  <div className="absolute inset-4 bg-radial from-gold-400/20 via-gold-500/10 to-transparent blur-2xl rounded-full" />
+                  
+                  {/* Perfectly Centered Sacred Circular Mandala Geometry */}
+                  <svg viewBox="0 0 360 360" className="w-full h-full opacity-65 animate-gold-swirl" style={{ transformOrigin: "center center" }}>
                     <defs>
                       <linearGradient id="mandalaGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#ECD399" stopOpacity="0.85" />
-                        <stop offset="50%" stopColor="#C8A24A" stopOpacity="0.7" />
-                        <stop offset="100%" stopColor="#B0673A" stopOpacity="0.5" />
+                        <stop offset="0%" stopColor="#ECD399" stopOpacity="0.9" />
+                        <stop offset="50%" stopColor="#C8A24A" stopOpacity="0.75" />
+                        <stop offset="100%" stopColor="#B0673A" stopOpacity="0.55" />
                       </linearGradient>
+                      <filter id="mandalaGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="1.5" result="blur" />
+                        <feMerge>
+                          <feMergeNode in="blur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
                     </defs>
-                    {/* Concentric rings */}
-                    <ellipse cx="150" cy="60" rx="135" ry="50" fill="none" stroke="url(#mandalaGold)" strokeWidth="1" strokeDasharray="3,3" />
-                    <ellipse cx="150" cy="60" rx="110" ry="40" fill="none" stroke="url(#mandalaGold)" strokeWidth="1.2" />
-                    <ellipse cx="150" cy="60" rx="85" ry="30" fill="none" stroke="url(#mandalaGold)" strokeWidth="0.8" strokeDasharray="4,4" />
-                    <ellipse cx="150" cy="60" rx="55" ry="20" fill="none" stroke="url(#mandalaGold)" strokeWidth="1" />
-                    {/* Radiating Petal Spokes */}
-                    {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => {
+                    
+                    {/* Concentric Circular Rings */}
+                    <circle cx="180" cy="180" r="168" fill="none" stroke="url(#mandalaGold)" strokeWidth="1" strokeDasharray="4,4" filter="url(#mandalaGlow)" />
+                    <circle cx="180" cy="180" r="148" fill="none" stroke="url(#mandalaGold)" strokeWidth="1.2" />
+                    <circle cx="180" cy="180" r="128" fill="none" stroke="url(#mandalaGold)" strokeWidth="0.8" strokeDasharray="3,6" />
+                    <circle cx="180" cy="180" r="102" fill="none" stroke="url(#mandalaGold)" strokeWidth="1" />
+                    <circle cx="180" cy="180" r="76" fill="none" stroke="url(#mandalaGold)" strokeWidth="0.8" strokeDasharray="2,4" />
+                    <circle cx="180" cy="180" r="48" fill="none" stroke="url(#mandalaGold)" strokeWidth="1" />
+                    <circle cx="180" cy="180" r="20" fill="none" stroke="url(#mandalaGold)" strokeWidth="0.8" />
+                    
+                    {/* Radiating Petal Rays with Bindu Dots */}
+                    {[0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345].map((deg) => {
                       const rad = (deg * Math.PI) / 180;
-                      const x1 = 150 + 40 * Math.cos(rad);
-                      const y1 = 60 + 15 * Math.sin(rad);
-                      const x2 = 150 + 110 * Math.cos(rad);
-                      const y2 = 60 + 40 * Math.sin(rad);
+                      const x1 = 180 + 48 * Math.cos(rad);
+                      const y1 = 180 + 48 * Math.sin(rad);
+                      const x2 = 180 + 148 * Math.cos(rad);
+                      const y2 = 180 + 148 * Math.sin(rad);
+                      const bx = 180 + 168 * Math.cos(rad);
+                      const by = 180 + 168 * Math.sin(rad);
                       return (
-                        <line
-                          key={deg}
-                          x1={x1}
-                          y1={y1}
-                          x2={x2}
-                          y2={y2}
-                          stroke="url(#mandalaGold)"
-                          strokeWidth="0.9"
-                          strokeOpacity="0.65"
-                        />
+                        <g key={deg}>
+                          <line
+                            x1={x1}
+                            y1={y1}
+                            x2={x2}
+                            y2={y2}
+                            stroke="url(#mandalaGold)"
+                            strokeWidth="0.8"
+                            strokeOpacity={deg % 30 === 0 ? "0.7" : "0.4"}
+                          />
+                          {deg % 30 === 0 && (
+                            <circle cx={bx} cy={by} r="2" fill="#FDE68A" opacity="0.8" />
+                          )}
+                        </g>
                       );
                     })}
                   </svg>
@@ -431,17 +465,17 @@ export default function LandingPage() {
                   />
                 </div>
 
-                {/* 5. Floating Ambient Sound Controller (Playing Raga Bindu Meditation Music at 40% Volume) */}
+                {/* 5. Floating Ambient Sound Controller */}
                 <button
                   onClick={toggleSound}
                   type="button"
                   className="mt-4 z-30 px-5 py-2.5 rounded-full font-serif text-xs font-bold transition-all duration-300 flex items-center gap-2.5 shadow-2xl border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 bg-oxblood-950/90 text-gold-300 border-gold-400/80 hover:bg-gold-400 hover:text-oxblood-950 hover:border-gold-300"
-                  title="Stress Melts Away | Soft Indian Traditional Music for Meditation, Relaxation & Inner Peace by Raga Bindu (40% Volume)"
+                  title="Stress Melts Away | Soft Indian Traditional Music for Meditation, Relaxation & Inner Peace by Raga Bindu"
                 >
                   {isPlayingSound ? (
                     <>
                       <Volume2 size={16} className="text-gold-300 animate-pulse" />
-                      <span className="tracking-wide">Stress Melts Away • Playing (40% Vol)</span>
+                      <span className="tracking-wide">Stress Melts Away • Playing</span>
                       <span className="flex gap-0.5 items-end h-3 ml-1">
                         <span className="w-0.5 h-3 bg-gold-400 animate-bounce" />
                         <span className="w-0.5 h-2 bg-gold-300 animate-bounce delay-75" />
@@ -451,7 +485,7 @@ export default function LandingPage() {
                   ) : (
                     <>
                       <VolumeX size={16} className="text-gold-400/80" />
-                      <span className="tracking-wide">Stress Melts Away • Tap to Play (40% Vol)</span>
+                      <span className="tracking-wide">Stress Melts Away • Tap to Play</span>
                       <Music size={14} className="text-gold-400 animate-pulse" />
                     </>
                   )}
