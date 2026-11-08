@@ -7,16 +7,11 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
 import { Layers, Search, Filter, ChevronRight, Eye } from "lucide-react";
 import { getActiveCollection } from "@/lib/collection";
+import { getAtlasPhoto } from "@/lib/atlas_photos";
 
-// Helper function to resolve reliable museum-grade offline vector artwork for each record
+// Helper function to resolve authentic photographs for each record with category fallback
 function getRecordArtwork(r: any): string {
-  const cleanArt = (r.art_form || "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
-  const cleanTitle = (r.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
-  
-  if (cleanArt) return `/images/heritage/${cleanArt}.svg`;
-  if (cleanTitle) return `/images/heritage/${cleanTitle}.svg`;
-  if (r.category) return `/images/heritage/${r.category}.svg`;
-  return "/images/heritage/visual_arts.svg";
+  return getAtlasPhoto(r);
 }
 
 export default function CulturalAtlasPage() {
@@ -140,17 +135,20 @@ export default function CulturalAtlasPage() {
                 className="bg-cream-100 border border-parchment-300 rounded-sm overflow-hidden flex flex-col justify-between shadow-xs hover:border-gold-400 hover:shadow-md transition-all group relative border-t-2 border-t-gold-400"
               >
                 {/* Visual Artwork Thumbnail */}
-                <div className="relative h-44 w-full bg-oxblood-950 overflow-hidden border-b border-parchment-300">
+                <div className="relative h-48 w-full bg-oxblood-950 overflow-hidden border-b border-parchment-300">
                   <img
                     src={getRecordArtwork(r)}
                     alt={r.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                     onError={(ev) => {
-                      (ev.target as HTMLImageElement).src = "/images/heritage/visual_arts.svg";
+                      const target = ev.target as HTMLImageElement;
+                      if (!target.src.endsWith(".svg")) {
+                        target.src = "/images/heritage/visual_arts.svg";
+                      }
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                   {/* Completeness Badge */}
                   <div

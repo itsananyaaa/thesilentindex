@@ -7,6 +7,7 @@ import { CornerFiligree } from "@/components/ornament/CornerFiligree";
 import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
 import { PROVENANCE_BADGES } from "@/lib/tokens";
+import { getAtlasPhoto } from "@/lib/atlas_photos";
 import {
   ShieldAlert, ExternalLink, Download, Layers, ArrowLeft,
   AlertCircle, CheckCircle2, ChevronRight, Info
@@ -94,11 +95,17 @@ export default function RecordDetailPage() {
             <CornerFiligree position="top-left" size={28} className="absolute left-1 top-1 z-10" />
             <CornerFiligree position="top-right" size={28} className="absolute right-1 top-1 z-10" />
 
-            {record.image_url ? (
+            {getAtlasPhoto(record) || record.image_url ? (
               <img
-                src={record.image_url}
+                src={getAtlasPhoto(record) || record.image_url}
                 alt={record.title}
-                className="w-full h-auto max-h-[500px] object-contain mx-auto"
+                className="w-full h-auto max-h-[500px] object-cover mx-auto"
+                onError={(ev) => {
+                  const target = ev.target as HTMLImageElement;
+                  if (!target.src.endsWith(".svg")) {
+                    target.src = "/images/heritage/visual_arts.svg";
+                  }
+                }}
               />
             ) : (
               <div className="h-72 flex flex-col items-center justify-center text-xs pattern-dotted-parchment p-6 text-center">
