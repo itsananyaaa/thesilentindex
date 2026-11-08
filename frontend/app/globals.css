@@ -96,4 +96,112 @@ body {
   box-shadow: 0 0 8px rgba(200, 162, 74, 0.8);
 }
 
+/* Classical Dancers Subtle Pop & Majestic Glow */
+@keyframes subtlePop {
+  0%, 100% {
+    transform: scale(1.0) translateY(0px);
+    filter: drop-shadow(0 12px 24px rgba(200, 162, 74, 0.28)) drop-shadow(0 0 20px rgba(244, 114, 182, 0.18));
+  }
+  50% {
+    transform: scale(1.03) translateY(-7px);
+    filter: drop-shadow(0 20px 38px rgba(200, 162, 74, 0.45)) drop-shadow(0 0 32px rgba(244, 114, 182, 0.32));
+  }
+}
+
+.animate-subtle-pop {
+  animation: subtlePop 6s ease-in-out infinite;
+}
+
+/* Floating Lotus Flower Keyframes */
+@keyframes floatLotusTopLeft {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 12px rgba(244, 114, 182, 0.7));
+  }
+  50% {
+    transform: translateY(-9px) rotate(2deg) scale(1.05);
+    filter: drop-shadow(0 0 22px rgba(244, 114, 182, 0.9));
+  }
+}
+
+@keyframes floatLotusTopRight {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.65));
+  }
+  50% {
+    transform: translateY(-8px) rotate(-3deg) scale(1.06);
+    filter: drop-shadow(0 0 20px rgba(244, 114, 182, 0.85));
+  }
+}
+
+@keyframes floatLotusTopCenter {
+  0%, 100% {
+    transform: translateY(0px) scale(0.95);
+    filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.55));
+  }
+  50% {
+    transform: translateY(-6px) scale(1.03);
+    filter: drop-shadow(0 0 18px rgba(244, 114, 182, 0.8));
+  }
+}
+
+@keyframes lotusFloorGlow {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 16px rgba(244, 114, 182, 0.75)) drop-shadow(0 0 26px rgba(200, 162, 74, 0.4));
+  }
+  50% {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 28px rgba(244, 114, 182, 0.95)) drop-shadow(0 0 42px rgba(200, 162, 74, 0.6));
+  }
+}
+
+.animate-lotus-top-left {
+  animation: floatLotusTopLeft 5s ease-in-out infinite;
+}
+
+.animate-lotus-top-right {
+  animation: floatLotusTopRight 6s ease-in-out infinite 1s;
+}
+
+.animate-lotus-top-center {
+  animation: floatLotusTopCenter 7s ease-in-out infinite 2s;
+}
+
+.animate-lotus-floor {
+  animation: lotusFloorGlow 4.5s ease-in-out infinite;
+}
+
+/* Gold Shimmers and Stardust Keyframes */
+@keyframes goldTwinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 8px #F59E0B);
+  }
+}
+
+@keyframes goldSwirlRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-gold-twinkle {
+  animation: goldTwinkle 3s ease-in-out infinite;
+}
+
+.animate-gold-swirl {
+  animation: goldSwirlRotate 28s linear infinite;
+}
+
+
 

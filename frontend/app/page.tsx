@@ -20,18 +20,17 @@ export default function LandingPage() {
   const [priorities, setPriorities] = useState<any[]>([]);
   const [featuredImages, setFeaturedImages] = useState<any[]>([]);
   const [isPlayingSound, setIsPlayingSound] = useState<boolean>(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Stop all audio when leaving the landing page or unmounting
+  // Initialize strictly at 40% volume and stop all audio when leaving the landing page
   useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.40;
+    }
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
-      }
-      if (videoRef.current) {
-        videoRef.current.pause();
       }
     };
   }, []);
@@ -45,6 +44,7 @@ export default function LandingPage() {
         }
       } else {
         if (isPlayingSound && audioRef.current) {
+          audioRef.current.volume = 0.40;
           audioRef.current.play().catch(() => {});
         }
       }
@@ -59,6 +59,7 @@ export default function LandingPage() {
       audioRef.current.pause();
       setIsPlayingSound(false);
     } else {
+      audioRef.current.volume = 0.40;
       audioRef.current.play().then(() => {
         setIsPlayingSound(true);
       }).catch((e) => {
@@ -217,52 +218,204 @@ export default function LandingPage() {
             </div>
 
             {/* Right Column: Borderless Living Classical Dance Experience */}
-            <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
-              {/* Hidden loop audio element playing sacred classical Natya music */}
+            <div className="lg:col-span-5 relative flex flex-col items-center justify-center min-h-[580px]">
+              {/* Audio element playing Raga Bindu's soothing traditional Indian meditation music strictly at 40% volume on landing page */}
               <audio
                 ref={audioRef}
-                src="/videos/hero_dance_music.wav"
+                src="/audio/raga_bindu_stress_melts_away.m4a"
                 loop
                 preload="auto"
               />
 
-              {/* Radiant Warm Golden Aura blooming behind the dancers */}
-              <div className="absolute inset-0 bg-radial from-gold-400/20 via-gold-500/5 to-transparent blur-3xl pointer-events-none" />
+              {/* Radiant Warm Golden & Rose Aura blooming behind the dancers */}
+              <div className="absolute inset-0 bg-radial from-gold-400/25 via-pink-500/10 to-transparent blur-3xl pointer-events-none" />
 
-              {/* Glowing sacred ground reflection beneath the dancers' feet */}
-              <div className="absolute bottom-6 w-3/4 h-12 bg-radial from-gold-500/30 via-oxblood-950/60 to-transparent blur-xl rounded-full pointer-events-none animate-pulse" />
+              {/* Composition Stage Container */}
+              <div className="relative w-full max-w-[460px] flex flex-col items-center select-none">
+                
+                {/* 1. Sacred Golden Floor Mandala beneath the dancers' feet */}
+                <div className="absolute -bottom-6 w-80 h-36 flex items-center justify-center pointer-events-none">
+                  {/* Glowing floor halo */}
+                  <div className="absolute inset-0 bg-radial from-gold-400/35 via-gold-500/15 to-transparent blur-xl rounded-full" />
+                  
+                  {/* Sacred Rangoli / Mandala Geometry */}
+                  <svg viewBox="0 0 300 120" className="w-full h-full opacity-70 animate-gold-swirl" style={{ transformOrigin: "center center" }}>
+                    <defs>
+                      <linearGradient id="mandalaGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#ECD399" stopOpacity="0.9" />
+                        <stop offset="50%" stopColor="#C8A24A" stopOpacity="0.75" />
+                        <stop offset="100%" stopColor="#B0673A" stopOpacity="0.6" />
+                      </linearGradient>
+                    </defs>
+                    {/* Concentric rings */}
+                    <ellipse cx="150" cy="60" rx="135" ry="50" fill="none" stroke="url(#mandalaGold)" strokeWidth="1" strokeDasharray="3,3" />
+                    <ellipse cx="150" cy="60" rx="110" ry="40" fill="none" stroke="url(#mandalaGold)" strokeWidth="1.2" />
+                    <ellipse cx="150" cy="60" rx="85" ry="30" fill="none" stroke="url(#mandalaGold)" strokeWidth="0.8" strokeDasharray="4,4" />
+                    <ellipse cx="150" cy="60" rx="55" ry="20" fill="none" stroke="url(#mandalaGold)" strokeWidth="1" />
+                    {/* Radiating Petal Spokes */}
+                    {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => {
+                      const rad = (deg * Math.PI) / 180;
+                      const x1 = 150 + 40 * Math.cos(rad);
+                      const y1 = 60 + 15 * Math.sin(rad);
+                      const x2 = 150 + 110 * Math.cos(rad);
+                      const y2 = 60 + 40 * Math.sin(rad);
+                      return (
+                        <line
+                          key={deg}
+                          x1={x1}
+                          y1={y1}
+                          x2={x2}
+                          y2={y2}
+                          stroke="url(#mandalaGold)"
+                          strokeWidth="0.9"
+                          strokeOpacity="0.65"
+                        />
+                      );
+                    })}
+                  </svg>
+                </div>
 
-              {/* Seamless Borderless Video Player */}
-              <div className="relative w-full max-w-[420px] flex flex-col items-center group">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  className="w-full h-auto max-h-[560px] object-contain transition-all duration-700 ease-out transform group-hover:scale-[1.03] drop-shadow-2xl"
-                  style={{
-                    maskImage: "radial-gradient(ellipse 68% 80% at 50% 50%, black 55%, transparent 95%)",
-                    WebkitMaskImage: "radial-gradient(ellipse 68% 80% at 50% 50%, black 55%, transparent 95%)",
-                    filter: "sepia(0.15) contrast(1.06) brightness(1.02) saturate(1.12)"
-                  }}
+                {/* 2. Swirling Golden Ribbons & Majestic Stardust */}
+                <svg
+                  viewBox="0 0 460 560"
+                  className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible"
                 >
-                  <source src="/videos/hero_dance_oxblood.webm" type="video/webm" />
-                  <source src="/videos/hero_dance.mp4" type="video/mp4" />
-                </video>
+                  <defs>
+                    <linearGradient id="goldRibbon1" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#C8A24A" stopOpacity="0" />
+                      <stop offset="30%" stopColor="#ECD399" stopOpacity="0.85" />
+                      <stop offset="70%" stopColor="#F59E0B" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#C8A24A" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="goldRibbon2" x1="100%" y1="100%" x2="0%" y2="0%">
+                      <stop offset="0%" stopColor="#B0673A" stopOpacity="0" />
+                      <stop offset="45%" stopColor="#ECD399" stopOpacity="0.75" />
+                      <stop offset="85%" stopColor="#FDE68A" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#C8A24A" stopOpacity="0" />
+                    </linearGradient>
+                    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
 
-                {/* Elegant Floating Sound Control Button */}
+                  {/* Flowing Graceful Golden Ribbon 1: Ascending around lower dancer to upper dancer */}
+                  <path
+                    d="M 90 480 C 40 420, 60 330, 160 310 C 260 290, 360 330, 400 240 C 430 170, 360 90, 270 70 C 200 55, 140 100, 160 150"
+                    fill="none"
+                    stroke="url(#goldRibbon1)"
+                    strokeWidth="2.2"
+                    strokeDasharray="6 3"
+                    filter="url(#goldGlow)"
+                    className="opacity-75"
+                  />
+
+                  {/* Flowing Graceful Golden Ribbon 2: Counter-curve */}
+                  <path
+                    d="M 360 490 C 410 430, 380 340, 290 320 C 180 295, 110 240, 120 160 C 130 90, 220 40, 310 45"
+                    fill="none"
+                    stroke="url(#goldRibbon2)"
+                    strokeWidth="1.6"
+                    strokeDasharray="3 4"
+                    filter="url(#goldGlow)"
+                    className="opacity-60"
+                  />
+
+                  {/* Sparkling Golden 4-point Stars / Stardust */}
+                  {[
+                    { cx: 70, cy: 190, size: 7, delay: "0s" },
+                    { cx: 120, cy: 90, size: 9, delay: "0.8s" },
+                    { cx: 370, cy: 110, size: 8, delay: "1.4s" },
+                    { cx: 410, cy: 220, size: 10, delay: "0.5s" },
+                    { cx: 340, cy: 370, size: 7, delay: "2.1s" },
+                    { cx: 90, cy: 380, size: 8, delay: "1.2s" },
+                    { cx: 210, cy: 40, size: 6, delay: "1.8s" },
+                    { cx: 260, cy: 200, size: 6, delay: "0.9s" },
+                    { cx: 160, cy: 450, size: 7, delay: "2.4s" },
+                    { cx: 380, cy: 430, size: 8, delay: "1.6s" },
+                  ].map((star, idx) => (
+                    <g key={idx} transform={`translate(${star.cx}, ${star.cy})`} className="animate-gold-twinkle" style={{ animationDelay: star.delay }}>
+                      <path
+                        d={`M 0 ${-star.size} Q 0 0 ${star.size} 0 Q 0 0 0 ${star.size} Q 0 0 ${-star.size} 0 Q 0 0 0 ${-star.size}`}
+                        fill="#FDE68A"
+                        filter="url(#goldGlow)"
+                      />
+                      <circle cx="0" cy="0" r="1.5" fill="#FFFFFF" />
+                    </g>
+                  ))}
+                </svg>
+
+                {/* 3. Floating Glowing Lotuses (Layered organically around the dancers) */}
+                {/* Lotus A: Top Left floating near upper dancer's arched leg */}
+                <div className="absolute -top-3 left-3 w-28 h-24 z-20 pointer-events-none animate-lotus-top-left">
+                  <Image
+                    src="/images/lotus_top_left.png"
+                    alt="Sacred Glowing Lotus"
+                    width={150}
+                    height={115}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                {/* Lotus B: Top Center floating high in the celestial space */}
+                <div className="absolute -top-7 right-28 w-16 h-14 z-20 pointer-events-none animate-lotus-top-center">
+                  <Image
+                    src="/images/lotus_top_center.png"
+                    alt="Floating Lotus Blossom"
+                    width={70}
+                    height={65}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                {/* Lotus C: Top Right floating near graceful mudra hand */}
+                <div className="absolute top-24 -right-4 w-24 h-20 z-20 pointer-events-none animate-lotus-top-right">
+                  <Image
+                    src="/images/lotus_top_right.png"
+                    alt="Celestial Lotus"
+                    width={120}
+                    height={100}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                {/* Lotus D: Sacred Floor Lotus resting in lower foreground by the mandala */}
+                <div className="absolute -bottom-4 -left-4 w-44 h-32 z-20 pointer-events-none animate-lotus-floor">
+                  <Image
+                    src="/images/lotus_floor.png"
+                    alt="Sacred Floor Lotus Blossom"
+                    width={250}
+                    height={180}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                {/* 4. The Two Classical Dancers: Pop Mode, Seamless Oxblood Blend, Zero Borders */}
+                <div className="relative z-10 w-full flex items-center justify-center animate-subtle-pop hover:scale-[1.04] transition-transform duration-700 cursor-default">
+                  <Image
+                    src="/images/classical_dancers_transparent.png"
+                    alt="Classical Indian Temple Dancers in Sacred Natya Mudra"
+                    width={450}
+                    height={555}
+                    priority
+                    className="w-auto h-auto max-h-[530px] object-contain drop-shadow-[0_15px_30px_rgba(200,162,74,0.35)]"
+                  />
+                </div>
+
+                {/* 5. Floating Ambient Sound Controller (Playing Raga Bindu Meditation Music at 40% Volume) */}
                 <button
                   onClick={toggleSound}
                   type="button"
-                  className="absolute bottom-3 z-20 px-4 py-2 rounded-full font-serif text-xs font-bold transition-all duration-300 flex items-center gap-2.5 shadow-xl border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 bg-oxblood-950/90 text-gold-300 border-gold-400/80 hover:bg-gold-400 hover:text-oxblood-950 hover:border-gold-300"
-                  title={isPlayingSound ? "Mute Classical Temple Dance Music" : "Play Classical Temple Dance Music"}
+                  className="mt-4 z-30 px-5 py-2.5 rounded-full font-serif text-xs font-bold transition-all duration-300 flex items-center gap-2.5 shadow-2xl border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 bg-oxblood-950/90 text-gold-300 border-gold-400/80 hover:bg-gold-400 hover:text-oxblood-950 hover:border-gold-300"
+                  title="Stress Melts Away | Soft Indian Traditional Music for Meditation, Relaxation & Inner Peace by Raga Bindu (40% Volume)"
                 >
                   {isPlayingSound ? (
                     <>
-                      <Volume2 size={15} className="text-gold-300 animate-pulse" />
-                      <span>Temple Dance Music • Playing</span>
+                      <Volume2 size={16} className="text-gold-300 animate-pulse" />
+                      <span className="tracking-wide">Stress Melts Away • Playing (40% Vol)</span>
                       <span className="flex gap-0.5 items-end h-3 ml-1">
                         <span className="w-0.5 h-3 bg-gold-400 animate-bounce" />
                         <span className="w-0.5 h-2 bg-gold-300 animate-bounce delay-75" />
@@ -271,22 +424,23 @@ export default function LandingPage() {
                     </>
                   ) : (
                     <>
-                      <VolumeX size={15} className="text-gold-400/80" />
-                      <span>Classical Natya Music • Tap to Play</span>
-                      <Music size={13} className="text-gold-400 animate-pulse" />
+                      <VolumeX size={16} className="text-gold-400/80" />
+                      <span className="tracking-wide">Stress Melts Away • Tap to Play (40% Vol)</span>
+                      <Music size={14} className="text-gold-400 animate-pulse" />
                     </>
                   )}
                 </button>
+
               </div>
 
               {/* Living Heritage Micro-Badge */}
               <div className="mt-3 text-center">
                 <div className="inline-flex items-center gap-2 text-[11px] font-mono text-gold-300/80 tracking-wider uppercase">
                   <Sparkles size={12} className="text-gold-400" />
-                  <span>Living Classical Dance • Natya Shastra Traditions</span>
+                  <span>Stress Melts Away • Soft Indian Traditional Music by Raga Bindu</span>
                 </div>
                 <div className="text-[10px] text-cream-200/60 font-sans mt-0.5 flex items-center justify-center gap-2">
-                  <span>Mohiniyattam &amp; Bharatanatyam Sacred Choreography</span>
+                  <span>Classical Natya Shastra Sacred Choreography</span>
                   <span>•</span>
                   <Link href="/atlas" className="text-gold-300 hover:underline">
                     View in Atlas →
