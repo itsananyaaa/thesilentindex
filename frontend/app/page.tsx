@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CornerFiligree } from "@/components/ornament/CornerFiligree";
@@ -8,7 +8,7 @@ import { JaliLattice } from "@/components/ornament/JaliLattice";
 import { OrnamentalBand } from "@/components/ornament/OrnamentalBand";
 import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
-import { ArrowRight, Compass, ShieldCheck, Layers, FileText, CheckCircle2, AlertCircle, Sparkles, MapPin } from "lucide-react";
+import { ArrowRight, Compass, ShieldCheck, Layers, FileText, CheckCircle2, AlertCircle, Sparkles, MapPin, Volume2, VolumeX, Music } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
 import { getActiveCollection, setActiveCollection } from "@/lib/collection";
 
@@ -19,6 +19,53 @@ export default function LandingPage() {
   const [audit, setAudit] = useState<any>(null);
   const [priorities, setPriorities] = useState<any[]>([]);
   const [featuredImages, setFeaturedImages] = useState<any[]>([]);
+  const [isPlayingSound, setIsPlayingSound] = useState<boolean>(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Stop all audio when leaving the landing page or unmounting
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+    };
+  }, []);
+
+  // Pause audio when switching browser tabs, resume if playing
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden) {
+        if (audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause();
+        }
+      } else {
+        if (isPlayingSound && audioRef.current) {
+          audioRef.current.play().catch(() => {});
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, [isPlayingSound]);
+
+  const toggleSound = () => {
+    if (!audioRef.current) return;
+    if (isPlayingSound) {
+      audioRef.current.pause();
+      setIsPlayingSound(false);
+    } else {
+      audioRef.current.play().then(() => {
+        setIsPlayingSound(true);
+      }).catch((e) => {
+        console.log("Audio play error:", e);
+      });
+    }
+  };
 
   useEffect(() => {
     setActiveColId(getActiveCollection());
@@ -169,91 +216,81 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right Column: Cultural Cartography Hero Showcase with Interactive India Map */}
-            <div className="lg:col-span-5 relative">
-              <div className="bg-olive-900/90 border-2 border-gold-400/80 rounded-sm p-4 sm:p-5 shadow-2xl relative overflow-hidden group">
-                {/* Header */}
-                <div className="flex items-center justify-between pb-3 border-b border-gold-400/40 mb-3.5">
-                  <span className="font-serif text-xs sm:text-sm font-bold uppercase tracking-wider text-gold-300 flex items-center gap-1.5">
-                    <Sparkles size={14} className="text-gold-400 animate-pulse" />
-                    Living Cultural Cartography
-                  </span>
-                  <span className="text-[10px] font-mono font-medium px-2 py-0.5 bg-olive-950/80 border border-gold-400/50 text-gold-200 rounded-xs">
-                    36 States &amp; UTs
-                  </span>
-                </div>
+            {/* Right Column: Borderless Living Classical Dance Experience */}
+            <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
+              {/* Hidden loop audio element playing sacred classical Natya music */}
+              <audio
+                ref={audioRef}
+                src="/videos/hero_dance_music.wav"
+                loop
+                preload="auto"
+              />
 
-                {/* Interactive Map Showcase with Pop-up & Hover Effects */}
-                <Link
-                  href="/map"
-                  className="block relative aspect-[4/5] w-full bg-[#fbf8ee] rounded-xs overflow-hidden border border-gold-400/60 shadow-inner group/map focus:outline-none focus:ring-2 focus:ring-gold-400"
-                  title="Explore the Interactive Living Culture Map of India"
+              {/* Radiant Warm Golden Aura blooming behind the dancers */}
+              <div className="absolute inset-0 bg-radial from-gold-400/20 via-gold-500/5 to-transparent blur-3xl pointer-events-none" />
+
+              {/* Glowing sacred ground reflection beneath the dancers' feet */}
+              <div className="absolute bottom-6 w-3/4 h-12 bg-radial from-gold-500/30 via-oxblood-950/60 to-transparent blur-xl rounded-full pointer-events-none animate-pulse" />
+
+              {/* Seamless Borderless Video Player */}
+              <div className="relative w-full max-w-[420px] flex flex-col items-center group">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="w-full h-auto max-h-[560px] object-contain transition-all duration-700 ease-out transform group-hover:scale-[1.03] drop-shadow-2xl"
+                  style={{
+                    maskImage: "radial-gradient(ellipse 68% 80% at 50% 50%, black 55%, transparent 95%)",
+                    WebkitMaskImage: "radial-gradient(ellipse 68% 80% at 50% 50%, black 55%, transparent 95%)",
+                    filter: "sepia(0.15) contrast(1.06) brightness(1.02) saturate(1.12)"
+                  }}
                 >
-                  {/* Subtle Background Lattice Watermark */}
-                  <div className="absolute inset-0 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
+                  <source src="/videos/hero_dance_oxblood.webm" type="video/webm" />
+                  <source src="/videos/hero_dance.mp4" type="video/mp4" />
+                </video>
 
-                  {/* Golden Glow Aura blooming on hover */}
-                  <div className="absolute inset-0 bg-radial from-amber-400/25 via-gold-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none" />
+                {/* Elegant Floating Sound Control Button */}
+                <button
+                  onClick={toggleSound}
+                  type="button"
+                  className="absolute bottom-3 z-20 px-4 py-2 rounded-full font-serif text-xs font-bold transition-all duration-300 flex items-center gap-2.5 shadow-xl border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 bg-oxblood-950/90 text-gold-300 border-gold-400/80 hover:bg-gold-400 hover:text-oxblood-950 hover:border-gold-300"
+                  title={isPlayingSound ? "Mute Classical Temple Dance Music" : "Play Classical Temple Dance Music"}
+                >
+                  {isPlayingSound ? (
+                    <>
+                      <Volume2 size={15} className="text-gold-300 animate-pulse" />
+                      <span>Temple Dance Music • Playing</span>
+                      <span className="flex gap-0.5 items-end h-3 ml-1">
+                        <span className="w-0.5 h-3 bg-gold-400 animate-bounce" />
+                        <span className="w-0.5 h-2 bg-gold-300 animate-bounce delay-75" />
+                        <span className="w-0.5 h-3 bg-gold-400 animate-bounce delay-150" />
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <VolumeX size={15} className="text-gold-400/80" />
+                      <span>Classical Natya Music • Tap to Play</span>
+                      <Music size={13} className="text-gold-400 animate-pulse" />
+                    </>
+                  )}
+                </button>
+              </div>
 
-                  {/* The Illustrated Cultural Map with Pop-Up Transform */}
-                  <img
-                    src="/images/india_cultural_map.jpg"
-                    alt="Illustrated Cultural Map of India showing living heritage traditions, monuments, crafts, and arts"
-                    className="w-full h-full object-contain p-2 sm:p-3 transition-all duration-500 ease-out transform group-hover:scale-105 group-hover:-translate-y-1.5 drop-shadow-md group-hover:drop-shadow-[0_20px_25px_rgba(217,119,6,0.35)]"
-                    loading="eager"
-                  />
-
-                  {/* Shimmer Light Sweeping across the frame on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-
-                  {/* Delicate Floating Cultural Region Hotspot Markers */}
-                  {/* North: Himalayas */}
-                  <div className="absolute top-4 left-6 hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-oxblood-950/85 border border-gold-400/60 text-[9px] font-mono text-gold-300 shadow-md backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping" />
-                    <span>Himalayan Epigraphy &amp; Crafts</span>
-                  </div>
-
-                  {/* East: Bengal & Odisha */}
-                  <div className="absolute top-1/3 right-3 hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-oxblood-950/85 border border-gold-400/60 text-[9px] font-mono text-gold-300 shadow-md backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
-                    <span>Pattachitra &amp; Chhau</span>
-                  </div>
-
-                  {/* South: Deccan & Carnatic */}
-                  <div className="absolute bottom-12 left-4 hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-oxblood-950/85 border border-gold-400/60 text-[9px] font-mono text-gold-300 shadow-md backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping" />
-                    <span>Carnatic Arts &amp; Bronzes</span>
-                  </div>
-
-                  {/* Interactive Floating Hover Pill */}
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 pointer-events-none bg-oxblood-950/95 text-gold-300 border border-gold-400/90 px-3.5 py-1.5 rounded-full text-xs font-serif shadow-2xl flex items-center gap-2 backdrop-blur-md whitespace-nowrap">
-                    <MapPin size={13} className="text-gold-400 animate-bounce" />
-                    <span className="font-bold tracking-wide">Explore Living Culture Map</span>
-                    <ArrowRight size={12} className="text-gold-300" />
-                  </div>
-                </Link>
-
-                {/* Footer with Links */}
-                <div className="mt-3.5 pt-3 border-t border-gold-400/30 flex items-center justify-between text-[11px] text-cream-200/90 font-sans">
-                  <span className="text-gold-300/80 font-serif italic">
-                    PS-05 • The Living Culture Map
-                  </span>
-                  <div className="flex items-center gap-3">
-                    <Link
-                      href="/atlas"
-                      className="text-cream-200 hover:text-gold-300 underline font-medium"
-                    >
-                      Cultural Atlas
-                    </Link>
-                    <span className="text-gold-400/40">•</span>
-                    <Link
-                      href="/map"
-                      className="text-gold-300 hover:text-gold-200 font-bold inline-flex items-center gap-1 hover:underline"
-                    >
-                      <span>Open Map</span>
-                      <ArrowRight size={12} />
-                    </Link>
-                  </div>
+              {/* Living Heritage Micro-Badge */}
+              <div className="mt-3 text-center">
+                <div className="inline-flex items-center gap-2 text-[11px] font-mono text-gold-300/80 tracking-wider uppercase">
+                  <Sparkles size={12} className="text-gold-400" />
+                  <span>Living Classical Dance • Natya Shastra Traditions</span>
+                </div>
+                <div className="text-[10px] text-cream-200/60 font-sans mt-0.5 flex items-center justify-center gap-2">
+                  <span>Mohiniyattam &amp; Bharatanatyam Sacred Choreography</span>
+                  <span>•</span>
+                  <Link href="/atlas" className="text-gold-300 hover:underline">
+                    View in Atlas →
+                  </Link>
                 </div>
               </div>
             </div>
