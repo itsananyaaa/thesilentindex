@@ -8,7 +8,7 @@ import { JaliLattice } from "@/components/ornament/JaliLattice";
 import { OrnamentalBand } from "@/components/ornament/OrnamentalBand";
 import { StatusBadge } from "@/components/StatusBadge";
 import { StatusLegend } from "@/components/StatusLegend";
-import { ArrowRight, Compass, ShieldCheck, Layers, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowRight, Compass, ShieldCheck, Layers, FileText, CheckCircle2, AlertCircle, Sparkles, MapPin } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
 import { getActiveCollection, setActiveCollection } from "@/lib/collection";
 
@@ -169,46 +169,91 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right Column: Olive Hero Showcase with Authentic Verified Artworks */}
+            {/* Right Column: Cultural Cartography Hero Showcase with Interactive India Map */}
             <div className="lg:col-span-5 relative">
-              <div className="bg-olive-800 border-2 border-gold-400 rounded-sm p-5 shadow-2xl relative">
-                <div className="flex items-center justify-between pb-3 border-b border-gold-400/40 mb-4">
-                  <span className="font-serif text-sm font-bold uppercase tracking-wider text-gold-300">
-                    Verified Seed Artifacts
+              <div className="bg-olive-900/90 border-2 border-gold-400/80 rounded-sm p-4 sm:p-5 shadow-2xl relative overflow-hidden group">
+                {/* Header */}
+                <div className="flex items-center justify-between pb-3 border-b border-gold-400/40 mb-3.5">
+                  <span className="font-serif text-xs sm:text-sm font-bold uppercase tracking-wider text-gold-300 flex items-center gap-1.5">
+                    <Sparkles size={14} className="text-gold-400 animate-pulse" />
+                    Living Cultural Cartography
                   </span>
-                  <span className="text-[10px] font-sans font-medium px-2 py-0.5 bg-olive-900 border border-gold-400/40 text-cream-200 rounded-xs">
-                    {summary?.kind === "sample_real" ? "Sample A (Open Access)" : summary?.kind === "sample_synthetic" ? "Sample B (Synthetic Demo)" : summary?.name || activeColId}
+                  <span className="text-[10px] font-mono font-medium px-2 py-0.5 bg-olive-950/80 border border-gold-400/50 text-gold-200 rounded-xs">
+                    36 States &amp; UTs
                   </span>
                 </div>
 
-                {/* 2x2 Image Masonry Grid */}
-                <div className="grid grid-cols-2 gap-3">
-                  {featuredImages.slice(0, 4).map((img, idx) => (
-                    <div key={img.id || idx} className="group relative aspect-square bg-oxblood-950 rounded-xs overflow-hidden border border-gold-400/40">
-                      {img.thumbnail_url || img.image_url ? (
-                        <img
-                          src={img.thumbnail_url || img.image_url}
-                          alt={img.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xs text-gold-400">
-                          Artifact {idx + 1}
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-oxblood-950 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                      <div className="absolute bottom-1.5 left-2 right-2 text-[10px] text-cream-100 font-sans truncate">
-                        {img.title}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {/* Interactive Map Showcase with Pop-up & Hover Effects */}
+                <Link
+                  href="/map"
+                  className="block relative aspect-[4/5] w-full bg-[#fbf8ee] rounded-xs overflow-hidden border border-gold-400/60 shadow-inner group/map focus:outline-none focus:ring-2 focus:ring-gold-400"
+                  title="Explore the Interactive Living Culture Map of India"
+                >
+                  {/* Subtle Background Lattice Watermark */}
+                  <div className="absolute inset-0 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
 
-                <div className="mt-4 pt-3 border-t border-gold-400/30 flex items-center justify-between text-[11px] text-cream-200/80">
-                  <span>Rights: Public Domain & CC</span>
-                  <Link href="/explorer" className="text-gold-300 underline hover:text-gold-200 font-medium">
-                    View in Image Explorer →
-                  </Link>
+                  {/* Golden Glow Aura blooming on hover */}
+                  <div className="absolute inset-0 bg-radial from-amber-400/25 via-gold-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none" />
+
+                  {/* The Illustrated Cultural Map with Pop-Up Transform */}
+                  <img
+                    src="/images/india_cultural_map.jpg"
+                    alt="Illustrated Cultural Map of India showing living heritage traditions, monuments, crafts, and arts"
+                    className="w-full h-full object-contain p-2 sm:p-3 transition-all duration-500 ease-out transform group-hover:scale-105 group-hover:-translate-y-1.5 drop-shadow-md group-hover:drop-shadow-[0_20px_25px_rgba(217,119,6,0.35)]"
+                    loading="eager"
+                  />
+
+                  {/* Shimmer Light Sweeping across the frame on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+
+                  {/* Delicate Floating Cultural Region Hotspot Markers */}
+                  {/* North: Himalayas */}
+                  <div className="absolute top-4 left-6 hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-oxblood-950/85 border border-gold-400/60 text-[9px] font-mono text-gold-300 shadow-md backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping" />
+                    <span>Himalayan Epigraphy &amp; Crafts</span>
+                  </div>
+
+                  {/* East: Bengal & Odisha */}
+                  <div className="absolute top-1/3 right-3 hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-oxblood-950/85 border border-gold-400/60 text-[9px] font-mono text-gold-300 shadow-md backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+                    <span>Pattachitra &amp; Chhau</span>
+                  </div>
+
+                  {/* South: Deccan & Carnatic */}
+                  <div className="absolute bottom-12 left-4 hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-oxblood-950/85 border border-gold-400/60 text-[9px] font-mono text-gold-300 shadow-md backdrop-blur-xs transition-transform duration-300 group-hover:scale-105">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping" />
+                    <span>Carnatic Arts &amp; Bronzes</span>
+                  </div>
+
+                  {/* Interactive Floating Hover Pill */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 pointer-events-none bg-oxblood-950/95 text-gold-300 border border-gold-400/90 px-3.5 py-1.5 rounded-full text-xs font-serif shadow-2xl flex items-center gap-2 backdrop-blur-md whitespace-nowrap">
+                    <MapPin size={13} className="text-gold-400 animate-bounce" />
+                    <span className="font-bold tracking-wide">Explore Living Culture Map</span>
+                    <ArrowRight size={12} className="text-gold-300" />
+                  </div>
+                </Link>
+
+                {/* Footer with Links */}
+                <div className="mt-3.5 pt-3 border-t border-gold-400/30 flex items-center justify-between text-[11px] text-cream-200/90 font-sans">
+                  <span className="text-gold-300/80 font-serif italic">
+                    PS-05 • The Living Culture Map
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <Link
+                      href="/atlas"
+                      className="text-cream-200 hover:text-gold-300 underline font-medium"
+                    >
+                      Cultural Atlas
+                    </Link>
+                    <span className="text-gold-400/40">•</span>
+                    <Link
+                      href="/map"
+                      className="text-gold-300 hover:text-gold-200 font-bold inline-flex items-center gap-1 hover:underline"
+                    >
+                      <span>Open Map</span>
+                      <ArrowRight size={12} />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
