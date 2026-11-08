@@ -29,56 +29,65 @@ def get_existence_documentation_gaps(
         records = db.query(Record).filter(Record.id.in_(rec_ids)).all() if rec_ids else []
 
         # 1. Existence Evidence Depth (0 to 100)
-        existence_score = 0.0
-        existence_factors = []
-
-        is_unesco = any("unesco" in r.id.lower() or "unesco" in (r.layer_id or "") for r in records)
-        is_gi = any("gi" in r.id.lower() or "gi" in (r.layer_id or "") for r in records)
+        is_unesco = any("unesco" in r.id.lower() or "unesco" in (r.layer_id or "") for r in records) or "unesco" in ent.created_from
+        is_gi = any("gi" in r.id.lower() or "gi" in (r.layer_id or "") for r in records) or "gi" in ent.created_from
         is_monument = ent.entity_type == "monument" or any(r.record_kind == "monument" for r in records)
         has_community = any(r.community for r in records)
+        multi_inst = len(records) > 1
 
+        e_score = 15.0
+        existence_factors = []
         if is_unesco:
-            existence_score += 45.0
-            existence_factors.append("UNESCO Inscribed Heritage Element (+45)")
-        elif is_monument:
-            existence_score += 40.0
-            existence_factors.append("Centrally Protected Monument / Archaeological Site (+40)")
-
-        if is_gi:
-            existence_score += 35.0
+            e_score += 40.0
+            existence_factors.append("UNESCO Inscription (+40)")
+        elif is_gi:
+            e_score += 35.0
             existence_factors.append("Geographical Indication (GI) Registered (+35)")
+        elif is_monument:
+            e_score += 35.0
+            existence_factors.append("Centrally Protected Monument / Archaeological Site (+35)")
+        else:
+            existence_factors.append("Regional Archival Entry (+15)")
 
-        if len(records) > 1:
-            existence_score += 15.0
-            existence_factors.append(f"Documented across {len(records)} independent institutions (+15)")
-
+        if multi_inst:
+            bonus = min(20.0, len(records) * 4.0)
+            e_score += bonus
+            existence_factors.append(f"Documented across {len(records)} independent institutions (+{int(bonus)})")
         if has_community:
-            existence_score += 10.0
+            e_score += 10.0
             existence_factors.append("Living artisan/practitioner community recorded (+10)")
+        if ent.wikidata_qid:
+            e_score += 10.0
+            existence_factors.append("Wikidata Cultural QID Authority (+10)")
 
-        existence_depth = round(min(100.0, existence_score), 1)
+        existence_depth = round(min(95.0, max(15.0, e_score)), 1)
 
         # 2. Documentation Depth (0 to 100)
         statuses = db.query(RecordDimensionStatus).filter(RecordDimensionStatus.record_id.in_(rec_ids)).all() if rec_ids else []
-        dim_scores = [s.score for s in statuses if s.status not in ("Not assessable", "Not applicable")]
-        
-        if dim_scores:
-            doc_depth = round(float(sum(dim_scores) / len(dim_scores)) * 100.0, 1)
+        dim_max = {}
+        for s in statuses:
+            dim_max[s.dimension] = max(dim_max.get(s.dimension, 0.0), s.score or 0.0)
+
+        sum_dim = sum(dim_max.values())
+        if statuses:
+            record_depth_bonus = min(30.0, (len(records) - 1) * 7.5) if len(records) > 1 else 0.0
+            raw_doc = (sum_dim / 3.2) * 42.0 + record_depth_bonus
+            doc_depth = round(min(95.0, max(15.0, raw_doc)), 1)
         else:
             doc_depth = 15.0
 
-        # 3. Quadrant Assignment
+        # 3. Quadrant Assignment (Standard 50% Thresholds)
         if existence_depth >= 50.0 and doc_depth < 50.0:
             quadrant = "high_priority_gap" # Bottom-right: High existence, low documentation
             quadrant_label = "High Preservation Documentation Priority"
         elif existence_depth >= 50.0 and doc_depth >= 50.0:
-            quadrant = "well_documented" # Top-right
+            quadrant = "well_documented" # Top-right: High existence, high documentation
             quadrant_label = "Extensively Documented Heritage"
         elif existence_depth < 50.0 and doc_depth >= 50.0:
-            quadrant = "deep_catalog_obscure" # Top-left
+            quadrant = "deep_catalog_obscure" # Top-left: Low existence, high documentation
             quadrant_label = "Rich Catalog / Emerging Recognition"
         else:
-            quadrant = "baseline" # Bottom-left
+            quadrant = "baseline" # Bottom-left: Low existence, low documentation
             quadrant_label = "Under-Represented Baseline"
 
         points.append({

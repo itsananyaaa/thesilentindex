@@ -31,7 +31,7 @@
 
   <!-- Central Symbol -->
   
-        <!-- Kudam Resonator & Dandi -->
+        <!-- Kudam Resonator &amp; Dandi -->
         <circle cx="270" cy="310" r="45" fill="#E5B25D" opacity="0.8"/>
         <rect x="260" y="190" width="120" height="20" rx="4" transform="rotate(-30 320 250)" fill="#E5B25D"/>
         <circle cx="370" cy="210" r="22" fill="#E5B25D" opacity="0.6"/>
@@ -43,6 +43,6 @@
     SARASWATI VEENA
   </text>
   <text x="320" y="438" font-family="system-ui, sans-serif" font-size="11" fill="#E5B25D" text-anchor="middle" opacity="0.9">
-    Thanjavur Carved Kudam & Frets
+    Thanjavur Carved Kudam &amp; Frets
   </text>
 </svg>

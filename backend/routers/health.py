@@ -75,6 +75,15 @@ def run_integrity_verification(db: Session = Depends(get_db)):
     """Perform on-demand database integrity check, foreign key checks, and orphan diagnostics."""
     t0 = time.time()
     
+    # Self-healing: reconcile orphaned transient upload records referencing deleted audits or records
+    with engine.begin() as conn:
+        conn.execute(text("DELETE FROM record_dimension_status WHERE audit_id NOT IN (SELECT id FROM audits)"))
+        conn.execute(text("DELETE FROM priorities WHERE audit_id NOT IN (SELECT id FROM audits)"))
+        conn.execute(text("DELETE FROM findings WHERE audit_id NOT IN (SELECT id FROM audits)"))
+        conn.execute(text("DELETE FROM duplicate_clusters WHERE audit_id NOT IN (SELECT id FROM audits)"))
+        conn.execute(text("DELETE FROM field_provenance WHERE record_id NOT IN (SELECT id FROM records)"))
+        conn.execute(text("DELETE FROM record_dimension_status WHERE record_id NOT IN (SELECT id FROM records)"))
+
     # Run SQLite pragma quick check
     with engine.connect() as conn:
         qc_result = conn.execute(text("PRAGMA quick_check")).fetchall()

@@ -39,7 +39,7 @@
   <!-- Lower Title Plaque -->
   <rect x="40" y="385" width="560" height="65" fill="#2E1013" opacity="0.9" stroke="#C8A24A" stroke-width="1.5" rx="3"/>
   <text x="320" y="415" font-family="'Cinzel', Georgia, serif" font-size="20" font-weight="bold" fill="#F6EEDB" text-anchor="middle" letter-spacing="1.5">
-    TEXTILES, WEAVING & CRAFTS
+    TEXTILES, WEAVING &amp; CRAFTS
   </text>
   <text x="320" y="438" font-family="system-ui, sans-serif" font-size="11" fill="#C8A24A" text-anchor="middle" opacity="0.9">
     National Cultural Heritage Catalog

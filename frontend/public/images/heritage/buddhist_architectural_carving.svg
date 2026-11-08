@@ -31,7 +31,7 @@
 
   <!-- Central Symbol -->
   
-        <!-- Lotus Capital & Bracket -->
+        <!-- Lotus Capital &amp; Bracket -->
         <rect x="250" y="320" width="140" height="40" fill="#E0A96D" rx="4"/>
         <rect x="280" y="270" width="80" height="50" fill="#F6EEDB" rx="2"/>
         <polygon points="230,240 410,240 370,270 270,270" fill="#E0A96D" stroke="#F6EEDB" stroke-width="2"/>
@@ -44,6 +44,6 @@
     LADAKHI WOOD CARVING
   </text>
   <text x="320" y="438" font-family="system-ui, sans-serif" font-size="11" fill="#E0A96D" text-anchor="middle" opacity="0.9">
-    Monastery Pillars & Capital Mandalas
+    Monastery Pillars &amp; Capital Mandalas
   </text>
 </svg>

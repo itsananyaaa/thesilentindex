@@ -69,8 +69,8 @@ export default function CulturalAtlasPage() {
             Cultural Atlas of Indian Heritage
           </h1>
           <p className="text-xs sm:text-sm text-oxblood-800/80 mt-1 max-w-2xl">
-            Image-led exploration across 9 cultural categories. Discover how visual, tactile, and spiritual
-            traditions are captured and where documentation gaps persist.
+            Curatorial dossier exploration across 9 cultural categories and 36 States &amp; UTs. Inspect how visual, tactile, and spiritual
+            traditions are catalogued and where documentation deficits persist.
           </p>
         </div>
 
@@ -120,69 +120,73 @@ export default function CulturalAtlasPage() {
           Loading cultural atlas holdings...
         </div>
       ) : records.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {records.map((r) => {
-            const completenessPct = Math.round((r.completeness_score || 0.5) * 100);
+            const completenessPct = Math.round((r.completeness_score || 0.34) * 100);
             return (
               <div
                 key={r.id}
-                className="bg-cream-100 border border-parchment-300 rounded-sm overflow-hidden flex flex-col justify-between shadow-xs hover:border-gold-400 hover:shadow-md transition-all group relative"
+                className="bg-cream-100 border border-parchment-300 rounded-sm overflow-hidden flex flex-col justify-between shadow-xs hover:border-gold-400 hover:shadow-md transition-all group relative border-t-2 border-t-gold-400"
               >
-                {/* Image Container */}
-                <div className="relative aspect-4/3 bg-oxblood-950 overflow-hidden">
-                  {r.thumbnail_url || r.image_url ? (
-                    <img
-                      src={r.thumbnail_url || r.image_url}
-                      alt={r.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-xs p-4 text-center pattern-dotted-parchment">
-                      <span className="font-serif italic font-medium text-gold-300 bg-oxblood-950/85 px-2.5 py-0.5 rounded-xs border border-gold-400/30">No image documented</span>
-                      <span className="text-[10px] text-cream-100/80 mt-1 bg-oxblood-950/85 px-2 py-0.5 rounded-xs">{r.is_synthetic ? "Synthetic benchmark" : "Not documented in collection"}</span>
-                    </div>
-                  )}
-
-                  {/* Completeness Ring Badge */}
-                  <div
-                    className="absolute top-2 right-2 bg-oxblood-950/85 backdrop-blur-xs text-cream-100 px-2 py-0.5 rounded-xs font-mono text-[10px] font-bold border border-gold-400/50 shadow-sm"
-                    title={`Metadata completeness: ${completenessPct}%`}
-                  >
-                    {completenessPct}% COMPLETE
+                {/* Dossier Header Strip */}
+                <div className="p-4 pb-3 border-b border-parchment-200 bg-cream-200/40">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-copper-600 bg-cream-100 px-2 py-0.5 rounded-xs border border-parchment-300 truncate max-w-[150px]">
+                      {r.art_form || "Heritage Dossier"}
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-xs font-mono text-[10px] font-bold border shadow-2xs ${
+                        completenessPct >= 75
+                          ? "bg-olive-700 text-cream-100 border-olive-800"
+                          : completenessPct >= 25
+                          ? "bg-gold-400/25 text-oxblood-900 border-gold-400/60"
+                          : "bg-copper-500/20 text-copper-700 border-copper-400/50"
+                      }`}
+                      title={`Documentation completeness: ${completenessPct}%`}
+                    >
+                      {completenessPct}% COMPLETE
+                    </span>
                   </div>
 
+                  <h3 className="font-serif font-bold text-base text-oxblood-900 group-hover:text-henna-700 transition-colors line-clamp-2 leading-snug">
+                    {r.title}
+                  </h3>
+
                   {r.is_synthetic && (
-                    <div className="absolute top-2 left-2 bg-henna-600 text-cream-100 px-1.5 py-0.5 rounded-xs font-mono text-[9px] font-bold">
+                    <span className="inline-block mt-1 bg-henna-600 text-cream-100 px-1.5 py-0.2 rounded-xs font-mono text-[9px] font-bold">
                       SYNTHETIC
-                    </div>
+                    </span>
                   )}
                 </div>
 
-                {/* Card Body */}
-                <div className="p-4 flex-1 flex flex-col justify-between space-y-2">
-                  <div>
-                    <span className="text-[10px] font-sans text-copper-600 font-semibold uppercase tracking-wider block">
-                      {r.art_form || "Traditional Indian Heritage"}
-                    </span>
-                    <h3 className="font-serif font-bold text-sm text-oxblood-900 group-hover:text-henna-700 transition-colors line-clamp-2 mt-0.5">
-                      {r.title}
-                    </h3>
-                  </div>
-
-                  <div className="text-[11px] text-oxblood-800/80 font-sans space-y-0.5 pt-2 border-t border-parchment-300">
-                    <div><strong>Provenance:</strong> {r.state || "Not documented in collection"}</div>
-                    <div><strong>Period:</strong> {r.period || "Unknown era"}</div>
-                    <div><strong>Rights:</strong> {r.rights_category || "PDM"}</div>
+                {/* Card Body Details */}
+                <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                  <div className="text-[11px] text-oxblood-800/85 font-sans space-y-1.5">
+                    <div className="flex items-baseline justify-between border-b border-parchment-200 pb-1">
+                      <span className="text-[10px] uppercase font-bold text-oxblood-800/60">Provenance</span>
+                      <strong className="font-serif text-oxblood-900 truncate max-w-[160px]">{r.state || "Not documented"}</strong>
+                    </div>
+                    <div className="flex items-baseline justify-between border-b border-parchment-200 pb-1">
+                      <span className="text-[10px] uppercase font-bold text-oxblood-800/60">Period / Era</span>
+                      <span className="font-mono text-oxblood-900 text-[10px] truncate max-w-[160px]">{r.period_text || r.period || "Registered Heritage"}</span>
+                    </div>
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-[10px] uppercase font-bold text-oxblood-800/60">Rights</span>
+                      <span className="font-mono font-bold text-[10px] px-1.5 py-0.5 bg-cream-200 rounded-xs text-oxblood-900 border border-parchment-300">
+                        {r.rights_category || r.rights_declared || "OGD_INDIA"}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Card Footer */}
                 <div className="px-4 py-2.5 bg-cream-200/50 border-t border-parchment-300 flex items-center justify-between text-xs">
-                  <span className="text-[10px] font-mono text-oxblood-800/60 truncate max-w-[120px]">{r.id}</span>
+                  <span className="text-[10px] font-mono text-oxblood-800/60 truncate max-w-[120px]" title={r.id}>
+                    {r.id}
+                  </span>
                   <Link
                     href={`/records/${r.id}`}
-                    className="font-serif font-bold text-xs text-oxblood-900 group-hover:text-gold-600 inline-flex items-center gap-1"
+                    className="font-serif font-bold text-xs text-oxblood-900 group-hover:text-henna-700 inline-flex items-center gap-1 hover:underline"
                   >
                     <span>View Dossier</span>
                     <ChevronRight size={12} />

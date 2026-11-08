@@ -197,7 +197,7 @@ export default function ExistenceGapPage() {
 
           {/* Render Sample Plotted Entity Dots */}
           <div className="absolute inset-6">
-            {filteredPoints.slice(0, 45).map((p: any) => {
+            {filteredPoints.slice(0, 80).map((p: any) => {
               const leftPercent = Math.max(5, Math.min(95, p.existence_depth));
               const bottomPercent = Math.max(5, Math.min(95, p.documentation_depth));
               const isHigh = p.quadrant === "high_priority_gap";

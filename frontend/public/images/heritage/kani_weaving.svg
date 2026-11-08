@@ -26,12 +26,12 @@
   <!-- Header Banner -->
   <rect x="140" y="38" width="360" height="26" fill="#4A1C20" stroke="#E6C260" stroke-width="1" rx="2"/>
   <text x="320" y="55" font-family="'Cinzel', Georgia, serif" font-size="10" font-weight="bold" fill="#E6C260" text-anchor="middle" letter-spacing="2">
-    GI REGISTERED • JAMMU & KASHMIR
+    GI REGISTERED • JAMMU &amp; KASHMIR
   </text>
 
   <!-- Central Symbol -->
   
-        <!-- Loom Warps & Weft Kanis -->
+        <!-- Loom Warps &amp; Weft Kanis -->
         <g stroke="#E6C260" stroke-width="3" opacity="0.8">
           <line x1="220" y1="200" x2="420" y2="200"/>
           <line x1="220" y1="240" x2="420" y2="240"/>

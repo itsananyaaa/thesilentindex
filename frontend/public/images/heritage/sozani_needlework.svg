@@ -26,7 +26,7 @@
   <!-- Header Banner -->
   <rect x="140" y="38" width="360" height="26" fill="#3F4220" stroke="#D4AF37" stroke-width="1" rx="2"/>
   <text x="320" y="55" font-family="'Cinzel', Georgia, serif" font-size="10" font-weight="bold" fill="#D4AF37" text-anchor="middle" letter-spacing="2">
-    GI REGISTERED • JAMMU & KASHMIR
+    GI REGISTERED • JAMMU &amp; KASHMIR
   </text>
 
   <!-- Central Symbol -->

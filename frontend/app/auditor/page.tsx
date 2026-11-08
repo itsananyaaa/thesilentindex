@@ -89,10 +89,31 @@ export default function AuditorPage() {
   };
 
   // Select Sample dataset directly
-  const handleSelectSample = (sampleId: string) => {
-    localStorage.setItem("silence_index_active_collection", sampleId);
-    window.dispatchEvent(new Event("collection_changed"));
-    router.push(`/observatory`);
+  const handleSelectSample = async (sampleId: string) => {
+    try {
+      setIsUploading(true);
+      setErrorMessage(null);
+      const res = await fetch(`/api/collections/${sampleId}/summary`);
+      const data = await res.json();
+      if (data.latest_audit_id) {
+        const aRes = await fetch(`/api/audits/${data.latest_audit_id}`);
+        const aData = await aRes.json();
+        setAuditComplete(aData);
+        localStorage.setItem("silence_index_active_collection", sampleId);
+        window.dispatchEvent(new Event("collection_changed"));
+        setStep(5);
+      } else {
+        localStorage.setItem("silence_index_active_collection", sampleId);
+        window.dispatchEvent(new Event("collection_changed"));
+        router.push("/observatory");
+      }
+    } catch (e: any) {
+      localStorage.setItem("silence_index_active_collection", sampleId);
+      window.dispatchEvent(new Event("collection_changed"));
+      router.push("/observatory");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   // Confirm mapping and start audit
@@ -455,8 +476,12 @@ export default function AuditorPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div className="p-4 bg-cream-200/70 border border-parchment-300 rounded-xs">
               <span className="text-[11px] uppercase text-copper-600 block">Cultural Coverage Debt</span>
-              <span className="font-serif text-3xl font-bold text-oxblood-900">{auditComplete.ccd?.toFixed(1)}</span>
-              <span className="text-[10px] text-oxblood-800/70 block mt-0.5">Scale 0-100</span>
+              <span className="font-serif text-3xl font-bold text-oxblood-900">
+                {auditComplete.ccd != null ? auditComplete.ccd.toFixed(1) : "N/A*"}
+              </span>
+              <span className="text-[10px] text-oxblood-800/70 block mt-0.5">
+                {auditComplete.ccd != null ? "Scale 0-100" : "*Suppressed (N < 5 records)"}
+              </span>
             </div>
             <div className="p-4 bg-cream-200/70 border border-parchment-300 rounded-xs">
               <span className="text-[11px] uppercase text-copper-600 block">Assessability</span>

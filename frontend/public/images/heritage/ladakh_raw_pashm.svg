@@ -31,7 +31,7 @@
 
   <!-- Central Symbol -->
   
-        <!-- Changthang Mountain Peak & Fleece Waves -->
+        <!-- Changthang Mountain Peak &amp; Fleece Waves -->
         <polygon points="320,200 410,340 230,340" fill="#C5A059" opacity="0.6"/>
         <polygon points="320,200 350,250 290,250" fill="#F6EEDB"/>
         <path d="M 230,360 Q 275,340 320,360 Q 365,380 410,360" fill="none" stroke="#F6EEDB" stroke-width="4"/>
