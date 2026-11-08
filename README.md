@@ -76,7 +76,7 @@ Conventional archival tools treat absent metadata as a boolean failure (`null` o
 
 ---
 
-## 2. Problem Statement
+## 2. Problem Statement: PS-01 — Living Heritage, Searchable (Cultural Preservation)
 
 Institutional digital archives systematically suffer from colonial collecting biases, urban favoritism, and severe geographic asymmetry:
 - **The Archival Blind-Spot:** While classical sculptures and urban palace monuments are hyper-catalogued across dozens of institutions, living indigenous traditions, tribal craft techniques, folk epigraphy, and peripheral territories (such as Ladakh, Lakshadweep, or the North-Eastern states) remain largely invisible or unassessed.
