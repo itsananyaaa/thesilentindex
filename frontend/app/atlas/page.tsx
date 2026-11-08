@@ -8,6 +8,17 @@ import { StatusLegend } from "@/components/StatusLegend";
 import { Layers, Search, Filter, ChevronRight, Eye } from "lucide-react";
 import { getActiveCollection } from "@/lib/collection";
 
+// Helper function to resolve reliable museum-grade offline vector artwork for each record
+function getRecordArtwork(r: any): string {
+  const cleanArt = (r.art_form || "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  const cleanTitle = (r.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  
+  if (cleanArt) return `/images/heritage/${cleanArt}.svg`;
+  if (cleanTitle) return `/images/heritage/${cleanTitle}.svg`;
+  if (r.category) return `/images/heritage/${r.category}.svg`;
+  return "/images/heritage/visual_arts.svg";
+}
+
 export default function CulturalAtlasPage() {
   const [activeColId, setActiveColId] = useState<string>("fused-v2");
   const [records, setRecords] = useState<any[]>([]);
@@ -128,47 +139,59 @@ export default function CulturalAtlasPage() {
                 key={r.id}
                 className="bg-cream-100 border border-parchment-300 rounded-sm overflow-hidden flex flex-col justify-between shadow-xs hover:border-gold-400 hover:shadow-md transition-all group relative border-t-2 border-t-gold-400"
               >
-                {/* Dossier Header Strip */}
-                <div className="p-4 pb-3 border-b border-parchment-200 bg-cream-200/40">
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-copper-600 bg-cream-100 px-2 py-0.5 rounded-xs border border-parchment-300 truncate max-w-[150px]">
-                      {r.art_form || "Heritage Dossier"}
-                    </span>
-                    <span
-                      className={`px-2 py-0.5 rounded-xs font-mono text-[10px] font-bold border shadow-2xs ${
-                        completenessPct >= 75
-                          ? "bg-olive-700 text-cream-100 border-olive-800"
-                          : completenessPct >= 25
-                          ? "bg-gold-400/25 text-oxblood-900 border-gold-400/60"
-                          : "bg-copper-500/20 text-copper-700 border-copper-400/50"
-                      }`}
-                      title={`Documentation completeness: ${completenessPct}%`}
-                    >
-                      {completenessPct}% COMPLETE
-                    </span>
+                {/* Visual Artwork Thumbnail */}
+                <div className="relative h-44 w-full bg-oxblood-950 overflow-hidden border-b border-parchment-300">
+                  <img
+                    src={getRecordArtwork(r)}
+                    alt={r.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    onError={(ev) => {
+                      (ev.target as HTMLImageElement).src = "/images/heritage/visual_arts.svg";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                  {/* Completeness Badge */}
+                  <div
+                    className={`absolute top-2 right-2 px-2 py-0.5 rounded-xs font-mono text-[10px] font-bold border shadow-md ${
+                      completenessPct >= 75
+                        ? "bg-olive-800 text-cream-100 border-olive-600"
+                        : completenessPct >= 25
+                        ? "bg-oxblood-950/90 text-gold-300 border-gold-400/60"
+                        : "bg-copper-900/90 text-copper-200 border-copper-400/50"
+                    }`}
+                    title={`Metadata completeness: ${completenessPct}%`}
+                  >
+                    {completenessPct}% COMPLETE
                   </div>
 
-                  <h3 className="font-serif font-bold text-base text-oxblood-900 group-hover:text-henna-700 transition-colors line-clamp-2 leading-snug">
-                    {r.title}
-                  </h3>
-
                   {r.is_synthetic && (
-                    <span className="inline-block mt-1 bg-henna-600 text-cream-100 px-1.5 py-0.2 rounded-xs font-mono text-[9px] font-bold">
+                    <div className="absolute top-2 left-2 bg-henna-600 text-cream-100 px-1.5 py-0.5 rounded-xs font-mono text-[9px] font-bold">
                       SYNTHETIC
-                    </span>
+                    </div>
                   )}
                 </div>
 
                 {/* Card Body Details */}
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                  <div className="text-[11px] text-oxblood-800/85 font-sans space-y-1.5">
-                    <div className="flex items-baseline justify-between border-b border-parchment-200 pb-1">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-copper-600 bg-cream-200 px-2 py-0.5 rounded-xs border border-parchment-300 truncate max-w-[200px] inline-block mb-1.5">
+                      {r.art_form || "Heritage Tradition"}
+                    </span>
+                    <h3 className="font-serif font-bold text-base text-oxblood-900 group-hover:text-henna-700 transition-colors line-clamp-2 leading-snug">
+                      {r.title}
+                    </h3>
+                  </div>
+
+                  <div className="text-[11px] text-oxblood-800/85 font-sans space-y-1.5 pt-2 border-t border-parchment-200">
+                    <div className="flex items-baseline justify-between">
                       <span className="text-[10px] uppercase font-bold text-oxblood-800/60">Provenance</span>
-                      <strong className="font-serif text-oxblood-900 truncate max-w-[160px]">{r.state || "Not documented"}</strong>
+                      <strong className="font-serif text-oxblood-900 truncate max-w-[150px]">{r.state || "Not documented"}</strong>
                     </div>
-                    <div className="flex items-baseline justify-between border-b border-parchment-200 pb-1">
+                    <div className="flex items-baseline justify-between">
                       <span className="text-[10px] uppercase font-bold text-oxblood-800/60">Period / Era</span>
-                      <span className="font-mono text-oxblood-900 text-[10px] truncate max-w-[160px]">{r.period_text || r.period || "Registered Heritage"}</span>
+                      <span className="font-mono text-oxblood-900 text-[10px] truncate max-w-[150px]">{r.period_text || r.period || "Registered Heritage"}</span>
                     </div>
                     <div className="flex items-baseline justify-between">
                       <span className="text-[10px] uppercase font-bold text-oxblood-800/60">Rights</span>
