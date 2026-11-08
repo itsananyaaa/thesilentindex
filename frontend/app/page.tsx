@@ -29,50 +29,53 @@ export default function LandingPage() {
 
     audio.volume = 0.40;
 
-    const startAudio = () => {
-      if (audio.paused) {
-        audio.volume = 0.40;
-        audio.play().then(() => {
-          setIsPlayingSound(true);
-        }).catch(() => {});
-      } else {
-        setIsPlayingSound(true);
-      }
-    };
+    // Genuine user gesture activation events recognized by browser autoplay policies
+    const activationEvents = ["click", "pointerdown", "mousedown", "touchstart", "touchend", "keydown"];
 
-    // 1. Immediate trigger on initial mount
-    startAudio();
-
-    // 2. Trigger as soon as audio data/metadata loads
-    audio.addEventListener("canplay", startAudio, { once: true });
-    audio.addEventListener("loadeddata", startAudio, { once: true });
-
-    // 3. Fallback: Catch any user interaction anywhere on the window/document (click, move, touch, scroll)
-    const interactionEvents = [
-      "pointerdown", "mousedown", "touchstart", "click", "keydown",
-      "wheel", "scroll", "mousemove", "pointermove", "focus"
-    ];
-
-    const onInteraction = () => {
-      startAudio();
-      interactionEvents.forEach((evt) => {
-        window.removeEventListener(evt, onInteraction);
-        document.removeEventListener(evt, onInteraction);
+    const cleanActivationListeners = () => {
+      activationEvents.forEach((evt) => {
+        window.removeEventListener(evt, handleGestureActivation, true);
+        document.removeEventListener(evt, handleGestureActivation, true);
       });
     };
 
-    interactionEvents.forEach((evt) => {
-      window.addEventListener(evt, onInteraction, { passive: true, once: true });
-      document.addEventListener(evt, onInteraction, { passive: true, once: true });
+    const tryPlay = () => {
+      if (!audio) return;
+      audio.volume = 0.40;
+      const promise = audio.play();
+      if (promise !== undefined) {
+        promise
+          .then(() => {
+            setIsPlayingSound(true);
+            cleanActivationListeners();
+          })
+          .catch(() => {
+            // Kept active until genuine user gesture unlocks unmuted playback
+          });
+      }
+    };
+
+    function handleGestureActivation() {
+      tryPlay();
+    }
+
+    // 1. Immediate trigger on initial mount (plays instantly if browser allows)
+    tryPlay();
+
+    // 2. Trigger on metadata & stream load
+    audio.addEventListener("canplay", tryPlay, { once: true });
+    audio.addEventListener("loadeddata", tryPlay, { once: true });
+
+    // 3. Attach persistent capture-phase gesture listeners that ONLY detach once audio is genuinely playing
+    activationEvents.forEach((evt) => {
+      window.addEventListener(evt, handleGestureActivation, { capture: true });
+      document.addEventListener(evt, handleGestureActivation, { capture: true });
     });
 
     return () => {
       audio.pause();
       audio.currentTime = 0;
-      interactionEvents.forEach((evt) => {
-        window.removeEventListener(evt, onInteraction);
-        document.removeEventListener(evt, onInteraction);
-      });
+      cleanActivationListeners();
     };
   }, []);
 
@@ -442,7 +445,7 @@ export default function LandingPage() {
                   />
                 </div>
 
-                {/* Lotus D: Normal Crisp Glowing Pink Lotus Blossom at lower-left (replaces blurry wash) */}
+                {/* Lotus D: Normal Crisp Glowing Pink Lotus Blossom at lower-left */}
                 <div className="absolute bottom-6 left-1 w-24 h-20 z-20 pointer-events-none animate-lotus-top-left">
                   <Image
                     src="/images/lotus_top_left.png"
@@ -450,6 +453,37 @@ export default function LandingPage() {
                     width={150}
                     height={115}
                     className="w-full h-full object-contain"
+                  />
+                </div>
+
+                {/* Lotus E: Normal Crisp Glowing Pink Lotus Blossom with Twinkling Gold Star at lower-right (User Requested) */}
+                <div className="absolute bottom-6 right-1 w-24 h-20 z-20 pointer-events-none animate-lotus-top-right">
+                  {/* Glowing 4-Point Golden Star positioned beside the lotus */}
+                  <div className="absolute -top-3 -left-3 w-6 h-6 animate-gold-twinkle" style={{ animationDelay: "0.5s" }}>
+                    <svg viewBox="0 0 24 24" className="w-full h-full overflow-visible">
+                      <defs>
+                        <filter id="starGlowCorner" x="-50%" y="-50%" width="200%" height="200%">
+                          <feGaussianBlur stdDeviation="2" result="blur" />
+                          <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <path
+                        d="M 12 0 Q 12 12 24 12 Q 12 12 12 24 Q 12 12 0 12 Q 12 12 12 0"
+                        fill="#FDE68A"
+                        filter="url(#starGlowCorner)"
+                      />
+                      <circle cx="12" cy="12" r="2.5" fill="#FFFFFF" />
+                    </svg>
+                  </div>
+                  <Image
+                    src="/images/lotus_top_left.png"
+                    alt="Glowing Pink Lotus Blossom in Bottom Right Corner"
+                    width={150}
+                    height={115}
+                    className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(244,114,182,0.7)]"
                   />
                 </div>
 
