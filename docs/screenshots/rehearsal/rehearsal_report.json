@@ -1,0 +1,14 @@
+{
+  "steps": [],
+  "console_errors": [],
+  "failed_requests": [],
+  "timings": {
+    "landing": 18.28,
+    "tour": 3.28,
+    "map": 15.55,
+    "entity_pashmina": 4.31,
+    "gaps": 10.32,
+    "priorities": 7.47,
+    "health": 4.13
+  }
+}

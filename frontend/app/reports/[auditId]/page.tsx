@@ -13,7 +13,7 @@ import {
 
 export default function SilenceReportPage() {
   const params = useParams();
-  const auditId = (params?.auditId as string) || "AUDIT-SAMPLE-REAL-001-INIT";
+  const auditId = (params?.auditId as string) || "AUDIT-FUSED-V2-INIT";
 
   const [report, setReport] = useState<any>(null);
   const [findings, setFindings] = useState<any[]>([]);

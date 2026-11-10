@@ -213,7 +213,7 @@ export default function LandingPage() {
                     {t("home.stat_records", "Holdings Audited")}
                   </span>
                   <span className="font-serif text-2xl font-bold text-cream-100">
-                    {summary?.total_records ? summary.total_records.toLocaleString() : "181"}
+                    {summary?.total_records ? summary.total_records.toLocaleString() : "317"}
                   </span>
                   <span className="text-[10px] text-cream-200/60 block mt-0.5">
                     {t("home.stat_records_sub", "Verified open-access")}
@@ -224,7 +224,7 @@ export default function LandingPage() {
                     {t("home.stat_ccd", "Coverage Debt")}
                   </span>
                   <span className="font-serif text-2xl font-bold text-gold-400">
-                    {audit?.ccd !== undefined ? audit.ccd.toFixed(1) : "33.9"}
+                    {audit?.ccd !== undefined ? audit.ccd.toFixed(1) : "29.9"}
                   </span>
                   <span className="text-[10px] text-cream-200/60 block mt-0.5">
                     {t("home.stat_ccd_sub", "CCD Scale 0-100")}
@@ -235,7 +235,7 @@ export default function LandingPage() {
                     {t("home.stat_assess", "Assessability")}
                   </span>
                   <span className="font-serif text-2xl font-bold text-cream-100">
-                    {audit?.assessability ? audit.assessability.split(" ")[0] : "7"}/10
+                    {audit?.assessability ? audit.assessability.split(" ")[0] : "5"}/10
                   </span>
                   <span className="text-[10px] text-cream-200/60 block mt-0.5">
                     {t("home.stat_assess_sub", "Dimensions assessable")}

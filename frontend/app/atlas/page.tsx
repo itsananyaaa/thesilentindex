@@ -235,7 +235,7 @@ export default function CulturalAtlasPage() {
             Cultural Atlas of Indian Heritage
           </h1>
           <p className="text-xs sm:text-sm text-oxblood-800/80 mt-1 max-w-2xl">
-            Curatorial dossier exploration across 9 cultural categories and 36 States &amp; UTs. Each unique tradition,
+            Curatorial dossier exploration across 9 cultural categories and 35 catalogued States (with all 36 States &amp; UTs represented in regional attributions). Each unique tradition,
             sacred practice, and architectural monument is curated with verified authentic photography.
           </p>
         </div>

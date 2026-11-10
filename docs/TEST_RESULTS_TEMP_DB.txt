@@ -1,0 +1,56 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.15, pytest-9.2.0, pluggy-1.7.0 -- /Users/ananyabiju/Desktop/silentindex/venv/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /Users/ananyabiju/Desktop/silentindex
+plugins: anyio-4.16.0
+collecting ... collected 41 items
+
+backend/tests/test_api.py::test_health PASSED                            [  2%]
+backend/tests/test_api.py::test_collections_list PASSED                  [  4%]
+backend/tests/test_api.py::test_collection_summary PASSED                [  7%]
+backend/tests/test_api.py::test_matrix_endpoint PASSED                   [  9%]
+backend/tests/test_api.py::test_map_endpoint PASSED                      [ 12%]
+backend/tests/test_api.py::test_download_forbidden_on_non_reusable PASSED [ 14%]
+backend/tests/test_api.py::test_config_rubrics PASSED                    [ 17%]
+backend/tests/test_entities_ccd.py::test_entity_level_ccd_evaluation PASSED [ 19%]
+backend/tests/test_golden.py::test_golden_tiny_collection PASSED         [ 21%]
+backend/tests/test_golden.py::test_missing_column_yields_not_assessable PASSED [ 24%]
+backend/tests/test_golden.py::test_slice_under_5_records_returns_insufficient_evidence PASSED [ 26%]
+backend/tests/test_golden.py::test_download_allowed_invariant PASSED     [ 29%]
+backend/tests/test_multi_state_gi.py::test_multi_state_gi_adapter_attributions PASSED [ 31%]
+backend/tests/test_multi_state_gi.py::test_unesco_multi_state_attributions PASSED [ 34%]
+backend/tests/test_multi_state_gi.py::test_db_fused_collection_counts PASSED [ 36%]
+backend/tests/test_rights.py::test_cc0_normalization PASSED              [ 39%]
+backend/tests/test_rights.py::test_pdm_normalization PASSED              [ 41%]
+backend/tests/test_rights.py::test_cc_by_normalization PASSED            [ 43%]
+backend/tests/test_rights.py::test_cc_by_sa_normalization PASSED         [ 46%]
+backend/tests/test_rights.py::test_cc_nc_download_disallowed PASSED      [ 48%]
+backend/tests/test_rights.py::test_in_copyright_disallowed PASSED        [ 51%]
+backend/tests/test_rights.py::test_unknown_empty PASSED                  [ 53%]
+backend/tests/test_rights.py::test_multi_licensed_needs_review PASSED    [ 56%]
+backend/tests/test_scripts_lang.py::test_devanagari_detection PASSED     [ 58%]
+backend/tests/test_scripts_lang.py::test_tamil_detection PASSED          [ 60%]
+backend/tests/test_scripts_lang.py::test_transliteration_detection PASSED [ 63%]
+backend/tests/test_scripts_lang.py::test_english_only PASSED             [ 65%]
+backend/tests/test_upload.py::test_empty_file_rejected PASSED            [ 68%]
+backend/tests/test_upload.py::test_binary_file_rejected PASSED           [ 70%]
+backend/tests/test_upload.py::test_bom_detected_and_handled PASSED       [ 73%]
+backend/tests/test_upload.py::test_semicolon_delimiter PASSED            [ 75%]
+backend/tests/test_upload.py::test_json_lines_parsing PASSED             [ 78%]
+backend/tests/test_upload.py::test_latin_encoded_file PASSED             [ 80%]
+backend/tests/test_upload.py::test_suggest_column_mappings PASSED        [ 82%]
+backend/tests/test_v2_features.py::test_f1_sources_api PASSED            [ 85%]
+backend/tests/test_v2_features.py::test_f2_entities_api PASSED           [ 87%]
+backend/tests/test_v2_features.py::test_f3_gaps_api PASSED               [ 90%]
+backend/tests/test_v2_features.py::test_f4_compare_api PASSED            [ 92%]
+backend/tests/test_v2_features.py::test_f5_briefs_api PASSED             [ 95%]
+backend/tests/test_v2_features.py::test_f6_exports_api PASSED            [ 97%]
+backend/tests/test_v2_features.py::test_f9_health_diagnostics_api PASSED [100%]
+
+=============================== warnings summary ===============================
+venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  /Users/ananyabiju/Desktop/silentindex/venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 41 passed, 1 warning in 0.91s =========================

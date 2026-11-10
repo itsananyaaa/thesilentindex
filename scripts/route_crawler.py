@@ -14,7 +14,7 @@ ROUTES = [
     "/matrix",
     "/sources",
     "/entities",
-    "/entities/ENT-70533",
+    "/entities/ENT-06980",
     "/gaps",
     "/compare",
     "/priorities",
@@ -26,7 +26,7 @@ ROUTES = [
     "/ethics",
     "/credits",
     "/records/REC-REAL-0001",
-    "/reports/AUDIT-SAMPLE-REAL-001-INIT",
+    "/reports/AUDIT-FUSED-V2-INIT",
 ]
 
 BREAKPOINTS = [

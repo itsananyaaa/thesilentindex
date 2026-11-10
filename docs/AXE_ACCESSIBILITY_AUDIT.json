@@ -1,0 +1,320 @@
+{
+  "audit_date": "2026-11-10",
+  "target_url": "https://thesilentindex.vercel.app",
+  "engine": "axe-core 4.8.4",
+  "standard": "WCAG 2.1 AA",
+  "total_routes_scanned": 19,
+  "total_violation_instances": 802,
+  "impact_breakdown": {
+    "critical": 10,
+    "serious": 792,
+    "moderate": 0,
+    "minor": 0
+  },
+  "routes": {
+    "/": {
+      "violations_count": 1,
+      "total_violation_nodes": 7,
+      "passes_count": 26,
+      "inapplicable_count": 34,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 7
+        }
+      ]
+    },
+    "/observatory": {
+      "violations_count": 2,
+      "total_violation_nodes": 8,
+      "passes_count": 30,
+      "inapplicable_count": 32,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 6
+        },
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "description": "Ensures select element has an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/select-name?application=axeAPI",
+          "node_count": 2
+        }
+      ]
+    },
+    "/map": {
+      "violations_count": 1,
+      "total_violation_nodes": 1,
+      "passes_count": 26,
+      "inapplicable_count": 36,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    },
+    "/matrix": {
+      "violations_count": 2,
+      "total_violation_nodes": 6,
+      "passes_count": 27,
+      "inapplicable_count": 35,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 5
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "description": "Ensure elements that have scrollable content are accessible by keyboard",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/scrollable-region-focusable?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    },
+    "/sources": {
+      "violations_count": 1,
+      "total_violation_nodes": 52,
+      "passes_count": 28,
+      "inapplicable_count": 34,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 52
+        }
+      ]
+    },
+    "/entities": {
+      "violations_count": 1,
+      "total_violation_nodes": 1,
+      "passes_count": 27,
+      "inapplicable_count": 35,
+      "violations": [
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "description": "Ensures select element has an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/select-name?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    },
+    "/entities/ENT-06980": {
+      "violations_count": 1,
+      "total_violation_nodes": 17,
+      "passes_count": 25,
+      "inapplicable_count": 37,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 17
+        }
+      ]
+    },
+    "/gaps": {
+      "violations_count": 1,
+      "total_violation_nodes": 4,
+      "passes_count": 27,
+      "inapplicable_count": 34,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 4
+        }
+      ]
+    },
+    "/compare": {
+      "violations_count": 2,
+      "total_violation_nodes": 8,
+      "passes_count": 25,
+      "inapplicable_count": 37,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 6
+        },
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "description": "Ensures select element has an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/select-name?application=axeAPI",
+          "node_count": 2
+        }
+      ]
+    },
+    "/priorities": {
+      "violations_count": 2,
+      "total_violation_nodes": 92,
+      "passes_count": 25,
+      "inapplicable_count": 37,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 90
+        },
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "description": "Ensures select element has an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/select-name?application=axeAPI",
+          "node_count": 2
+        }
+      ]
+    },
+    "/atlas": {
+      "violations_count": 1,
+      "total_violation_nodes": 593,
+      "passes_count": 27,
+      "inapplicable_count": 35,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 593
+        }
+      ]
+    },
+    "/explorer": {
+      "violations_count": 1,
+      "total_violation_nodes": 1,
+      "passes_count": 27,
+      "inapplicable_count": 35,
+      "violations": [
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "description": "Ensures select element has an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/select-name?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    },
+    "/auditor": {
+      "violations_count": 2,
+      "total_violation_nodes": 6,
+      "passes_count": 25,
+      "inapplicable_count": 36,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 5
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "description": "Ensures every form element has a label",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/label?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    },
+    "/health": {
+      "violations_count": 1,
+      "total_violation_nodes": 1,
+      "passes_count": 27,
+      "inapplicable_count": 35,
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "description": "Ensures buttons have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/button-name?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    },
+    "/method": {
+      "violations_count": 1,
+      "total_violation_nodes": 1,
+      "passes_count": 25,
+      "inapplicable_count": 37,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    },
+    "/ethics": {
+      "violations_count": 0,
+      "total_violation_nodes": 0,
+      "passes_count": 25,
+      "inapplicable_count": 37,
+      "violations": []
+    },
+    "/credits": {
+      "violations_count": 0,
+      "total_violation_nodes": 0,
+      "passes_count": 28,
+      "inapplicable_count": 34,
+      "violations": []
+    },
+    "/records/REC-REAL-0001": {
+      "violations_count": 1,
+      "total_violation_nodes": 3,
+      "passes_count": 26,
+      "inapplicable_count": 36,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 3
+        }
+      ]
+    },
+    "/reports/AUDIT-FUSED-V2-INIT": {
+      "violations_count": 1,
+      "total_violation_nodes": 1,
+      "passes_count": 25,
+      "inapplicable_count": 37,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI",
+          "node_count": 1
+        }
+      ]
+    }
+  }
+}

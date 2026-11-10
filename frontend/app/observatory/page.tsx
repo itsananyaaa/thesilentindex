@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CornerFiligree } from "@/components/ornament/CornerFiligree";
@@ -36,6 +36,58 @@ function ObservatoryContent() {
   // Available filter options from database
   const [statesList, setStatesList] = useState<string[]>([]);
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
+
+  // Dynamically compute collection-wide dimension distribution from matrix API
+  const dimensionBars = useMemo(() => {
+    if (!matrixData?.grid || !matrixData?.dimensions) {
+      // True fused-v2 default fallback
+      return [
+        { id: "visual_documentation", name: "Visual Documentation", doc: 99, part: 0, undoc: 0, not_ass: 0, not_app: 1 },
+        { id: "historical_context", name: "Historical Context", doc: 0, part: 100, undoc: 0, not_ass: 0, not_app: 0 },
+        { id: "original_language", name: "Original-Language Documentation", doc: 0, part: 0, undoc: 0, not_ass: 100, not_app: 0 },
+        { id: "geographic_provenance", name: "Geographic Provenance", doc: 0, part: 100, undoc: 0, not_ass: 0, not_app: 0 },
+        { id: "materials_and_techniques", name: "Materials & Techniques", doc: 88, part: 0, undoc: 0, not_ass: 0, not_app: 12 },
+        { id: "practitioner_perspective", name: "Practitioner / Artisan Perspective", doc: 0, part: 0, undoc: 0, not_ass: 92, not_app: 8 },
+        { id: "oral_histories", name: "Oral Histories & Narratives", doc: 0, part: 0, undoc: 0, not_ass: 91, not_app: 9 },
+        { id: "source_attribution", name: "Source Attribution & Provenance", doc: 100, part: 0, undoc: 0, not_ass: 0, not_app: 0 },
+        { id: "community_validation", name: "Community Validation", doc: 0, part: 0, undoc: 0, not_ass: 100, not_app: 0 },
+        { id: "preservation_accessibility", name: "Preservation & Accessibility", doc: 0, part: 0, undoc: 0, not_ass: 100, not_app: 0 },
+      ];
+    }
+
+    const dimMap: Record<string, { doc: number; part: number; undoc: number; not_ass: number; not_app: number; total: number }> = {};
+    for (const d of matrixData.dimensions) {
+      dimMap[d.id] = { doc: 0, part: 0, undoc: 0, not_ass: 0, not_app: 0, total: 0 };
+    }
+
+    for (const catRow of matrixData.grid) {
+      for (const cell of catRow.dimensions || []) {
+        const dId = cell.dimension_id;
+        if (!dimMap[dId]) continue;
+        const st = cell.status_distribution || {};
+        dimMap[dId].doc += st["Documented"] || 0;
+        dimMap[dId].part += st["Partial"] || 0;
+        dimMap[dId].undoc += st["Undocumented in collection"] || 0;
+        dimMap[dId].not_ass += st["Not assessable"] || 0;
+        dimMap[dId].not_app += st["Not applicable"] || 0;
+        dimMap[dId].total += cell.total_records || 0;
+      }
+    }
+
+    return matrixData.dimensions.map((d: any) => {
+      const counts = dimMap[d.id] || { doc: 0, part: 0, undoc: 0, not_ass: 0, not_app: 0, total: 0 };
+      const tot = counts.total || 1;
+      return {
+        id: d.id,
+        name: d.name,
+        doc: Math.round((counts.doc / tot) * 100),
+        part: Math.round((counts.part / tot) * 100),
+        undoc: Math.round((counts.undoc / tot) * 100),
+        not_ass: Math.round((counts.not_ass / tot) * 100),
+        not_app: Math.round((counts.not_app / tot) * 100),
+      };
+    });
+  }, [matrixData]);
 
   useEffect(() => {
     setActiveColId(getActiveCollection());
@@ -238,18 +290,7 @@ function ObservatoryContent() {
 
         {/* 10-Dimension Distribution Bars */}
         <div className="space-y-3.5">
-          {[
-            { id: "visual_documentation", name: "Visual Documentation", doc: 70, part: 20, undoc: 10, not_ass: 0 },
-            { id: "historical_context", name: "Historical Context", doc: 45, part: 40, undoc: 15, not_ass: 0 },
-            { id: "original_language", name: "Original-Language Documentation", doc: 35, part: 25, undoc: 40, not_ass: 0 },
-            { id: "geographic_provenance", name: "Geographic Provenance", doc: 65, part: 20, undoc: 15, not_ass: 0 },
-            { id: "materials_and_techniques", name: "Materials & Techniques", doc: 55, part: 30, undoc: 15, not_ass: 0 },
-            { id: "practitioner_perspective", name: "Practitioner / Artisan Perspective", doc: 20, part: 25, undoc: 55, not_ass: 0 },
-            { id: "oral_histories", name: "Oral Histories & Narratives", doc: 15, part: 20, undoc: 65, not_ass: 0 },
-            { id: "source_attribution", name: "Source Attribution & Provenance", doc: 85, part: 10, undoc: 5, not_ass: 0 },
-            { id: "community_validation", name: "Community Validation", doc: 0, part: 0, undoc: 0, not_ass: 100 },
-            { id: "preservation_accessibility", name: "Preservation & Accessibility", doc: 75, part: 15, undoc: 10, not_ass: 0 },
-          ].map((dim) => (
+          {dimensionBars.map((dim: any) => (
             <div key={dim.id} className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center text-xs">
               <span className="md:col-span-4 font-sans font-medium text-oxblood-900 truncate" title={dim.name}>
                 {dim.name}
@@ -259,35 +300,59 @@ function ObservatoryContent() {
                   <div
                     className="h-full bg-parchment-200 pattern-dotted-parchment flex items-center justify-center px-2"
                     style={{ width: "100%" }}
-                    title="Not assessable: No consultation column in dataset"
+                    title="100% Not assessable in this collection"
                   >
                     <span className="bg-cream-100/95 border border-parchment-400 px-2.5 py-0.5 rounded-xs text-[10px] text-oxblood-950 font-bold tracking-tight shadow-xs whitespace-nowrap">
-                      100% Not Assessable <span className="hidden sm:inline">(Dataset lacks consultation field)</span>
+                      100% Not Assessable <span className="hidden sm:inline">(No mapped column in dataset)</span>
                     </span>
                   </div>
                 ) : (
                   <>
-                    <div
-                      className="bg-olive-700 h-full flex items-center justify-center text-[10px] text-cream-100 font-semibold"
-                      style={{ width: `${dim.doc}%` }}
-                      title={`Documented: ${dim.doc}%`}
-                    >
-                      {dim.doc > 10 ? `${dim.doc}%` : ""}
-                    </div>
-                    <div
-                      className="bg-gold-400 pattern-diagonal-gold h-full flex items-center justify-center text-[10px] text-oxblood-950 font-semibold"
-                      style={{ width: `${dim.part}%` }}
-                      title={`Partial: ${dim.part}%`}
-                    >
-                      {dim.part > 10 ? `${dim.part}%` : ""}
-                    </div>
-                    <div
-                      className="bg-cream-100 pattern-hatch-copper border-l border-copper-500 h-full flex items-center justify-center text-[10px] text-copper-600 font-semibold"
-                      style={{ width: `${dim.undoc}%` }}
-                      title={`Undocumented: ${dim.undoc}%`}
-                    >
-                      {dim.undoc > 10 ? `${dim.undoc}%` : ""}
-                    </div>
+                    {dim.doc > 0 && (
+                      <div
+                        className="bg-olive-700 h-full flex items-center justify-center text-[10px] text-cream-100 font-semibold"
+                        style={{ width: `${dim.doc}%` }}
+                        title={`Documented: ${dim.doc}%`}
+                      >
+                        {dim.doc > 8 ? `${dim.doc}%` : ""}
+                      </div>
+                    )}
+                    {dim.part > 0 && (
+                      <div
+                        className="bg-gold-400 pattern-diagonal-gold h-full flex items-center justify-center text-[10px] text-oxblood-950 font-semibold"
+                        style={{ width: `${dim.part}%` }}
+                        title={`Partial: ${dim.part}%`}
+                      >
+                        {dim.part > 8 ? `${dim.part}%` : ""}
+                      </div>
+                    )}
+                    {dim.undoc > 0 && (
+                      <div
+                        className="bg-cream-100 pattern-hatch-copper border-l border-copper-500 h-full flex items-center justify-center text-[10px] text-copper-600 font-semibold"
+                        style={{ width: `${dim.undoc}%` }}
+                        title={`Undocumented: ${dim.undoc}%`}
+                      >
+                        {dim.undoc > 8 ? `${dim.undoc}%` : ""}
+                      </div>
+                    )}
+                    {dim.not_ass > 0 && (
+                      <div
+                        className="bg-parchment-200 pattern-dotted-parchment border-l border-parchment-400 h-full flex items-center justify-center text-[10px] text-oxblood-950 font-semibold"
+                        style={{ width: `${dim.not_ass}%` }}
+                        title={`Not Assessable: ${dim.not_ass}%`}
+                      >
+                        {dim.not_ass > 12 ? `${dim.not_ass}% Not Ass.` : ""}
+                      </div>
+                    )}
+                    {dim.not_app > 0 && (
+                      <div
+                        className="bg-parchment-300 opacity-60 border-l border-parchment-400 h-full flex items-center justify-center text-[9px] text-oxblood-900/70"
+                        style={{ width: `${dim.not_app}%` }}
+                        title={`Not Applicable: ${dim.not_app}%`}
+                      >
+                        {dim.not_app > 10 ? `${dim.not_app}% N/A` : ""}
+                      </div>
+                    )}
                   </>
                 )}
               </div>

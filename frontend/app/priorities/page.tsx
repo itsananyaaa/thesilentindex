@@ -127,7 +127,7 @@ export default function PrioritiesPage() {
             </div>
             <div>
               <div className="flex justify-between text-xs font-sans mb-1">
-                <span>Evidence Conf (E)</span>
+                <span>Evidence Confidence (E)</span>
                 <span className="font-mono font-bold">{weights.e.toFixed(2)}</span>
               </div>
               <input

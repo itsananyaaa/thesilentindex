@@ -276,8 +276,27 @@ export default function BlindSpotMapPage() {
           </p>
         </div>
 
-        {/* View Toggle */}
-        <div className="flex items-center gap-2">
+        {/* View & Holding Controls */}
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-cream-100 border border-gold-400 rounded-xs px-2.5 py-1.5 shadow-2xs">
+            <label htmlFor="map-holding-select" className="text-[11px] font-sans font-bold text-oxblood-900 uppercase tracking-wider shrink-0">
+              Holding:
+            </label>
+            <select
+              id="map-holding-select"
+              value={activeColId}
+              onChange={(e) => {
+                setActiveCollection(e.target.value);
+                setSelectedState(null);
+              }}
+              className="bg-transparent text-oxblood-950 font-serif font-bold text-xs focus:outline-hidden cursor-pointer"
+            >
+              <option value="fused-v2">Fused Subcontinental Collection (317 items)</option>
+              <option value="sample-real-001">Museum-Only Holdings (Sample A, 181 items)</option>
+              <option value="sample-synth-002">Sample B: Synthetic Benchmark (150 items)</option>
+            </select>
+          </div>
+
           <button
             onClick={() => setShowTableAlt(!showTableAlt)}
             className="px-3 py-1.5 bg-cream-100 hover:bg-cream-200 border border-parchment-400 text-oxblood-900 font-serif text-xs font-semibold rounded-xs shadow-2xs inline-flex items-center gap-1.5"
@@ -485,6 +504,7 @@ export default function BlindSpotMapPage() {
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {[
+                  { code: "IN-TG", name: "Telangana", short: "TG" },
                   { code: "IN-LD", name: "Lakshadweep", short: "LD" },
                   { code: "IN-CH", name: "Chandigarh", short: "CH" },
                   { code: "IN-PY", name: "Puducherry", short: "PY" },
@@ -612,8 +632,7 @@ export default function BlindSpotMapPage() {
       <div className="p-3 bg-cream-200/40 border border-parchment-300 rounded-xs text-[11px] text-oxblood-800/70 font-sans flex items-start gap-2">
         <AlertCircle size={14} className="text-copper-600 shrink-0 mt-0.5" />
         <p>
-          <strong>Official Boundary Notice:</strong> State boundaries reflect the official demarcations of the Republic of India,
-          including the Union Territories of Jammu & Kashmir and Ladakh, and the State of Arunachal Pradesh.
+          <strong>Cartographic Note:</strong> The base choropleth geometry uses standard open GeoJSON features where Telangana is depicted in conjunction with Andhra Pradesh, and Ladakh is paired with Jammu &amp; Kashmir. Both Telangana and Ladakh are fully indexed with independent cultural records accessible via the regional target chips and tabular view. Boundaries respect the sovereign integrity of India.
         </p>
       </div>
     </div>

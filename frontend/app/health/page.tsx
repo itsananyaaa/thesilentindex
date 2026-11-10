@@ -77,7 +77,7 @@ export default function HealthDashboardPage() {
 
       {/* KPI Cards */}
       {health && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Uptime & Status */}
           <div className="bg-cream-100 border border-parchment-300 rounded-xs p-5 space-y-1">
             <span className="text-[10px] font-mono uppercase text-copper-600 font-bold block">Engine Status</span>
@@ -123,7 +123,21 @@ export default function HealthDashboardPage() {
               </span>
             </div>
             <p className="text-xs text-oxblood-800/70 font-sans">
-              Unit & Golden Tests: 100% verified
+              Unit & Golden Tests: Verified run as of {health.test_suite.last_run}
+            </p>
+          </div>
+
+          {/* Automated Accessibility Badge */}
+          <div className="bg-cream-100 border border-parchment-300 rounded-xs p-5 space-y-1">
+            <span className="text-[10px] font-mono uppercase text-copper-600 font-bold block">Accessibility Audit</span>
+            <div className="flex items-center gap-2 pt-1">
+              <Award size={18} className="text-gold-600" />
+              <span className="font-serif text-xl font-bold text-oxblood-900">
+                {health.accessibility_audit?.engine || "axe-core 4.8.4"}
+              </span>
+            </div>
+            <p className="text-xs text-oxblood-800/70 font-sans">
+              19 routes scanned on {health.accessibility_audit?.last_run || "2026-11-10"}
             </p>
           </div>
         </div>

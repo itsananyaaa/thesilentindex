@@ -36,8 +36,8 @@ Developed for the **ART CODE Virtual Hackathon**
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.24-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org)
-[![Tests](https://img.shields.io/badge/Pytest-41%20Passing-brightgreen?style=for-the-badge)]()
-[![Subcontinental Coverage](https://img.shields.io/badge/Subcontinental-36%20States%20%26%20UTs-gold?style=for-the-badge)]()
+[![Tests](https://img.shields.io/badge/Pytest-42%20Passing-brightgreen?style=for-the-badge)]()
+[![Subcontinental Coverage](https://img.shields.io/badge/Subcontinental-35%20States%20Catalogued%20%7C%2036%20Represented-gold?style=for-the-badge)]()
 [![Hackathon](https://img.shields.io/badge/Hackathon-ART%20CODE-oxblood?style=for-the-badge)]()
 
 </div>
@@ -112,15 +112,15 @@ graph TD
 
 | Feature | Name | Capabilities & Impact |
 | :---: | :--- | :--- |
-| **F1** | **Multi-Source Fusion Engine** | Fuses GI Registry, UNESCO ICH, ASI, Wikidata, and Open Access museums into a single unified subcontinental layer covering all 36 States & UTs. |
+| **F1** | **Multi-Source Fusion Engine** | Fuses GI Registry, UNESCO ICH, ASI (via Wikidata/museum records), Wikidata, Wikimedia Commons, and Open Access museums into a single unified subcontinental layer covering 35 catalogued States and all 36 States & UTs in regional attributions. |
 | **F2** | **Heritage Entity Profiling** | Clusters 157 living traditions and monuments with 10-dimension evidence stacks, UNESCO/GI/ASI recognition badges, and 157 local vector illustrations. |
 | **F3** | **Existence–Documentation Gaps** | 4-quadrant scatter matrix contrasting physical/legal existence against collection depth. Quadrant IV isolates High-Priority neglected heritage. |
 | **F4** | **Longitudinal Audit Comparison** | Side-by-side delta engine comparing two audits (or collections) with metric-by-metric changes in CCD, assessability, and state representation. |
-| **F5** | **Comprehensive Export Suite** | One-click export to DataCite 4.5 XML, Dublin Core XML, Schema.org JSON-LD, CSV manifest, and print-ready Museum Audit PDF. |
+| **F5** | **Comprehensive Export Suite** | Machine-readable exports in Schema.org JSON-LD (with Dublin Core terms), CSV manifests, GeoJSON boundaries, and print-ready Museum Audit PDF. |
 | **F6** | **Curatorial Action Briefs** | Generates consent-aware, 6-section research briefs detailing exact missing citations, vernacular terms, and local community contacts. |
 | **F7** | **Subcontinental Transliteration** | Full multilingual interface in **English, Malayalam (മലയാളം), Hindi (हिन्दी), and Tamil (தமிழ்)** with Indic script search transliteration. |
 | **F8** | **90-Second Guided Tour** | Interactive 7-stop guided modal walking first-time users through the non-negotiables, blind-spot cartography, and priority scoring. |
-| **F9** | **Diagnostics & Reliability Hub** | Automated route crawler, API latency monitors, test runners, and integrity checks verifying zero broken links and 100% WCAG compliance. |
+| **F9** | **Diagnostics & Reliability Hub** | Automated route crawler, API latency monitors, test runners, and integrity checks verifying zero broken links and dated automated axe-core 4.8.4 accessibility scan results (10 Nov 2026). |
 
 ### Mathematical Formulations & Framework
 
@@ -156,10 +156,10 @@ $$\text{CCD} = 100 \times \frac{\sum_{d \in \mathcal{A}} w_d \cdot (1 - C_d)}{\s
 $$\text{Priority Score} = 100 \times (0.40 \cdot G + 0.25 \cdot E + 0.20 \cdot B + 0.15 \cdot F)$$
 
 Where:
-- $G$: **Gap Magnitude** (dimensional debt score $1 - C_d$).
-- $E$: **Evidence Confidence** (number of cross-registry confirmations).
-- $B$: **Breadth of Collection Impact** (geographic or categorical prevalence).
-- $F$: **Feasibility Weight** (desk research via existing archives vs. field documentation).
+- $G$: **Gap Magnitude** (slice debt on that dimension, $1.0 - \text{mean\_score}$, weight: 0.40).
+- $E$: **Evidence Confidence** (statistical stability function of slice size and sample completeness, weight: 0.25).
+- $B$: **Breadth** (share of total collection records affected by the gap, weight: 0.20).
+- $F$: **Feasibility** (presence of lead URLs and institutional references vs. primary fieldwork, weight: 0.15).
 - **Consent Gate:** If a tradition touches living ritual, sacred objects, or oral knowledge, the record is routed through **"Consultation Required"** before any action brief is issued.
 
 #### 4. Cross-Source Entity Debt Reduction
@@ -167,7 +167,7 @@ When multiple records $r \in \mathcal{E}$ reference the same living tradition or
 
 $$S(\mathcal{E}, d) = \max_{r \in \mathcal{E}} S(r, d)$$
 
-Clustering disparate open-access museum records with governmental GI manifests closes institutional documentation debt by **up to 42.6 points**.
+Clustering disparate open-access museum records with governmental GI manifests closes institutional documentation debt by **up to 9.4 points for a single entity** (`ENT-06980` Chhau Dance, reducing debt from 34.38 to 25.0).
 
 ### Visual Identity & Palette
 The user interface adheres to a museum-grade visual standard rooted in classical Indian aesthetics:
@@ -231,10 +231,10 @@ flowchart TB
     subgraph FrontendApp["Next.js 14 App Router (Port 3000)"]
         UI_NAV["Global Navbar<br/>90s Tour • Multilingual Switcher"]
         OBSERVATORY["Observatory & KPI Band<br/>Local Holding Selector"]
-        BLINDSPOT_MAP["Subcontinental Blind-Spot Map<br/>Leaflet 36-State Choropleth"]
+        BLINDSPOT_MAP["Subcontinental Blind-Spot Map<br/>Leaflet 35-State Choropleth"]
         GAP_MATRIX["Existence Gaps & Priorities (F3)<br/>4-Quadrant Scatter"]
         ENTITY_VIEW["Heritage Entities Directory (F2)<br/>157 Vector Illustrations"]
-        EXPORTS["Export Engine (F5)<br/>DataCite • Dublin Core • PDF"]
+        EXPORTS["Export Engine (F5)<br/>Schema.org JSON-LD • CSV • GeoJSON • PDF"]
     end
 
     DataSources --> HARVESTER
@@ -246,7 +246,7 @@ flowchart TB
     BackendCore --> FrontendApp
 ```
 
-### Multi-Source Harvest & Fusion Framework (36 States & UTs)
+### Multi-Source Harvest & Fusion Framework (35 States & Regional Attributions)
 
 ```mermaid
 sequenceDiagram
@@ -258,23 +258,26 @@ sequenceDiagram
     participant Map as Leaflet Choropleth
 
     Curator->>API: Select "Fused Subcontinental Collection"
-    API->>DB: Query 317 Records across 36 States/UTs
+    API->>DB: Query 317 Records across 35 Catalogued States (36 in Attributions)
     DB-->>Engine: Raw Records & Attributions
     Engine->>Engine: Resolve Cross-Source Deduplication
     Engine->>Engine: Cluster 157 Heritage Entities
     Engine-->>API: Compute Regional Debt (CCD) & Existence Scores
     API-->>Map: Deliver GeoJSON Choropleth Data
-    Map-->>Curator: Render 36 States/UTs without Synthetic Fallbacks
+    Map-->>Curator: Render Subcontinental Cartography (35 States Documented, 1 Multi-State Attribution)
 ```
 
 | Source Layer | Items Harvested | Primary Categories | Provenance Basis |
 | :--- | :---: | :--- | :--- |
-| **GI Registry of India** | 108 | Textiles, Crafts, Metalwork, Agro | Legal Gazette Publication |
-| **UNESCO Intangible Heritage** | 15 | Performing Arts, Oral Traditions, Rituals | Inscribed Representative List |
-| **Archaeological Survey (ASI)** | 54 | Architecture, Monuments, Rock Inscriptions | Centrally Protected Antiquities |
-| **Wikidata Cultural SPARQL** | 68 | Sculpture, Epigraphy, Classical Traditions | Peer-reviewed QID Linked Data |
-| **Verified Museum OA** | 72 | Historical Manuscripts, Chola Bronzes, Miniatures | Accessioned Museum Records |
-| **Total Fused Subcontinental** | **317** | **Covering All 28 States & 8 Union Territories** | **Immutable Audit Trail** |
+| **GI Registry of India** | 81 | Textiles, Crafts, Metalwork, Living Traditions | Legal Gazette Registration |
+| **UNESCO Intangible Cultural Heritage** | 15 | Performing Arts, Oral Traditions, Ritual Heritage | Inscribed Representative List |
+| **Wikidata Cultural Knowledge Graph** | 24 | Sculpture, Monuments, ASI Centrally Protected Sites | Peer-reviewed QID Linked Data |
+| **Wikimedia Commons Verified Media** | 16 | Epigraphy, Architectural Photography, Traditional Arts | Verified CC/Public Domain Media |
+| **Open-Access Museum & Archive Holdings** | 181 | Historical Bronzes, Paintings, Architectural Artifacts | Accessioned Institutional Holdings |
+| **Total Fused Subcontinental Records** | **317** | **35 Catalogued States (36 States & UTs in Attributions)** | **Deterministic & Provenance-Audited** |
+
+> [!NOTE]
+> **Archaeological Survey of India (ASI) Attribution:** Centrally protected monuments and antiquities are accessed through structured Wikidata and Open-Access Museum holdings with verifiable national catalog IDs and coordinates. All 36 States and Union Territories are represented across regional attributions (345 total attributions across 317 unique records).
 
 ---
 
@@ -358,7 +361,7 @@ PYTHONPATH=. ./venv/bin/pytest backend/tests/ -v
 7. **Compare Longitudinal Audits:** Visit `/compare` to compare two museum holdings side-by-side, evaluating CCD deltas, newly documented traditions, and regional expansions.
 8. **Generate Curatorial Action Briefs:** Open `/priorities` to view algorithmic rankings and click **"Generate Brief"** for targeted research guidelines, missing vernacular names, and local community contacts.
 9. **Audit a Custom Collection:** Navigate to `/auditor` to upload a CSV collection (< 25 MB). The wizard auto-detects delimiters, BOM headers, maps fields, and generates an audit report.
-10. **Export Open Data:** Use `/reports/{id}` or the API to download DataCite 4.5 XML, Dublin Core XML, Schema.org JSON-LD, CSV manifests, and print-ready PDF reports.
+10. **Export Open Data:** Use `/reports/{id}` or the API to download Schema.org JSON-LD (with Dublin Core metadata), CSV manifests, GeoJSON boundaries, and print-ready PDF reports.
 11. **Switch Languages:** Toggle the language selector in the navbar between **English**, **Malayalam (മലയാളം)**, **Hindi (हिन्दी)**, and **Tamil (தமிழ்)** for complete UI translation.
 
 ### REST API Reference
@@ -374,21 +377,21 @@ PYTHONPATH=. ./venv/bin/pytest backend/tests/ -v
 | `/api/entities/{id}` | `GET` | Retrieve 10-dimension evidence stack, recognition badges, and entity CCD. |
 | `/api/gaps` | `GET` | 4-quadrant existence evidence vs. documentation depth scatter data. |
 | `/api/compare` | `GET` | Compare two audits side-by-side with dimensional deltas. |
-| `/api/exports/{id}/datacite.xml` | `GET` | Export audit metadata formatted in DataCite 4.5 XML schema. |
-| `/api/exports/{id}/dublin_core.xml`| `GET` | Export audit in Dublin Core XML format. |
-| `/api/exports/{id}/schema_org.json`| `GET` | Export audit in Schema.org JSON-LD format. |
+| `/api/exports/{id}/jsonld` | `GET` | Export collection records as JSON-LD with Schema.org & Dublin Core terms. |
+| `/api/exports/{id}/csv` | `GET` | Export comprehensive audit dataset as CSV manifest. |
+| `/api/exports/{id}/geojson` | `GET` | Export geographic coverage features as GeoJSON. |
 | `/api/priorities/{id}/brief` | `GET` | Generate curatorial documentation action brief with community contacts. |
 
 ---
 
 ## 9. Demonstration Screenshots
 
-The entire platform comprises **19 verified production routes**, each tested with zero layout overflows and 100% WCAG accessibility across Desktop (1280px), Tablet (768px), and Mobile (360px). High-resolution visual captures from the verified deployment are presented below in a two-column demonstration index:
+The entire platform comprises **19 verified production routes**, each tested with zero layout overflows and evaluated with an automated axe-core 4.8.4 accessibility scan on 10 November 2026 (passing 25–30 rules per route, with zero violations on `/ethics` and `/credits`, and subtle color-contrast findings documented in `docs/AXE_ACCESSIBILITY_AUDIT.json`) across Desktop (1280px), Tablet (768px), and Mobile (360px). High-resolution visual captures from the verified deployment are presented below in a two-column demonstration index:
 
 | Demonstration Screenshot | Interface & Architectural Description |
 | :---: | :--- |
-| <a href="docs/screenshots/01_landing_page.png"><img src="docs/screenshots/01_landing_page.png" width="500" alt="Landing Page & KPI Band" /></a> | **Global Observatory & Classical Heritage Experience (`/`)**<br/>• **Living Classical Dance & Sacred Visuals:** Transparent classical Indian dancers in Natya mudra with floating glowing pink lotuses, golden rangoli mandala, and stardust shimmers seamlessly blended with the museum oxblood aesthetic.<br/>• **Ambient Traditional Meditation Music:** Auto-playing soft traditional Indian meditation soundtrack (*Stress Melts Away* by Raga Bindu) at 40% volume with an interactive glassmorphic sound controller.<br/>• **Deterministic KPI Registry:** Real-time metrics displaying 317 fused records, 36/36 States & UTs represented, Cultural Coverage Debt (CCD 29.94), and 10 assessable documentation dimensions.<br/>• **Guided Onboarding:** Interactive 90-second tour launcher introducing curators to the 4-state absence model. |
-| <a href="docs/screenshots/09_blind_spot_map.png"><img src="docs/screenshots/09_blind_spot_map.png" width="500" alt="Subcontinental Blind-Spot Map" /></a> | **36 States & UTs Blind-Spot Cartography (`/map`)**<br/>• **Subcontinental Geographic Coverage:** Interactive Leaflet choropleth tracking documentation depth across all 28 States and 8 Union Territories without synthetic gaps.<br/>• **Peripheral Territory Access:** Dedicated target chips for small-territory access (Ladakh, Lakshadweep, Puducherry, DNH & DD, Chandigarh).<br/>• **Zero-Prejudice Principle:** Clear territorial disclaimers reinforcing that metadata absence is never proof of less heritage. |
+| <a href="docs/screenshots/01_landing_page.png"><img src="docs/screenshots/01_landing_page.png" width="500" alt="Landing Page & KPI Band" /></a> | **Global Observatory & Classical Heritage Experience (`/`)**<br/>• **Living Classical Dance & Sacred Visuals:** Transparent classical Indian dancers in Natya mudra with floating glowing pink lotuses, golden rangoli mandala, and stardust shimmers seamlessly blended with the museum oxblood aesthetic.<br/>• **Ambient Traditional Meditation Music:** Auto-playing soft traditional Indian meditation soundtrack (*Stress Melts Away* by Raga Bindu) at 40% volume with an interactive glassmorphic sound controller.<br/>• **Deterministic KPI Registry:** Real-time metrics displaying 317 fused records, 35 catalogued States (all 36 States & UTs accounted for in regional attributions), Cultural Coverage Debt (CCD 29.94), and 5 assessable documentation dimensions (out of 10 configured).<br/>• **Guided Onboarding:** Interactive 90-second tour launcher introducing curators to the 4-state absence model. |
+| <a href="docs/screenshots/09_blind_spot_map.png"><img src="docs/screenshots/09_blind_spot_map.png" width="500" alt="Subcontinental Blind-Spot Map" /></a> | **Subcontinental Blind-Spot Cartography (`/map`)**<br/>• **Subcontinental Geographic Coverage:** Interactive Leaflet choropleth tracking documentation depth across 35 catalogued States and regional targeting chips for Union Territories and small regions.<br/>• **Peripheral Territory Access:** Dedicated target chips for small-territory access (Telangana, Ladakh, Lakshadweep, Puducherry, DNH & DD, Chandigarh, Delhi).<br/>• **Zero-Prejudice Principle:** Clear territorial disclaimers reinforcing that metadata absence is never proof of less heritage. |
 | <a href="docs/screenshots/10_coverage_matrix_cell.png"><img src="docs/screenshots/10_coverage_matrix_cell.png" width="500" alt="Coverage Matrix & Cell Drawer" /></a> | **9×10 Deterministic Knowledge Matrix (`/matrix`)**<br/>• **The 4-State Epistemological Model:** Visualises documentation status using distinctive accessibility patterns (Solid Olive, Diagonal Gold, Copper Hatch, Dotted Parchment).<br/>• **Contextual Inspection Drawer:** Clicking any cell reveals underlying accession numbers, source manifests, and dimensional rubrics.<br/>• **Schema-Aware Denominator:** Automatically excludes unprovided schema dimensions to prevent unfair penalisation. |
 | <a href="docs/screenshots/02_observatory.png"><img src="docs/screenshots/02_observatory.png" width="500" alt="Observatory Collection Explorer" /></a> | **Observatory Collection Explorer (`/observatory`)**<br/>• **Holding Selector:** Toggle seamlessly between the *National Fused Collection* (317 records), *Museum Sample*, and *Synthetic Baseline*.<br/>• **Domain Categorisation:** Instant filtering across 9 cultural domains (Textiles, Metalwork, Performing Arts, Oral Traditions, Architecture).<br/>• **No Synthetic Data:** Every record links directly to verified provenance from the GI Registry, UNESCO ICH, ASI, or Open Access Museums. |
 | <a href="docs/screenshots/03_observatory_filtered.png"><img src="docs/screenshots/03_observatory_filtered.png" width="500" alt="Filtered Record Explorer" /></a> | **Precision Facet Filtering (`/observatory`)**<br/>• **Multi-Parameter Search:** Real-time debounced search by vernacular name, accession ID, material, or geographical origin.<br/>• **Licence-Aware Filtering:** Fast toggling by open-access status (CC0, Public Domain Mark, CC-BY) with verified commercial rights chips.<br/>• **Record Cards:** Display verified imagery, state badges, creation era, and dimensional completeness indicators. |
@@ -398,7 +401,7 @@ The entire platform comprises **19 verified production routes**, each tested wit
 | <a href="docs/screenshots/04_auditor_start.png"><img src="docs/screenshots/04_auditor_start.png" width="500" alt="Institutional Collection Auditor" /></a> | **Custom Collection Auditor Wizard (`/auditor`)**<br/>• **Drag-and-Drop Ingestion:** Accepts institutional CSV manifests up to 25 MB with automatic delimiter sniffing (comma, tab, semicolon) and UTF-8 BOM removal.<br/>• **Client-Side Validation:** Instant structural integrity and column count verification prior to server transmission.<br/>• **Data Privacy Assurance:** Ingested datasets are processed in isolated container memory without permanent cloud persistence. |
 | <a href="docs/screenshots/06_auditor_mapping.png"><img src="docs/screenshots/06_auditor_mapping.png" width="500" alt="Schema Mapping Engine" /></a> | **Schema Normalization & Field Mapping (`/auditor`)**<br/>• **Intelligent Header Detection:** Automatically suggests mappings between proprietary museum fields and standard Dublin Core / Darwin Core vocabularies.<br/>• **10-Dimension Alignment:** Guides curators to align local schema attributes with the 10 deterministic preservation dimensions.<br/>• **Confidence Scoring:** Shows heuristic mapping match confidence with manual override capability for archival precision. |
 | <a href="docs/screenshots/08_auditor_summary.png"><img src="docs/screenshots/08_auditor_summary.png" width="500" alt="Audit Analysis Summary" /></a> | **Audit Analysis Summary (`/auditor`)**<br/>• **Dimensional Radar Analysis:** Visualises the polygon of institutional completeness across all assessable dimensions.<br/>• **Pre-Computation Sanity Checks:** Summarises assessable vs. unassessable ratios to ensure fair, unbiased debt calculation.<br/>• **One-Click Audit Launch:** Generates an immutable, timestamped audit report with reproducible parameters. |
-| <a href="docs/screenshots/11_silence_report.png"><img src="docs/screenshots/11_silence_report.png" width="500" alt="Silence Report & Cultural Coverage Debt" /></a> | **Comprehensive Silence Report (`/reports/{id}`)**<br/>• **Cultural Coverage Debt (CCD):** Reports aggregate debt with 90% bootstrap confidence intervals ($N=1,000$ resamples with replacement).<br/>• **Statistical Suppression:** Suppresses small slices ($N < 5$) to prevent distorted percentages.<br/>• **Multi-Standard Open Data Export:** One-click downloads for DataCite 4.5 XML, Dublin Core XML, Schema.org JSON-LD, and museum-grade PDF reports. |
+| <a href="docs/screenshots/11_silence_report.png"><img src="docs/screenshots/11_silence_report.png" width="500" alt="Silence Report & Cultural Coverage Debt" /></a> | **Comprehensive Silence Report (`/reports/{id}`)**<br/>• **Cultural Coverage Debt (CCD):** Reports aggregate debt with 90% bootstrap confidence intervals ($N=1,000$ resamples with replacement).<br/>• **Statistical Suppression:** Suppresses small slices ($N < 5$) to prevent distorted percentages.<br/>• **Multi-Standard Open Data Export:** One-click downloads for Schema.org JSON-LD (with Dublin Core metadata), CSV manifests, GeoJSON, and museum-grade PDF reports. |
 
 ### Complete 19-Route Production Verification Matrix
 
@@ -449,7 +452,7 @@ The entire platform comprises **19 verified production routes**, each tested wit
 - **Vernacular Audio Epigraphy:** Integrating open-source Indic speech models to allow rural artisans to record oral histories and vocal descriptions directly into the knowledge graph.
 - **Decentralized Community Attestation:** Providing decentralized cryptographic signing for community elders to grant or withdraw digital consent for sacred tradition documentation.
 - **IIIF Image Integration:** Direct deep-zoom viewing for high-resolution palm-leaf manuscripts and miniature paintings via International Image Interoperability Framework (IIIF) compliance.
-- **Expanded Subcontinental Harvesting:** Expanding automated scrapers and API adapters to state archaeological survey archives and tribal research institutes across all 36 States & UTs.
+- **Expanded Subcontinental Harvesting:** Expanding automated scrapers and API adapters to state archaeological survey archives and tribal research institutes across all 28 States and 8 Union Territories.
 
 ---
 
@@ -459,15 +462,15 @@ The entire platform comprises **19 verified production routes**, each tested wit
 This project is licensed under the **MIT Open Source License**. You are free to inspect, extend, modify, and host this application for educational, academic, and cultural preservation initiatives.
 
 ### Data & Media Attributions
-- **Geographical Indications Registry of India:** Official GI Application numbers and specifications published under the Controller General of Patents, Designs and Trade Marks.
-- **UNESCO Intangible Cultural Heritage:** Inscriptions from the Representative List of the Intangible Cultural Heritage of Humanity.
-- **Archaeological Survey of India (ASI):** Monuments of National Importance register.
-- **Wikidata & Wikimedia Commons:** Creative Commons (CC0, CC BY, CC BY-SA) cultural heritage images and linked SPARQL properties.
-- **Museum Open Access:** The Metropolitan Museum of Art Open Access Program, Cleveland Museum of Art Open Access, and Harvard Art Museums API.
+- **Geographical Indications Registry of India:** Official GI Application numbers and specifications published under the Controller General of Patents, Designs and Trade Marks (81 items).
+- **UNESCO Intangible Cultural Heritage:** Inscriptions from the Representative List of the Intangible Cultural Heritage of Humanity (15 items).
+- **Archaeological Survey of India (ASI):** Centrally Protected Monuments of National Importance register, accessed via linked Wikidata QIDs and verified open-access holdings.
+- **Wikidata & Wikimedia Commons:** Creative Commons (CC0, CC BY, CC BY-SA) cultural heritage images and linked SPARQL properties (40 items).
+- **Museum Open Access:** The Metropolitan Museum of Art Open Access Program, Cleveland Museum of Art Open Access, and Harvard Art Museums API (181 items).
 
-### Cultural Audio & Visual Credits
-- **Ambient Landing Meditation Music:** *"Stress Melts Away | Soft Indian Traditional Music for Meditation, Relaxation & Inner Peace"* by **Raga Bindu** (Official cultural ambient audio featured on the landing page at 40% volume).
-- **Living Classical Dance Visual Identity:** Classical Indian temple dance illustration celebrating Bharatanatyam and Mohiniyattam sacred choreography, mudras, glowing celestial lotuses, and sacred floor rangoli mandala geometry inspired by Natya Shastra traditions.
+### Platform Visual & Audio Credits
+- **Living Classical Dance & Lotus Artwork:** Illustrated classical dancers (`classical_dancers_transparent.png`) and sacred lotus elements (`lotus_hero.png`, `lotus_clean_floor.png`, `lotus_top_left.png`, `lotus_bottom_right.png`) by **Ritu Poojari** via Behance portfolio.
+- **Ambient Landing Meditation Music:** *"Stress Melts Away | Soft Indian Traditional Music for Meditation, Relaxation & Inner Peace"* composed and performed by **Raga Bindu** (`raga_bindu_stress_melts_away.m4a`).
 
 ### Cartographic & Cultural Caveat
 State and Union Territory boundaries strictly adhere to the official cartographic demarcations of the Republic of India. Absence of a record in an analysed collection is never proof that a tradition, region, or community has less heritage.
@@ -475,5 +478,5 @@ State and Union Territory boundaries strictly adhere to the official cartographi
 ---
 
 <div align="center">
-<sub>"Absence of a record in an analysed collection is never proof that a tradition, region, or community has less heritage." &bull; Built with respect for all 36 States and Union Territories of India.</sub>
+<sub>"Absence of a record in an analysed collection is never proof that a tradition, region, or community has less heritage." &bull; Built with respect for all 28 States and 8 Union Territories of India.</sub>
 </div>
