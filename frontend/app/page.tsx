@@ -203,7 +203,7 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-base sm:text-lg font-sans text-cream-200/90 leading-relaxed max-w-2xl">
-                {t("home.hero_subtitle", "A museum-grade cultural collection auditing platform for Indian heritage. Diagnosing which aspects of cultural knowledge are documented, partially documented, undocumented, or impossible to assess in institutional holdings, then converting those absences into transparent, consent-first priorities.")}
+                {t("home.hero_subtitle", "A museum-grade cultural collection auditing platform for Indian heritage. Diagnosing which aspects of cultural knowledge are documented, partially documented, undocumented, or impossible to assess in institutional holdings-then converting those absences into transparent, consent-first priorities.")}
               </p>
 
               {/* Live Computed Stats Ribbon */}
@@ -543,7 +543,7 @@ export default function LandingPage() {
           </h2>
           <p className="mt-3 text-sm font-sans text-oxblood-800/80 leading-relaxed">
             Cultural Coverage Debt (CCD) measures <strong className="font-semibold text-oxblood-900">documentation completeness</strong> across 
-            ten essential dimensions of knowledge.<br> It measures what a catalog records, not the intrinsic value of a tradition.
+            ten essential dimensions of knowledge. It measures what a catalog records, not the intrinsic value of a tradition.
           </p>
         </div>
 
@@ -689,7 +689,7 @@ export default function LandingPage() {
           <p className="text-sm font-sans text-cream-200/90 leading-relaxed max-w-2xl mx-auto">
             THE SILENCE INDEX adheres strictly to the CARE Principles for Indigenous Data Governance.
             Absence of metadata never justifies non-consensual extraction. Where ritual, esoteric, or living
-            artisan knowledge is undocumented, the software advises community consultation, never automated generation.
+            artisan knowledge is undocumented, the software advises community consultation-never automated generation.
           </p>
           <div className="pt-4 flex justify-center gap-4">
             <Link
