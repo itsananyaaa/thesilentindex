@@ -12,7 +12,7 @@
 
 ### *Because what is missing from history matters too.*
 
-**A Museum-Grade Cultural Collection Auditing & Intelligence Platform for Indian Heritage**
+**Museum-Grade Cultural Collection Auditing & Intelligence Platform for Indian Heritage**
 
 Developed for the **ART CODE Virtual Hackathon**  
 **Theme:** *Art • Culture • Heritage*  
